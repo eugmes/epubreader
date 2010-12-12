@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=0.1
+Type=Application
+Name=E-Book Reader
+Comment=TODO
+Exec=/usr/bin/epubreader
+
+Icon=epubreader
+X-Window-Icon=epubreader
+
+MimeType=application/epub+zip;
+
+X-Osso-Service=org.opensource.epubreader

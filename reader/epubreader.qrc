@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/epubreader.qml</file>
+        <file>qml/content/Button.qml</file>
+        <file>pics/qgn_back_fsm.png</file>
+        <file>pics/qgn_forward_fsm.png</file>
+        <file>qml/content/ScrollBar.qml</file>
+        <file>qml/content/FlickableEPUBView.qml</file>
+        <file>pics/general_fullsize.png</file>
+        <file>pics/general_fullsize_b.png</file>
+        <file>qml/content/NavigationButton.qml</file>
+        <file>qml/epublibrary.qml</file>
+    </qresource>
+</RCC>
