@@ -1,3 +1,3 @@
 [D-BUS Service]
-Name=org.opensource.epubreader
+Name=org.opensource.epubreader.Reader
 Exec=/usr/bin/epubreader

@@ -48,7 +48,7 @@ OTHER_FILES += \
     desktop/epubreader.desktop \
     icons/epubreader.svg \
     icons/apubreader.png \
-    dbus/org.opensource.epubreader.service \
+    dbus/org.opensource.epubreader.Reader.service \
     qml/content/NavigationButton.qml \
     qml/epublibrary.qml
 
@@ -73,5 +73,5 @@ unix {
     icon48.files += icons/$${TARGET}.png
 
     services.path = $$DATADIR/dbus-1/services
-    services.files += dbus/org.opensource.epubreader.service
+    services.files += dbus/org.opensource.epubreader.Reader.service
 }

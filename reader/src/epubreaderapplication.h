@@ -39,7 +39,7 @@ private:
 
 class EPUBApplicationDBusAdapter : public QDBusAbstractAdaptor {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.opensource.epubreader")
+    Q_CLASSINFO("D-Bus Interface", "org.opensource.epubreader.Reader")
 public:
     explicit EPUBApplicationDBusAdapter(EPUBReaderApplication *app);
 
