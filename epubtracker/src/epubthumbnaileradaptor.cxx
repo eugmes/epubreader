@@ -22,13 +22,12 @@ EPUBThumbnailerAdaptor::EPUBThumbnailerAdaptor(EPUBTrackerApplication *app) :
 {
 }
 
-uint EPUBThumbnailerAdaptor::Queue(const QString &uri, const QString &mime_type, const QString &flavor, bool urgent)
+void EPUBThumbnailerAdaptor::Create(const QString &uri, const QString &mime_hint)
 {
-    // TODO
-    return 0;
+
 }
 
-void EPUBThumbnailerAdaptor::Dequeue(uint handle)
+uint EPUBThumbnailerAdaptor::CreateMany(const QStringList &uris, const QString &mime_hint)
 {
-    // TODO
+
 }

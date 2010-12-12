@@ -23,19 +23,26 @@ class EPUBTrackerApplication;
 
 class EPUBThumbnailerAdaptor : public QDBusAbstractAdaptor {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.freedesktop.thumbnails.SpecializedThumbnailer1")
+    //Q_CLASSINFO("D-Bus Interface", "org.freedesktop.thumbnails.SpecializedThumbnailer1")
+    Q_CLASSINFO("D-Bus Interface", "org.freedesktop.thumbnailer.Thumbnailer")
 public:
     explicit EPUBThumbnailerAdaptor(EPUBTrackerApplication *app);
 
 signals:
-    void Ready(uint handle, const QString &uri);
-    void Started(uint handle);
-    void Finished(uint handle);
-    void Error(uint handle, const QString &failed_uri, int error_code, const QString &message);
+    //void Ready(uint handle, const QString &uri);
+    //void Started(uint handle);
+    //void Finished(uint handle);
+    //void Error(uint handle, const QString &failed_uri, int error_code, const QString &message);
+    void ready(const QString &uri);
+    void started(uint handle);
+    void finished(uint handle);
+    void error(const QString &uri, int errorCode, const QString &message);
 
 public slots:
-    uint Queue(const QString &uri, const QString &mime_type, const QString &flavor, bool urgent);
-    void Dequeue(uint handle);
+    //uint Queue(const QString &uri, const QString &mime_type, const QString &flavor, bool urgent);
+    //void Dequeue(uint handle);
+    void Create(const QString &uri, const QString &mime_hint);
+    uint CreateMany(const QStringList &uris, const QString &mime_hint);
 };
 
 #endif
