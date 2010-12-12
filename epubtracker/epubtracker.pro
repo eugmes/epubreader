@@ -19,12 +19,14 @@ SOURCES += \
     src/main.cxx \
     src/epubtrackerapplication.cxx \
     src/epubthumbnaileradaptor.cxx \
-    src/epubmetadataadaptor.cxx
+    src/epubmetadataadaptor.cxx \
+    src/epubthumbnailerrequest.cxx
 
 HEADERS += \
     src/epubtrackerapplication.h \
     src/epubthumbnaileradaptor.h \
-    src/epubmetadataadaptor.h
+    src/epubmetadataadaptor.h \
+    src/epubthumbnailerrequest.h
 
 OTHER_FILES += \
     dbus/org.opensource.epubreader.Thumbnailer1.service \
