@@ -72,6 +72,6 @@ unix {
     icon48.path = $$DATADIR/icons
     icon48.files += icons/$${TARGET}.png
 
-    services.path = $$DATADIR/dbus-1/services
+    services.path = $$DBUSDIR
     services.files += dbus/org.opensource.epubreader.Reader.service
 }
