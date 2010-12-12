@@ -5,7 +5,8 @@ SUBDIRS = \
     epubtracker \
     reader
 
-CONFIG += ordered
+epubtracker.depends = libepub
+reader.depends = libepub
 
 OTHER_FILES += \
     common.pri
