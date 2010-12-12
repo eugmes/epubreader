@@ -17,7 +17,16 @@ QT += xmlpatterns dbus
 
 SOURCES += \
     src/main.cxx \
-    src/epubtrackerapplication.cxx
+    src/epubtrackerapplication.cxx \
+    src/epubthumbnaileradaptor.cxx \
+    src/epubmetadataadaptor.cxx
 
 HEADERS += \
-    src/epubtrackerapplication.h
+    src/epubtrackerapplication.h \
+    src/epubthumbnaileradaptor.h \
+    src/epubmetadataadaptor.h
+
+OTHER_FILES += \
+    dbus/org.opensource.epubreader.Thumbnailer1.service \
+    reg/org.opensource.epubreader.Thumbnailer1.service \
+    dbus/org.opensource.epubreader.MetadataExtractor.service

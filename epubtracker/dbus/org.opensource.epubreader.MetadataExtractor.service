@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.opensource.epubreader.MetadataExtractor
+Exec=/usr/lib/epubreader/epubtracker
