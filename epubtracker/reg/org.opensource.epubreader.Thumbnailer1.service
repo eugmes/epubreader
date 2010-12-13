@@ -1,5 +1,5 @@
 [D-BUS Thumbnailer]
 Name=org.opensource.epubreader.Thumbnailer1
-MimeTypes=application/epub+gzip
+MimeTypes=application/epub+zip
 Comment=Thumbnailer for EPUB files
 UriSchemes=file
