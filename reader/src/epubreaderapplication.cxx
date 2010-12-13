@@ -57,16 +57,16 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
         exit(1);
     }
 
+    new EPUBApplicationDBusAdapter(this);
+
+    if (!QDBusConnection::sessionBus().registerObject("/org/opensource/epubreader/Reader", this)) {
+        qWarning() << qPrintable(QDBusConnection::sessionBus().lastError().message());
+        exit(3);
+    }
+
     if (!QDBusConnection::sessionBus().registerService("org.opensource.epubreader.Reader")) {
         qWarning() << qPrintable(QDBusConnection::sessionBus().lastError().message());
         exit(2);
-    }
-
-    EPUBApplicationDBusAdapter *adapter = new EPUBApplicationDBusAdapter(this);
-
-    if (!QDBusConnection::sessionBus().registerObject("/org/opensource/epubreader/Reader", adapter)) {
-        qWarning() << qPrintable(QDBusConnection::sessionBus().lastError().message());
-        exit(3);
     }
 
     showNewWindow(win);
