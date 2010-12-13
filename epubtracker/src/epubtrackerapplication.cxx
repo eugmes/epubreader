@@ -19,39 +19,16 @@
 #include <QDBusError>
 #include <QDebug>
 #include "epubthumbnaileradaptor.h"
-#include "epubmetadataadaptor.h"
+#include "epubthumbnailerrequestqueue.h"
 
 EPUBTrackerApplication::EPUBTrackerApplication(int argc, char **argv) :
     QCoreApplication(argc, argv)
 {
     QDBusConnection sessionBus = QDBusConnection::sessionBus();
 
-    if (!sessionBus.isConnected()) {
-        qWarning() << "Cannot connect to session bus.";
-        exit(1);
-    }
+    EPUBThumbnailerRequestQueue *thumbQueue = new EPUBThumbnailerRequestQueue(this);
+    new EPUBThumbnailerAdaptor(thumbQueue);
 
-    if (!sessionBus.registerService("org.opensource.epubreader.Thumbnailer1")) {
-        qWarning() << "Cannot register thumbnailer service:" << qPrintable(sessionBus.lastError().message());
-        exit(2);
-    }
-
-    EPUBThumbnailerAdaptor *thumbnailerAdapter = new EPUBThumbnailerAdaptor(this);
-
-    if (!sessionBus.registerObject("/org/opensource/epubreader/Thumbnailer1", thumbnailerAdapter)) {
-        qWarning() << "Cannot register thumbnailer object" << qPrintable(sessionBus.lastError().message());
-        exit(3);
-    }
-
-    if (!sessionBus.registerService("org.opensource.epubreader.MetadataExtractor1")) {
-        qWarning() << "Cannot register metadata service:" << qPrintable(sessionBus.lastError().message());
-        exit(4);
-    }
-
-    EPUBMetadataAdaptor *metadataAdapter = new EPUBMetadataAdaptor(this);
-
-    if (!sessionBus.registerObject("/org/opensource/epubreader/MetadataExtractor1", metadataAdapter)) {
-        qWarning() << "Cannot register metadata object:" << qPrintable(sessionBus.lastError().message());
-        exit(5);
-    }
+    sessionBus.registerObject("/org/opensource/epubreader/Thumbnailer1", thumbQueue);
+    sessionBus.registerService("org.opensource.epubreader.Thumbnailer1");
 }

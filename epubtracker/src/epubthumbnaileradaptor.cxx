@@ -15,19 +15,29 @@
  */
 
 #include "epubthumbnaileradaptor.h"
-#include "epubtrackerapplication.h"
+#include "epubthumbnailerrequestqueue.h"
+#include <QStringList>
 
-EPUBThumbnailerAdaptor::EPUBThumbnailerAdaptor(EPUBTrackerApplication *app) :
-    QDBusAbstractAdaptor(app)
+EPUBThumbnailerAdaptor::EPUBThumbnailerAdaptor(EPUBThumbnailerRequestQueue *queue) :
+    QDBusAbstractAdaptor(queue), m_queue(queue)
+{
+    connect(queue, SIGNAL(started(uint)), SIGNAL(Started(uint)));
+    connect(queue, SIGNAL(ready(QString)), SIGNAL(Ready(QString)));
+    connect(queue, SIGNAL(finished(uint)), SIGNAL(Finished(uint)));
+    connect(queue, SIGNAL(error(QString,int,QString)), SIGNAL(Error(QString,int,QString)));
+}
+
+EPUBThumbnailerAdaptor::~EPUBThumbnailerAdaptor()
 {
 }
 
 void EPUBThumbnailerAdaptor::Create(const QString &uri, const QString &mime_hint)
 {
-
+    CreateMany(QStringList() << uri, mime_hint);
 }
 
 uint EPUBThumbnailerAdaptor::CreateMany(const QStringList &uris, const QString &mime_hint)
 {
-
+    Q_UNUSED(mime_hint); // FIXME maybe raise an error instead
+    return m_queue->enqueue(uris);
 }
