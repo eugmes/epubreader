@@ -43,7 +43,7 @@ EPUBFile::EPUBFile(const QString &fileName, QObject *parent) :
     }
 
     QXmlQuery query;
-    query.setFocus(container);
+    query.setFocus(QString::fromUtf8(container));
     query.setQuery(
          "declare default element namespace \"urn:oasis:names:tc:opendocument:xmlns:container\";\n"
          "string(container/rootfiles/rootfile[@media-type=\"application/oebps-package+xml\"]/@full-path)");
@@ -87,7 +87,7 @@ void EPUBFile::parseContentFile(const QString &fileName)
     }
 
     QXmlQuery query;
-    query.setFocus(contentFile);
+    query.setFocus(QString::fromUtf8(contentFile));
 
     // get metadata
     query.setQuery(EPUB_NS_DECL "package/metadata");
