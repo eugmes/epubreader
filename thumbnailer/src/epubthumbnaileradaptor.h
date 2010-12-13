@@ -18,7 +18,6 @@
 #define EPUBTHUMBNAILERADAPTOR_H
 
 #include <QDBusAbstractAdaptor>
-#include <QtDBus>
 
 class EPUBThumbnailerRequestQueue;
 
