@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QCoreApplication>
+#include "epubextractorapplication.h"
 
 int main(int argc, char **argv)
 {
-    QCoreApplication app(argc, argv);
+    EPUBExtractorApplication app(argc, argv);
 
     return app.exec();
 }

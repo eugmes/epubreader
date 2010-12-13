@@ -17,10 +17,12 @@ QT += xmlpatterns dbus
 
 SOURCES += \
     src/epubmetadataadaptor.cxx \
-    src/main.cxx
+    src/main.cxx \
+    src/epubextractorapplication.cxx
 
 HEADERS += \
-    epubmetadataadaptor.cxx
+    src/epubmetadataadaptor.h \
+    src/epubextractorapplication.h
 
 OTHER_FILES += \
     dbus/org.opensource.epubreader.MetadataExtractor.service

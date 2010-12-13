@@ -14,19 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef EPUBMETADATAADAPTOR_H
-#define EPUBMETADATAADAPTOR_H
+#ifndef EPUBEXTRACTORAPPLICATION_H
+#define EPUBEXTRACTORAPPLICATION_H
 
-#include <QDBusAbstractAdaptor>
+#include <QCoreApplication>
 
-class EPUBExtractorApplication;
-
-class EPUBMetadataAdaptor : public QDBusAbstractAdaptor
-{
+class EPUBExtractorApplication : public QCoreApplication {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.opensource.epubreader.MetadataExtractor1")
 public:
-    explicit EPUBMetadataAdaptor(EPUBExtractorApplication *app);
+    EPUBExtractorApplication(int argc, char **argv);
 };
 
 #endif

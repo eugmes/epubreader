@@ -15,8 +15,9 @@
  */
 
 #include "epubmetadataadaptor.h"
+#include "epubextractorapplication.h"
 
-EPUBMetadataAdaptor::EPUBMetadataAdaptor(EPUBTrackerApplication *app) :
+EPUBMetadataAdaptor::EPUBMetadataAdaptor(EPUBExtractorApplication *app) :
     QDBusAbstractAdaptor(app)
 {
 }
