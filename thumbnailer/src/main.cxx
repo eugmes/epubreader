@@ -13,11 +13,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "epubtrackerapplication.h"
+#include "epubthumbnailerapplication.h"
 
 int main(int argc, char **argv)
 {
-    EPUBTrackerApplication app(argc, argv);
+    EPUBThumbnailerApplication app(argc, argv);
 
     return app.exec();
 }

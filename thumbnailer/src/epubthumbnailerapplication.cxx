@@ -14,14 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "epubtrackerapplication.h"
+#include "epubthumbnailerapplication.h"
 #include <QDBusConnection>
 #include <QDBusError>
 #include <QDebug>
 #include "epubthumbnaileradaptor.h"
 #include "epubthumbnailerrequestqueue.h"
 
-EPUBTrackerApplication::EPUBTrackerApplication(int argc, char **argv) :
+EPUBThumbnailerApplication::EPUBThumbnailerApplication(int argc, char **argv) :
     QCoreApplication(argc, argv)
 {
     QDBusConnection sessionBus = QDBusConnection::sessionBus();

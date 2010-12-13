@@ -14,15 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef EPUBTRACKERAPPLICATION_H
-#define EPUBTRACKERAPPLICATION_H
+#ifndef EPUBTHUMBNAILERAPPLICATION_H
+#define EPUBTHUMBNAILERAPPLICATION_H
 
 #include <QCoreApplication>
 
-class EPUBTrackerApplication : public QCoreApplication {
+class EPUBThumbnailerApplication : public QCoreApplication {
     Q_OBJECT
 public:
-    explicit EPUBTrackerApplication(int argc, char **argv);
+    explicit EPUBThumbnailerApplication(int argc, char **argv);
 };
 
 #endif

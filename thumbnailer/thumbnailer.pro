@@ -16,13 +16,13 @@ QT += xmlpatterns dbus
 
 SOURCES += \
     src/main.cxx \
-    src/epubtrackerapplication.cxx \
+    src/epubthumbnailerapplication.cxx \
     src/epubthumbnaileradaptor.cxx \
     src/epubthumbnailerrequest.cxx \
     src/epubthumbnailerrequestqueue.cxx
 
 HEADERS += \
-    src/epubtrackerapplication.h \
+    src/epubthumbnailerapplication.h \
     src/epubthumbnaileradaptor.h \
     src/epubthumbnailerrequest.h \
     src/epubthumbnailerrequestqueue.h
