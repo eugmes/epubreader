@@ -17,24 +17,28 @@
 #ifndef EPUBTHUMBNAILERREQUEST_H
 #define EPUBTHUMBNAILERREQUEST_H
 
-#include <QObject>
+#include <QThread>
 #include <QStringList>
 
-class EPUBThumbnailerRequest : public QObject {
+class EPUBThumbnailerRequest : public QThread {
     Q_OBJECT
 public:
     explicit EPUBThumbnailerRequest(uint handle, const QStringList &uris, QObject *parent = 0);
 
-    void startProcessing();
-
+    uint handle() const;
 signals:
+    void ready(const QString &uri);
     void finished(uint handle);
     void error(const QString &uri, int errorCode, const QString &message);
 
+protected:
+    virtual void run();
+
 private:
+    void handleUri(const QString &uri);
+
     uint m_handle;
     QStringList m_uris;
-    QThread *processingThread;
 };
 
 #endif
