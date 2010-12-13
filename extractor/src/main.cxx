@@ -14,9 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "epubmetadataadaptor.h"
+#include <QCoreApplication>
 
-EPUBMetadataAdaptor::EPUBMetadataAdaptor(EPUBTrackerApplication *app) :
-    QDBusAbstractAdaptor(app)
+int main(int argc, char **argv)
 {
+    QCoreApplication app(argc, argv);
+
+    return app.exec();
 }
