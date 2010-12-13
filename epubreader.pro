@@ -2,10 +2,10 @@ TEMPLATE = subdirs
 
 SUBDIRS = \
     libepub \
-    epubtracker \
+    thumbnailer \
     reader
 
-epubtracker.depends = libepub
+thumbnailer.depends = libepub
 reader.depends = libepub
 
 OTHER_FILES += \
