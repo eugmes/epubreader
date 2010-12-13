@@ -1,3 +1,5 @@
+DEFINES += QT_NO_CAST_FROM_ASCII QT_NO_CAST_TO_ASCII
+
 unix {
     isEmpty(PREFIX) {
         PREFIX = /usr

@@ -50,7 +50,7 @@ static QString getCoverID(const QString &metadata)
 {
     QXmlQuery query;
     query.setFocus(metadata);
-    query.setQuery(EPUB_NS_DECL "string(metadata/meta[@name=\"cover\"]/@content)");
+    query.setQuery(QLatin1String(EPUB_NS_DECL "string(metadata/meta[@name=\"cover\"]/@content)"));
     QStringList result;
     bool ret = query.evaluateTo(&result);
     if (!ret || !result.length())
@@ -60,9 +60,9 @@ static QString getCoverID(const QString &metadata)
 
 static const char *imageTypeForMimeType(const QString &mimeType)
 {
-    if (mimeType == "image/png")
+    if (mimeType == QLatin1String("image/png"))
         return "PNG";
-    else if (mimeType == "image/jpeg")
+    else if (mimeType == QLatin1String("image/jpeg"))
         return "JPEG";
     return 0;
 }
@@ -70,7 +70,9 @@ static const char *imageTypeForMimeType(const QString &mimeType)
 static bool saveThumbnail(const QString &uri, const QImage &img)
 {
     QByteArray hash = QCryptographicHash::hash(uri.toUtf8(), QCryptographicHash::Md5);
-    QString fileName = QDir::homePath() + "/.thumbnails/cropped/" + hash.toHex() + ".jpeg";
+    QString fileName = QDir::homePath() +
+            QLatin1String("/.thumbnails/cropped/") +
+            QLatin1String(hash.toHex()) + QLatin1String(".jpeg");
     return img.save(fileName, "JPEG");
 }
 
@@ -80,7 +82,7 @@ void EPUBThumbnailerRequest::handleUri(const QString &uri)
 
     QString fileName = QUrl(uri).toLocalFile();
     if (fileName.isEmpty()) {
-        emit error(uri, 0, "Not a local URI");
+        emit error(uri, 0, QLatin1String("Not a local URI"));
         qWarning() << "Not a local URI";
         return;
     }
@@ -88,28 +90,28 @@ void EPUBThumbnailerRequest::handleUri(const QString &uri)
     EPUBFile file(fileName);
 
     if (file.status() != EPUBFile::NoError) {
-        emit error(uri, file.status(), "File open error");
+        emit error(uri, file.status(), QLatin1String("File open error"));
         qWarning() << "File open error";
         return;
     }
 
     QString metadata = file.metadata();
     if (metadata.isEmpty()) {
-        emit error(uri, 0, "Empty metadata");
+        emit error(uri, 0, QLatin1String("Empty metadata"));
         qWarning() << "Empty metadata";
         return;
     }
 
     QString coverID = getCoverID(metadata);
     if (coverID.isEmpty()) {
-        emit error(uri, 0, "Empty or absent cover id");
+        emit error(uri, 0, QLatin1String("Empty or absent cover id"));
         qWarning() << "Empty or absent cover id";
         return;
     }
 
     QString path = file.getFilePathByID(coverID);
     if (path.isEmpty()) {
-        emit error(uri, 0, "Cover path not found");
+        emit error(uri, 0, QLatin1String("Cover path not found"));
         qWarning() << "Cover path not found";
         return;
     }
@@ -118,7 +120,7 @@ void EPUBThumbnailerRequest::handleUri(const QString &uri)
     QByteArray coverImage = file.getFileByPath(path, &mimeType);
 
     if (coverImage.isEmpty()) {
-        emit error(uri, 0, "Cover file is empty");
+        emit error(uri, 0, QLatin1String("Cover file is empty"));
         qWarning() << "Cover file is empty";
         return;
     }
@@ -128,7 +130,7 @@ void EPUBThumbnailerRequest::handleUri(const QString &uri)
     QImage scaled = img.scaled(QSize(124, 124), Qt::KeepAspectRatio, Qt::SmoothTransformation); // "cropped" image size
 
     if (!saveThumbnail(uri, scaled)) {
-        emit error(uri, 0, "Save failed");
+        emit error(uri, 0, QLatin1String("Save failed"));
         qWarning() << "Save failed";
         return;
     }

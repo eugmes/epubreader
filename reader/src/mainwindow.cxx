@@ -28,25 +28,25 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), m_fontSize(20)
 {
-    setWindowTitle("E-Book Reader");
+    setWindowTitle(tr("E-Book Reader"));
 
     QDeclarativeView *view = new QDeclarativeView;
     view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-    view->rootContext()->setContextProperty("mainWindow", this);
-    view->setSource(QUrl("qrc:/qml/epubreader.qml"));
+    view->rootContext()->setContextProperty(QLatin1String("mainWindow"), this);
+    view->setSource(QUrl(QLatin1String("qrc:/qml/epubreader.qml")));
 
     setCentralWidget(view);
 
-    QAction *openAction = new QAction("Open", this);
+    QAction *openAction = new QAction(tr("Open"), this);
     connect(openAction, SIGNAL(triggered()), SLOT(chooseFile()));
 
-    QAction *newWindowAction = new QAction("New Window", this);
+    QAction *newWindowAction = new QAction(tr("New Window"), this);
     connect(newWindowAction, SIGNAL(triggered()), SIGNAL(newWindow()));
 
-    QAction *libraryAction = new QAction("Library", this);
+    QAction *libraryAction = new QAction(tr("Library"), this);
     connect(libraryAction, SIGNAL(triggered()), SLOT(showLibrary()));
 
-    QAction *settingsAction = new QAction("Settings", this);
+    QAction *settingsAction = new QAction(tr("Settings"), this);
 
     QMenuBar *menu = menuBar();
     menu->addAction(openAction);
@@ -65,7 +65,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::chooseFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Open File", "/", "EPUB Files (*.epub)");
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                    QLatin1String("/"), tr("EPUB Files (*.epub)"));
     if (!fileName.isNull())
         openFile(fileName);
 }

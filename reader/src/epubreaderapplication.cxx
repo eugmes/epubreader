@@ -45,7 +45,7 @@ int EPUBApplicationDBusAdapter::mime_open(const QString &s1)
 EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
     QApplication(argc, argv)
 {
-    setApplicationName("EPUBReader");
+    setApplicationName(QLatin1String("EPUBReader"));
 
     qmlRegisterType<EPUBView>("EPUBReader", 1, 0, "EPUBView");
 
@@ -59,12 +59,12 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
 
     new EPUBApplicationDBusAdapter(this);
 
-    if (!QDBusConnection::sessionBus().registerObject("/org/opensource/epubreader/Reader", this)) {
+    if (!QDBusConnection::sessionBus().registerObject(QLatin1String("/org/opensource/epubreader/Reader"), this)) {
         qWarning() << qPrintable(QDBusConnection::sessionBus().lastError().message());
         exit(3);
     }
 
-    if (!QDBusConnection::sessionBus().registerService("org.opensource.epubreader.Reader")) {
+    if (!QDBusConnection::sessionBus().registerService(QLatin1String("org.opensource.epubreader.Reader"))) {
         qWarning() << qPrintable(QDBusConnection::sessionBus().lastError().message());
         exit(2);
     }

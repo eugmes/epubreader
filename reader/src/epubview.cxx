@@ -23,7 +23,7 @@
 
 static inline QString trimPath(const QString &path)
 {
-    if (path.startsWith('/'))
+    if (path.startsWith(QLatin1Char('/')))
         return path.mid(1);
     return path;
 }
@@ -60,8 +60,8 @@ EPUBView::EPUBView(QGraphicsItem *parent) :
     //QPalette p = page()->palette();
     //p.setBrush(QPalette::Base, QColor(0xF1, 0xDC, 0x6B));
     QByteArray userStyleSheet("html {background: #f1dc6b !important; margin-top: 0px !important} body {background: transparent !important; margin-top: 70px !important; margin-bottom: 70px !important; margin-right: 10px !important; margin-left: 10px !important}");
-    QByteArray url = QByteArray("data:text/css;charset=utf-8;base64,") + userStyleSheet.toBase64();
-    s->setUserStyleSheetUrl(QUrl(url));
+    QString url = QLatin1String("data:text/css;charset=utf-8;base64,") + QLatin1String(userStyleSheet.toBase64());
+    s->setUserStyleSheetUrl(url);
     //page()->setPalette(p);
 }
 
@@ -117,7 +117,7 @@ QAction *EPUBView::nextPageAction() const
 
 bool EPUBView::showPrevPage()
 {
-    if (url().scheme() != "epub")
+    if (url().scheme() != QLatin1String("epub"))
         return false; // TODO mayve just try to show first page
     if (!m_epub)
         return false;
@@ -129,7 +129,7 @@ bool EPUBView::showPrevPage()
 
 bool EPUBView::showNextPage()
 {
-    if (url().scheme() != "epub")
+    if (url().scheme() != QLatin1String("epub"))
         return false; // TODO maybe try to show last page
     if (!m_epub)
         return false;
@@ -146,7 +146,7 @@ void EPUBView::showPath(const QString &path)
 
 void EPUBView::handleUrlChange(const QUrl &url)
 {
-    if (url.scheme() != "epub") {
+    if (url.scheme() != QLatin1String("epub")) {
         m_prevPageAction->setEnabled(false);
         m_nextPageAction->setEnabled(false);
     } else {

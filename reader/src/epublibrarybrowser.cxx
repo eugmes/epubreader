@@ -22,14 +22,14 @@
 EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
     QMainWindow(parent)
 {
-    setWindowTitle("E-Book Library");
+    setWindowTitle(tr("E-Book Library"));
 
-    EPUBDocumentListModel *model = new EPUBDocumentListModel(QStringList() << "test" << "test2", this);
+    EPUBDocumentListModel *model = new EPUBDocumentListModel(QStringList(), this);
 
     QDeclarativeView *view = new QDeclarativeView;
     view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-    view->rootContext()->setContextProperty("documentListModel", model);
-    view->setSource(QUrl("qrc:/qml/epublibrary.qml"));
+    view->rootContext()->setContextProperty(QLatin1String("documentListModel"), model);
+    view->setSource(QUrl(QLatin1String("qrc:/qml/epublibrary.qml")));
 
     setCentralWidget(view);
 

@@ -29,6 +29,6 @@ EPUBThumbnailerApplication::EPUBThumbnailerApplication(int argc, char **argv) :
     EPUBThumbnailerRequestQueue *thumbQueue = new EPUBThumbnailerRequestQueue(this);
     new EPUBThumbnailerAdaptor(thumbQueue);
 
-    sessionBus.registerObject("/org/opensource/epubreader/Thumbnailer1", thumbQueue);
-    sessionBus.registerService("org.opensource.epubreader.Thumbnailer1");
+    sessionBus.registerObject(QLatin1String("/org/opensource/epubreader/Thumbnailer1"), thumbQueue);
+    sessionBus.registerService(QLatin1String("org.opensource.epubreader.Thumbnailer1"));
 }
