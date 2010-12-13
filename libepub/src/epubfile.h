@@ -18,7 +18,6 @@
 #define EPUBFILE_H
 #include <QObject>
 #include <QString>
-#include <QXmlItem>
 #include <QList>
 #include <QScopedPointer>
 #include "zipreader.h"
@@ -28,6 +27,7 @@ class QXmlQuery;
 
 class EPUBFile : public QObject {
     Q_OBJECT
+    Q_PROPERTY(QString metadata READ metadata)
 public:
     explicit EPUBFile(const QString &fileName, QObject *parent = 0);
 
@@ -39,6 +39,7 @@ public:
     };
 
     Status status() const;
+    QString metadata() const;
 
     QByteArray getFileByPath(const QString &path, QString *mimeType);
     QString getFilePathByID(const QString &id) const;
@@ -80,7 +81,7 @@ private:
         QString idref;
     };
 
-    QXmlItem m_metadata;
+    QString m_metadata;
     QList<ManifestItem> m_manifest;
     QList<SpineItem> m_spine;
 
