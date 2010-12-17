@@ -17,8 +17,32 @@
 #include <QCoreApplication>
 #include <QStringList>
 #include <QDebug>
+#include <QXmlQuery>
 #include <iostream>
 #include "epubfile.h"
+#include "epubmetadataparser.h"
+
+#define DC_QUERY \
+    "declare default element namespace \"http://www.idpf.org/2007/opf\";\n" \
+    "declare namespace dc = \"http://purl.org/dc/elements/1.1/\";\n" \
+    "metadata/dc:*"
+
+void parseMetadata(const QString &s)
+{
+    QXmlQuery query;
+    query.setFocus(s);
+    query.setQuery(QLatin1String(DC_QUERY));
+
+    EPUBMetadataParser parser(&query);
+
+    query.evaluateTo(&parser);
+    foreach (const EPUBMetadataParser::MetadataEntry &ent, parser.metadata()) {
+        std::cout << qPrintable(ent.first) << "\n";
+        QString val = ent.second;
+        std::cout << qPrintable(val.replace(QLatin1Char('\\'), QLatin1String("\\\\")).
+                                replace(QLatin1Char('\n'), QLatin1String("\\n"))) << "\n";
+    }
+}
 
 int main(int argc, char **argv)
 {
@@ -33,7 +57,7 @@ int main(int argc, char **argv)
     if (file.status() != EPUBFile::NoError)
         return 2;
 
-    std::cout << qPrintable(file.metadata());
-    std::cout << "тест\n";
+    parseMetadata(file.metadata());
+
     return 0;
 }

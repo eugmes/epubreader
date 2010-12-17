@@ -13,13 +13,19 @@ PRE_TARGETDEPS += $$LIBEPUB
 CONFIG += qt warn_on
 
 QT -= gui
-QT += xmlpatterns dbus
+QT += xmlpatterns
 
 SOURCES = \
-	src/main.cxx
+    src/main.cxx \
+    src/epubmetadataparser.cxx \
+    src/epubabstractxmlparser.cxx
 
 unix {
     INSTALLS = target
 
     target.path = $$BINDIR
 }
+
+HEADERS += \
+    src/epubmetadataparser.h \
+    src/epubabstractxmlparser.h
