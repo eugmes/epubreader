@@ -26,7 +26,7 @@
 EPUBFile::EPUBFile(const QString &fileName, QObject *parent) :
     QObject(parent), m_zip(new ZipReader(fileName))
 {
-    QByteArray mimeType = m_zip->fileData("mimetype");
+    QByteArray mimeType = m_zip->fileData(QLatin1String("mimetype"));
     if (mimeType.isNull()) {
         m_status = ZipError;
         return;
@@ -37,7 +37,7 @@ EPUBFile::EPUBFile(const QString &fileName, QObject *parent) :
         return;
     }
 
-    QByteArray container = m_zip->fileData("META-INF/container.xml");
+    QByteArray container = m_zip->fileData(QLatin1String("META-INF/container.xml"));
     if (container.isEmpty()) {
         m_status = ContentError;
         return;
@@ -49,9 +49,9 @@ EPUBFile::EPUBFile(const QString &fileName, QObject *parent) :
     QXmlQuery query;
     query.setFocus(&buf);
 
-    query.setQuery(
+    query.setQuery(QLatin1String(
          "declare default element namespace \"urn:oasis:names:tc:opendocument:xmlns:container\";\n"
-         "string(container/rootfiles/rootfile[@media-type=\"application/oebps-package+xml\"]/@full-path)");
+         "string(container/rootfiles/rootfile[@media-type=\"application/oebps-package+xml\"]/@full-path)"));
     QXmlResultItems result;
     query.evaluateTo(&result);
     QXmlItem item(result.next());
@@ -62,7 +62,7 @@ EPUBFile::EPUBFile(const QString &fileName, QObject *parent) :
     }
 
     QString contentFileName = item.toAtomicValue().toString();
-    QRegExp rx("^/?(.*/)([^/]*)?$");
+    QRegExp rx(QLatin1String("^/?(.*/)([^/]*)?$"));
     if (rx.exactMatch(contentFileName))
         m_contentPrefix = rx.cap(1);
 
@@ -98,7 +98,7 @@ void EPUBFile::parseContentFile(const QString &fileName)
     query.setFocus(&buf);
 
     // get metadata
-    query.setQuery(EPUB_NS_DECL "package/metadata");
+    query.setQuery(QLatin1String(EPUB_NS_DECL "package/metadata"));
     QString result;
     bool ret = query.evaluateTo(&result);
     if (!ret || result.isEmpty()) {
@@ -110,14 +110,14 @@ void EPUBFile::parseContentFile(const QString &fileName)
     m_metadata = result;
 
     // get manifest
-    query.setQuery(EPUB_NS_DECL "package/manifest/item");
+    query.setQuery(QLatin1String(EPUB_NS_DECL "package/manifest/item"));
     QXmlResultItems manifestResult;
     query.evaluateTo(&manifestResult);
     if (!parseManifest(query, manifestResult))
         return;
 
     // get spine
-    query.setQuery(EPUB_NS_DECL "string(package/spine/@toc)");
+    query.setQuery(QLatin1String(EPUB_NS_DECL "string(package/spine/@toc)"));
     QXmlResultItems tocResult;
     query.evaluateTo(&tocResult);
     QXmlItem toc = tocResult.next();
@@ -126,7 +126,7 @@ void EPUBFile::parseContentFile(const QString &fileName)
         m_status = ContentError;
         return;
     }
-    query.setQuery(EPUB_NS_DECL "package/spine/itemref");
+    query.setQuery(QLatin1String(EPUB_NS_DECL "package/spine/itemref"));
     QXmlResultItems spineResult;
     query.evaluateTo(&spineResult);
     if (!parseSpine(query, spineResult))
@@ -145,9 +145,9 @@ bool EPUBFile::parseManifest(const QXmlQuery &parentQuery, QXmlResultItems &item
         hrefQuery.setFocus(item);
         mediaTypeQuery.setFocus(item);
 
-        idQuery.setQuery(EPUB_NS_DECL "string(@id)");
-        hrefQuery.setQuery(EPUB_NS_DECL "string(@href)");
-        mediaTypeQuery.setQuery(EPUB_NS_DECL "string(@media-type)");
+        idQuery.setQuery(QLatin1String(EPUB_NS_DECL "string(@id)"));
+        hrefQuery.setQuery(QLatin1String(EPUB_NS_DECL "string(@href)"));
+        mediaTypeQuery.setQuery(QLatin1String(EPUB_NS_DECL "string(@media-type)"));
 
         // TODO add fallback
 
@@ -218,7 +218,7 @@ bool EPUBFile::parseSpine(const QXmlQuery &parentQuery, QXmlResultItems &items)
 
     while (!item.isNull()) {
         idrefQuery.setFocus(item);
-        idrefQuery.setQuery(EPUB_NS_DECL "string(@idref)");
+        idrefQuery.setQuery(QLatin1String(EPUB_NS_DECL "string(@idref)"));
         QXmlResultItems idrefResult;
         idrefQuery.evaluateTo(&idrefResult);
         QXmlItem idref = idrefResult.next();

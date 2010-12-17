@@ -1,6 +1,8 @@
 TEMPLATE = lib
 TARGET = epub
 
+include(../common.pri)
+
 CONFIG += qt warn_on staticlib
 
 QT -= gui
