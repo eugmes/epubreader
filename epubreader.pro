@@ -4,7 +4,8 @@ SUBDIRS = \
     libepub \
     epub-extract-metadata \
     thumbnailer \
-    reader
+    reader \
+    extract-epub
 
 thumbnailer.depends = libepub
 epub-extract-metadata.depends = libepub
