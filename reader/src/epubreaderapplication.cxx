@@ -17,6 +17,7 @@
 #include "epubreaderapplication.h"
 #include "epubview.h"
 #include "mainwindow.h"
+#include "dbusdefs.h"
 #include <QDBusConnection>
 #include <QtDeclarative>
 #include <QDBusError>
@@ -24,6 +25,7 @@
 EPUBApplicationDBusAdapter::EPUBApplicationDBusAdapter(EPUBReaderApplication *app) :
     QDBusAbstractAdaptor(app)
 {
+    registerLibraryMetatypes();
 }
 
 int EPUBApplicationDBusAdapter::mime_open(const QString &s1)

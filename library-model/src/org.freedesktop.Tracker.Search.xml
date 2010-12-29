@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Generic search interface (see other interfaces for file/keyword
+     specific searches). 
+  -->
+<node name="/org/freedesktop/Tracker">
+  <interface name="org.freedesktop.Tracker.Search">
+    <!-- Searches specified service for matching entities.
+	 - The service parameter specifies the service which the query
+	 will be performed on.
+	 - The fields parameter specifies an array of aditional metadata
+	 fields to return in addition to the id field (which is
+	 returned as the "key" in the resultant dict/hashtable) and
+	 the service category. This can be null.
+	 - The optional search_text paramter specifies the text to
+	 search for in a full text search of all indexed fields. 
+	 - The optional keyword search, a single keyword may be used
+	 here to filter the results.
+	 - The optional query_condition parameter specifies an
+	 xml-based rdf query condition which is used to filter out the
+	 results.
+	 - The Offset parameter sets the start row of the returned
+	 result set (useful for paging/cursors). A value of 0 should
+	 be passed to get rows from the beginning. 
+	 - The max_hits parameter limits the size of the result set.
+	 - The sort_by_service parameter optionally sorts results by
+	 their service category (if FALSE no service sorting is done).
+	 - The result is a array of stringarrays in format [uri,
+	 service, field1, field2...] where field1 is the first
+	 specified field in the fields paramter and so on.
+      -->
+    <method name="Query">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <arg type="i" name="live_query_id" direction="in" />
+      <arg type="s" name="service" direction="in" />
+      <arg type="as" name="fields" direction="in" />
+      <arg type="s" name="search_text" direction="in" />
+      <arg type="as" name="keywords" direction="in" />
+      <arg type="s" name="query_condition" direction="in" />
+      <arg type="b" name="sort_by_service" direction="in" />
+      <arg type="as" name="sort_fields" direction="in" />
+      <arg type="b" name="sort_descending" direction="in" />
+      <arg type="i" name="offset" direction="in" />
+      <arg type="i" name="max_hits" direction="in" />
+      <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="StringListList"/>
+      <arg type="aas" name="result" direction="out" />
+    </method>
+
+  </interface>
+</node>

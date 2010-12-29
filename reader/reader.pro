@@ -3,12 +3,13 @@ TARGET = epubreader
 
 include(../common.pri)
 
-INCLUDEPATH += ../libepub/src
+INCLUDEPATH += ../libepub/src ../library-model/src
 
 LIBEPUB = ../libepub/$${QMAKE_PREFIX_STATICLIB}epub.$${QMAKE_EXTENSION_STATICLIB}
+LIBLIBRARYMODEL = ../library-model/$${QMAKE_PREFIX_STATICLIB}library-model.$${QMAKE_EXTENSION_STATICLIB}
 
-LIBS += $$LIBEPUB
-PRE_TARGETDEPS += $$LIBEPUB
+LIBS += $$LIBEPUB $$LIBRARYMODEL
+PRE_TARGETDEPS += $$LIBEPUB $$LIBRARYMODEL
 
 SOURCES = \
     src/main.cxx \
