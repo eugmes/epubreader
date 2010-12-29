@@ -78,8 +78,6 @@ static bool saveThumbnail(const QString &uri, const QImage &img)
 
 void EPUBThumbnailerRequest::handleUri(const QString &uri)
 {
-    qDebug() << "Handling" << uri;
-
     QString fileName = QUrl(uri).toLocalFile();
     if (fileName.isEmpty()) {
         emit error(uri, 0, QLatin1String("Not a local URI"));
