@@ -20,4 +20,8 @@ OTHER_FILES = \
     src/org.freedesktop.Tracker.Search.xml
 
 HEADERS += \
-    src/dbusdefs.h
+    src/dbusdefs.h \
+    src/epubdocumentlistmodel.h
+
+SOURCES += \
+    src/epubdocumentlistmodel.cxx

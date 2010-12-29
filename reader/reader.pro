@@ -8,8 +8,8 @@ INCLUDEPATH += ../libepub/src ../library-model/src
 LIBEPUB = ../libepub/$${QMAKE_PREFIX_STATICLIB}epub.$${QMAKE_EXTENSION_STATICLIB}
 LIBLIBRARYMODEL = ../library-model/$${QMAKE_PREFIX_STATICLIB}library-model.$${QMAKE_EXTENSION_STATICLIB}
 
-LIBS += $$LIBEPUB $$LIBRARYMODEL
-PRE_TARGETDEPS += $$LIBEPUB $$LIBRARYMODEL
+LIBS += $$LIBEPUB $$LIBLIBRARYMODEL
+PRE_TARGETDEPS += $$LIBEPUB $$LIBLIBRARYMODEL
 
 SOURCES = \
     src/main.cxx \
@@ -19,7 +19,6 @@ SOURCES = \
     src/mainwindow.cxx \
     src/settingsdialog.cxx \
     src/epubreaderapplication.cxx \
-    src/epubdocumentlistmodel.cxx \
     src/epublibrarybrowser.cxx
 
 HEADERS = \
@@ -29,7 +28,6 @@ HEADERS = \
     src/mainwindow.h \
     src/settingsdialog.h \
     src/epubreaderapplication.h \
-    src/epubdocumentlistmodel.h \
     src/epublibrarybrowser.h
 
 CONFIG += qt warn_on
