@@ -18,17 +18,30 @@
 #define EPUBDOCUMENTLISTMODEL_H
 
 #include <QAbstractListModel>
-#include <QStringList>
+#include <QDBusPendingCallWatcher>
+
+class OrgFreedesktopTrackerSearchInterface;
 
 class EPUBDocumentListModel : public QAbstractListModel {
     Q_OBJECT
 public:
-    explicit EPUBDocumentListModel(const QStringList &data, QObject *parent = 0);
+    explicit EPUBDocumentListModel(QObject *parent = 0);
 
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+
 private:
-    QStringList m_data;
+    struct EPUBDesc {
+        QString fileName;
+        QString title;
+    };
+
+    OrgFreedesktopTrackerSearchInterface *search;
+
+    QList<EPUBDesc> m_data;
+
+private slots:
+    void callFinished(QDBusPendingCallWatcher *call);
 };
 
 #endif

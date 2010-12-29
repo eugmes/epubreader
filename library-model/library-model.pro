@@ -8,7 +8,7 @@ CONFIG += qt warn_on staticlib dbusinterfaces
 QT -= gui
 QT += dbus
 
-INCLUDEPATH += ./src
+INCLUDEPATH += ./src .
 
 # FIXME
 QMAKE_QDBUSXML2CPP = qdbusxml2cpp -i dbusdefs.h

@@ -24,7 +24,7 @@ EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
 {
     setWindowTitle(tr("E-Book Library"));
 
-    EPUBDocumentListModel *model = new EPUBDocumentListModel(QStringList(), this);
+    EPUBDocumentListModel *model = new EPUBDocumentListModel(this);
 
     QDeclarativeView *view = new QDeclarativeView;
     view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
@@ -36,5 +36,6 @@ EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
     setAttribute(Qt::WA_DeleteOnClose);
 #ifdef Q_WS_MAEMO_5
     setAttribute(Qt::WA_Maemo5AutoOrientation);
+    setAttribute(Qt::WA_Maemo5StackedWindow);
 #endif
 }

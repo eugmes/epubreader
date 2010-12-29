@@ -15,10 +15,43 @@
  */
 
 #include "epubdocumentlistmodel.h"
+#include "search_interface.h"
+#include <QDebug>
 
-EPUBDocumentListModel::EPUBDocumentListModel(const QStringList &data, QObject *parent) :
-    QAbstractListModel(parent), m_data(data)
+#define EPUB_QUERY \
+    "<rdfq:Condition>" \
+      "<rdfq:equals>" \
+        "<rdfq:Property name=\"File:Mime\"/>" \
+        "<rdf:String>application/epub+zip</rdf:String>" \
+      "</rdfq:equals>" \
+    "</rdfq:Condition>"
+
+EPUBDocumentListModel::EPUBDocumentListModel(QObject *parent) :
+    QAbstractListModel(parent)
 {
+    search = new OrgFreedesktopTrackerSearchInterface(QLatin1String("org.freedesktop.Tracker"),
+        QLatin1String("/org/freedesktop/Tracker/Search"),
+        QDBusConnection::sessionBus(), this);
+
+    QDBusPendingReply<StringListList> reply = search->Query(-1, QLatin1String("Files"),
+                                   QStringList() << QLatin1String("DC:Title"),
+                                   QLatin1String(""),
+                                   QStringList(),
+                                   QLatin1String(EPUB_QUERY),
+                                   false,
+                                   QStringList(),
+                                   false, 0, -1);
+
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
+    connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), SLOT(callFinished(QDBusPendingCallWatcher*)));
+
+#ifndef Q_WS_MAEMO_5
+    // Add some dummy data
+    EPUBDesc desc;
+    desc.fileName = QLatin1String("/nonexistent.epub");
+    desc.title = QLatin1String("Simple Book");
+    m_data << desc;
+#endif
 }
 
 int EPUBDocumentListModel::rowCount(const QModelIndex &parent) const
@@ -40,5 +73,34 @@ QVariant EPUBDocumentListModel::data(const QModelIndex &index, int role) const
         return QVariant();
     if (index.row() >= m_data.size())
         return QVariant();
-    return m_data[index.row()];
+    return m_data[index.row()].title;
+}
+
+void EPUBDocumentListModel::callFinished(QDBusPendingCallWatcher *call)
+{
+    QDBusPendingReply<StringListList> reply = *call;
+
+    if (reply.isError()) {
+        qWarning() << "Query call error";
+    } else {
+        beginResetModel();
+        m_data.clear();
+
+        StringListList list = reply.argumentAt<0>();
+        foreach (const QStringList &l, list) {
+            EPUBDesc desc;
+
+            if (l.length() < 3) {
+                qWarning() << "Wrong entry length";
+                continue;
+            }
+
+            desc.fileName = l[0];
+            desc.title = l[2];
+            m_data << desc;
+        }
+        endResetModel();
+    }
+
+    call->deleteLater();
 }
