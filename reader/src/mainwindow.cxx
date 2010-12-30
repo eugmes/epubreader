@@ -128,6 +128,7 @@ void MainWindow::showLibrary()
 {
     EPUBLibraryBrowser *win = new EPUBLibraryBrowser(this);
     win->setWindowModality(Qt::WindowModal);
+    connect(win, SIGNAL(openFileRequest(QString)), SLOT(openFile(QString)));
 
 #ifdef Q_WS_MAEMO_5
     win->showMaximized();

@@ -13,6 +13,8 @@ Rectangle {
         delegate: BookItem {
             file: fileName
             bookTitle: display
+
+            onClicked: libraryBrowser.openFile(fileName)
         }
 
         anchors.fill: parent

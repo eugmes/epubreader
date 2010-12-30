@@ -4,6 +4,8 @@ Item {
     property string file: null
     property string bookTitle: null
 
+    signal clicked
+
     id: bookItem
 
     width: parent.width
@@ -32,5 +34,12 @@ Item {
             left: thumbnail.right
             leftMargin: 4
         }
+    }
+
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+
+        onClicked: bookItem.clicked()
     }
 }

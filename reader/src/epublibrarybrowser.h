@@ -23,6 +23,12 @@ class EPUBLibraryBrowser : public QMainWindow {
     Q_OBJECT
 public:
     explicit EPUBLibraryBrowser(QWidget *parent = 0);
+
+public slots:
+    void openFile(const QString &fileName);
+
+signals:
+    void openFileRequest(const QString &fileName);
 };
 
 #endif

@@ -18,6 +18,7 @@
 #include <QDeclarativeView>
 #include <QDeclarativeContext>
 #include "epubdocumentlistmodel.h"
+#include <QDebug>
 
 EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
     QMainWindow(parent)
@@ -29,6 +30,7 @@ EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
     QDeclarativeView *view = new QDeclarativeView;
     view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     view->rootContext()->setContextProperty(QLatin1String("documentListModel"), model);
+    view->rootContext()->setContextProperty(QLatin1String("libraryBrowser"), this);
     view->setSource(QUrl(QLatin1String("qrc:/qml/epublibrary.qml")));
 
     setCentralWidget(view);
@@ -38,4 +40,11 @@ EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
     setAttribute(Qt::WA_Maemo5AutoOrientation);
     setAttribute(Qt::WA_Maemo5StackedWindow);
 #endif
+}
+
+void EPUBLibraryBrowser::openFile(const QString &fileName)
+{
+    qDebug() << "open file:" << fileName;
+    emit openFileRequest(fileName);
+    close();
 }

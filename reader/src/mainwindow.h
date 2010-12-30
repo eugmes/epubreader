@@ -26,12 +26,12 @@ class MainWindow : public QMainWindow {
     Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
 public:
     explicit MainWindow(QWidget *parent = 0);
-    void openFile(QString newFileName);
     QString fileName() const;
     bool fullSize() const;
     int fontSize() const;
 
 public slots:
+    void openFile(QString newFileName);
     void chooseFile();
     void setFullSize(bool set);
     void setFontSize(int size);
