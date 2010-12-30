@@ -19,7 +19,8 @@ SOURCES = \
     src/mainwindow.cxx \
     src/settingsdialog.cxx \
     src/epubreaderapplication.cxx \
-    src/epublibrarybrowser.cxx
+    src/epublibrarybrowser.cxx \
+    src/epubreadersettings.cxx
 
 HEADERS = \
     src/epubaccessmanager.h \
@@ -28,7 +29,8 @@ HEADERS = \
     src/mainwindow.h \
     src/settingsdialog.h \
     src/epubreaderapplication.h \
-    src/epublibrarybrowser.h
+    src/epublibrarybrowser.h \
+    src/epubreadersettings.h
 
 CONFIG += qt warn_on
 

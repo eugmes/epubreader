@@ -21,6 +21,7 @@
 #include <QDBusAbstractAdaptor>
 
 class MainWindow;
+class EPUBReaderSettings;
 
 class EPUBReaderApplication : public QApplication
 {
@@ -29,12 +30,15 @@ public:
     explicit EPUBReaderApplication(int &argc, char **argv);
 
     void openFile(const QString &fileName);
+    EPUBReaderSettings *settings() const;
 
 public slots:
     void openNewWindow();
 
 private:
     void showNewWindow(MainWindow *win);
+
+    EPUBReaderSettings *m_settings;
 };
 
 class EPUBApplicationDBusAdapter : public QDBusAbstractAdaptor {

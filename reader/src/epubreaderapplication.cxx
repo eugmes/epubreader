@@ -22,11 +22,11 @@
 #include <QtDeclarative>
 #include <QDBusError>
 #include "thumbnailitem.h"
+#include "epubreadersettings.h"
 
 EPUBApplicationDBusAdapter::EPUBApplicationDBusAdapter(EPUBReaderApplication *app) :
     QDBusAbstractAdaptor(app)
 {
-    registerLibraryMetatypes();
 }
 
 int EPUBApplicationDBusAdapter::mime_open(const QString &s1)
@@ -49,6 +49,10 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
     QApplication(argc, argv)
 {
     setApplicationName(QLatin1String("EPUBReader"));
+
+    m_settings = new EPUBReaderSettings(this);
+
+    registerLibraryMetatypes();
 
     qmlRegisterType<EPUBView>("EPUBReader", 1, 0, "EPUBView");
     qmlRegisterType<ThumbnailItem>("EPUBReader", 1, 0, "ThumbnailItem");
@@ -92,6 +96,11 @@ void EPUBReaderApplication::openFile(const QString &fileName)
     MainWindow *win = new MainWindow;
     win->openFile(fileName);
     showNewWindow(win);
+}
+
+EPUBReaderSettings *EPUBReaderApplication::settings() const
+{
+    return m_settings;
 }
 
 void EPUBReaderApplication::openNewWindow()

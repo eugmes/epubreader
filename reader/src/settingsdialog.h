@@ -25,13 +25,13 @@ namespace Ui {
 
 class SettingsDialog : public QDialog {
     Q_OBJECT
-    Q_PROPERTY(qreal textSizeMultiplier READ textSizeMultiplier WRITE setTextSizeMultiplier)
 public:
     explicit SettingsDialog(QWidget *parent = 0);
     ~SettingsDialog();
 
-    qreal textSizeMultiplier() const;
-    void setTextSizeMultiplier(qreal ratio);
+public slots:
+    virtual void accept();
+
 private:
     Ui::SettingsDialog *ui;
 };

@@ -24,15 +24,19 @@
 #include <QDebug>
 #include "settingsdialog.h"
 #include "epublibrarybrowser.h"
+#include "epubreaderapplication.h"
+#include "epubreadersettings.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), m_textSizeMultiplier(1.5)
+    QMainWindow(parent)
 {
     setWindowTitle(tr("E-Book Reader"));
 
     QDeclarativeView *view = new QDeclarativeView;
     view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     view->rootContext()->setContextProperty(QLatin1String("mainWindow"), this);
+    EPUBReaderSettings *settings = qobject_cast<EPUBReaderApplication *>(QCoreApplication::instance())->settings();
+    view->rootContext()->setContextProperty(QLatin1String("settings"), settings);
     view->setSource(QUrl(QLatin1String("qrc:/qml/epubreader.qml")));
 
     setCentralWidget(view);
@@ -105,23 +109,8 @@ void MainWindow::showSettingsDialog()
 {
     SettingsDialog *dlg = new SettingsDialog(this);
 
-    dlg->setTextSizeMultiplier(m_textSizeMultiplier);
-    if (dlg->exec())
-        setTextSizeMultiplier(dlg->textSizeMultiplier());
+    dlg->exec();
     delete dlg;
-}
-
-qreal MainWindow::textSizeMultiplier() const
-{
-    return m_textSizeMultiplier;
-}
-
-void MainWindow::setTextSizeMultiplier(qreal ratio)
-{
-    if (ratio != m_textSizeMultiplier) {
-        m_textSizeMultiplier = ratio;
-        emit textSizeMultiplierChanged();
-    }
 }
 
 void MainWindow::showLibrary()

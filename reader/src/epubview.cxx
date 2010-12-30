@@ -21,6 +21,19 @@
 #include <QWebFrame>
 #include <QDebug>
 
+#define STYLESHEET_TEMPLATE \
+    "html {" \
+        "background: %1 !important;" \
+        "margin-top: 0px !important" \
+    "}" \
+    "body {" \
+        "background: transparent !important;" \
+        "margin-top: 70px !important;" \
+        "margin-bottom: 70px !important;" \
+        "margin-right: 10px !important;" \
+        "margin-left: 10px !important" \
+    "}"
+
 static inline QString trimPath(const QString &path)
 {
     if (path.startsWith(QLatin1Char('/')))
@@ -57,12 +70,36 @@ EPUBView::EPUBView(QGraphicsItem *parent) :
     resizeContent();
     setResizesToContents(true);
 
-    //QPalette p = page()->palette();
-    //p.setBrush(QPalette::Base, QColor(0xF1, 0xDC, 0x6B));
-    QByteArray userStyleSheet("html {background: #f1dc6b !important; margin-top: 0px !important} body {background: transparent !important; margin-top: 70px !important; margin-bottom: 70px !important; margin-right: 10px !important; margin-left: 10px !important}");
+    setBackgroundIndex(0);
+}
+
+int EPUBView::backgroundIndex() const
+{
+    return m_backgroundIndex;
+}
+
+void EPUBView::setBackgroundIndex(int idx)
+{
+    m_backgroundIndex = idx;
+    QColor c;
+
+    switch (m_backgroundIndex) {
+    default:
+        c = QColor(Qt::white);
+        break;
+    case 1:
+        c = QColor(0xf1, 0xdc, 0x6b);
+        break;
+    case 2:
+        c = QColor(Qt::gray);
+        break;
+    }
+
+    qDebug() << "RGB" << c.name();
+    QString style = QString::fromLatin1(STYLESHEET_TEMPLATE).arg(c.name());
+    QByteArray userStyleSheet = style.toUtf8();
     QString url = QLatin1String("data:text/css;charset=utf-8;base64,") + QLatin1String(userStyleSheet.toBase64());
-    s->setUserStyleSheetUrl(url);
-    //page()->setPalette(p);
+    settings()->setUserStyleSheetUrl(url);
 }
 
 bool EPUBView::openFile(const QString &fileName)
@@ -198,4 +235,14 @@ qreal EPUBView::textSizeMultiplier() const
 void EPUBView::setTextSizeMultiplier(qreal factor)
 {
     page()->mainFrame()->setTextSizeMultiplier(factor);
+}
+
+QString EPUBView::defaultFont() const
+{
+    return settings()->fontFamily(QWebSettings::StandardFont);
+}
+
+void EPUBView::setDefaultFont(const QString &font)
+{
+    settings()->setFontFamily(QWebSettings::StandardFont, font);
 }

@@ -16,12 +16,27 @@
 
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
+#include "epubreaderapplication.h"
+#include "epubreadersettings.h"
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
+
+    QComboBox *cb = ui->backgroundComboBox;
+    cb->addItem(tr("White"));
+    cb->setItemData(0, QColor(Qt::white), Qt::DecorationRole);
+    cb->addItem(tr("Yellow"));
+    cb->setItemData(1, QColor(0xF1, 0xDC, 0x6B), Qt::DecorationRole);
+    cb->addItem(tr("Gray"));
+    cb->setItemData(2, QColor(Qt::gray), Qt::DecorationRole);
+
+    EPUBReaderSettings *settings = qobject_cast<EPUBReaderApplication *>(QCoreApplication::instance())->settings();
+    ui->fontSizeSlider->setValue(settings->textSizeMultiplier() * 10);
+    ui->fontComboBox->setCurrentFont(settings->fontFamily());
+    ui->backgroundComboBox->setCurrentIndex(settings->colorIndex());
 }
 
 SettingsDialog::~SettingsDialog()
@@ -29,12 +44,11 @@ SettingsDialog::~SettingsDialog()
     delete ui;
 }
 
-qreal SettingsDialog::textSizeMultiplier() const
+void SettingsDialog::accept()
 {
-    return ui->fontSizeSlider->value() / 10.0;
-}
-
-void SettingsDialog::setTextSizeMultiplier(qreal ratio)
-{
-    ui->fontSizeSlider->setValue(ratio * 10);
+    EPUBReaderSettings *settings = qobject_cast<EPUBReaderApplication *>(QCoreApplication::instance())->settings();
+    settings->setTextSizeMultiplier(ui->fontSizeSlider->value() / 10.0);
+    settings->setFontFamily(ui->fontComboBox->currentFont().family());
+    settings->setColorIndex(ui->backgroundComboBox->currentIndex());
+    QDialog::accept();
 }

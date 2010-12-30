@@ -23,14 +23,10 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
     Q_PROPERTY(QString fileName READ fileName WRITE openFile NOTIFY fileNameChanged)
     Q_PROPERTY(bool fullSize READ fullSize WRITE setFullSize NOTIFY fullSizeChanged)
-    Q_PROPERTY(qreal textSizeMultiplier READ textSizeMultiplier WRITE setTextSizeMultiplier NOTIFY textSizeMultiplierChanged)
 public:
     explicit MainWindow(QWidget *parent = 0);
     QString fileName() const;
     bool fullSize() const;
-
-    qreal textSizeMultiplier() const;
-    void setTextSizeMultiplier(qreal factor);
 
 public slots:
     void openFile(QString newFileName);
@@ -42,14 +38,12 @@ signals:
     void fileNameChanged();
     void fullSizeChanged();
     void newWindow();
-    void textSizeMultiplierChanged();
 
 private slots:
     void showSettingsDialog();
 
 private:
     QString m_fileName;
-    qreal m_textSizeMultiplier;
 };
 
 #endif
