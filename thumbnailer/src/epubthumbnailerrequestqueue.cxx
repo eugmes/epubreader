@@ -16,11 +16,19 @@
 
 #include "epubthumbnailerrequestqueue.h"
 #include "epubthumbnailerrequest.h"
+#include <QTimer>
+#include <QCoreApplication>
+#include <QDebug>
+
+#define DEFAULT_TIMEOUT 60000
 
 EPUBThumbnailerRequestQueue::EPUBThumbnailerRequestQueue(QObject *parent) :
     QObject(parent), m_requestCounter(0), m_busy(false)
 {
-
+    m_timeoutTimer = new QTimer(this);
+    connect(m_timeoutTimer, SIGNAL(timeout()), SLOT(timeout()));
+    m_timeoutTimer->setInterval(DEFAULT_TIMEOUT);
+    m_timeoutTimer->start();
 }
 
 uint EPUBThumbnailerRequestQueue::enqueue(const QStringList &uris)
@@ -41,6 +49,7 @@ void EPUBThumbnailerRequestQueue::processRequest()
     if (m_requests.isEmpty()) {
         m_busy = false;
         emit requestQueueEmpty();
+        m_timeoutTimer->start();
         return;
     }
 
@@ -55,4 +64,14 @@ void EPUBThumbnailerRequestQueue::processRequest()
 
     emit started(req->handle());
     req->start();
+    m_timeoutTimer->stop();
+}
+
+void EPUBThumbnailerRequestQueue::timeout()
+{
+    qDebug() << "timeout";
+    if (m_busy || !m_requests.isEmpty())
+        m_timeoutTimer->start(); // This should not actually happen. Maybe call stop() instead?`
+    else
+        QCoreApplication::instance()->quit();
 }

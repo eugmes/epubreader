@@ -21,6 +21,7 @@
 #include <QQueue>
 
 class EPUBThumbnailerRequest;
+class QTimer;
 
 class EPUBThumbnailerRequestQueue : public QObject {
     Q_OBJECT
@@ -39,11 +40,14 @@ signals:
 
 private slots:
     void processRequest();
+    void timeout();
 
 private:
     uint m_requestCounter;
     QQueue<EPUBThumbnailerRequest *> m_requests;
     bool m_busy;
+
+    QTimer *m_timeoutTimer;
 };
 
 #endif
