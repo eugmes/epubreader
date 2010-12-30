@@ -29,7 +29,7 @@ class ThumbnailerService : public QObject
 public:
     explicit ThumbnailerService(QObject *parent = 0);
 
-    void getThumbnails(const QStringList &fileNames);
+    void getThumbnail(const QString &fileName);
 
 signals:
     void thumbnailReady(const QString &fileName, const QPixmap &img);

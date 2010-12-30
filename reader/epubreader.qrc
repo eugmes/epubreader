@@ -10,5 +10,7 @@
         <file>pics/general_fullsize_b.png</file>
         <file>qml/content/NavigationButton.qml</file>
         <file>qml/epublibrary.qml</file>
+        <file>icons/epubreader.svg</file>
+        <file>qml/content/BookThumbnail.qml</file>
     </qresource>
 </RCC>

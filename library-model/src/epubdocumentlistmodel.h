@@ -22,8 +22,6 @@
 #include <QPixmap>
 
 class OrgFreedesktopTrackerSearchInterface;
-class QPixmap;
-class ThumbnailerService;
 
 class EPUBDocumentListModel : public QAbstractListModel {
     Q_OBJECT
@@ -48,17 +46,14 @@ private:
 
         QString fileName;
         QString title;
-        QPixmap thumbnail;
     };
 
     OrgFreedesktopTrackerSearchInterface *m_search;
-    ThumbnailerService *m_thumbnailer;
 
     QList<EPUBDesc> m_data;
 
 private slots:
     void callFinished(QDBusPendingCallWatcher *call);
-    void thumbnailReady(const QString &fileName, const QPixmap &img);
 };
 
 #endif

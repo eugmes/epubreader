@@ -5,7 +5,7 @@ include(../common.pri)
 
 CONFIG += qt warn_on staticlib dbusinterfaces
 
-QT += dbus
+QT += dbus declarative
 
 INCLUDEPATH += ./src .
 
@@ -17,13 +17,16 @@ DBUS_INTERFACES = \
     src/org.freedesktop.thumbnailer.xml
 
 OTHER_FILES = \
-    src/org.freedesktop.Tracker.Search.xml
+    src/org.freedesktop.Tracker.Search.xml \
+    src/org.freedesktop.thumbnailer.xml
 
 HEADERS += \
     src/dbusdefs.h \
     src/epubdocumentlistmodel.h \
-    src/thumbnailerservice.h
+    src/thumbnailerservice.h \
+    src/thumbnailitem.h
 
 SOURCES += \
     src/epubdocumentlistmodel.cxx \
-    src/thumbnailerservice.cxx
+    src/thumbnailerservice.cxx \
+    src/thumbnailitem.cxx

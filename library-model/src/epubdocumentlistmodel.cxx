@@ -16,7 +16,6 @@
 
 #include "epubdocumentlistmodel.h"
 #include "search_interface.h"
-#include "thumbnailerservice.h"
 #include <QDebug>
 
 #define EPUB_QUERY \
@@ -46,11 +45,8 @@ EPUBDocumentListModel::EPUBDocumentListModel(QObject *parent) :
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
     connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), SLOT(callFinished(QDBusPendingCallWatcher*)));
 
-    m_thumbnailer = new ThumbnailerService(this);
-
     QHash<int, QByteArray> roleNames;
     roleNames[Qt::DisplayRole] = "display";
-    roleNames[Qt::DecorationRole] = "decoration";
     roleNames[FileNameRole] = "fileName";
     setRoleNames(roleNames);
 
@@ -70,6 +66,8 @@ int EPUBDocumentListModel::rowCount(const QModelIndex &parent) const
 
 QVariant EPUBDocumentListModel::data(const QModelIndex &index, int role) const
 {
+    qDebug() << "request" << index << role;
+
     if (!index.isValid())
         return QVariant();
     if (index.parent().isValid())
@@ -82,12 +80,7 @@ QVariant EPUBDocumentListModel::data(const QModelIndex &index, int role) const
     int idx = index.row();
     if (role == Qt::DisplayRole)
         return m_data[idx].title;
-    else if (role == Qt::DecorationRole) {
-        QPixmap img = m_data[idx].thumbnail;
-        if (img.isNull())
-            return QVariant();
-        return img;
-    } else if (role == FileNameRole)
+    else if (role == FileNameRole)
         return m_data[idx].fileName;
     return QVariant();
 }
@@ -114,19 +107,7 @@ void EPUBDocumentListModel::callFinished(QDBusPendingCallWatcher *call)
             m_data << EPUBDesc(l[0], l[2]);
         }
         endResetModel();
-        m_thumbnailer->getThumbnails(fileNames);
     }
 
     call->deleteLater();
-}
-
-void EPUBDocumentListModel::thumbnailReady(const QString &fileName, const QPixmap &img)
-{
-    for (int i = 0; i < m_data.count(); i++) {
-        if (m_data[i].fileName == fileName) {
-            m_data[i].thumbnail = img;
-            emit dataChanged(index(i), index(i));
-            break;
-        }
-    }
 }

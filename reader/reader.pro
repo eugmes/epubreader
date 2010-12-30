@@ -49,7 +49,8 @@ OTHER_FILES += \
     icons/apubreader.png \
     dbus/org.opensource.epubreader.Reader.service \
     qml/content/NavigationButton.qml \
-    qml/epublibrary.qml
+    qml/epublibrary.qml \
+    qml/content/BookThumbnail.qml
 
 RESOURCES += \
     epubreader.qrc

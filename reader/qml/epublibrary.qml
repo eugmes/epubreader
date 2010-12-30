@@ -1,4 +1,5 @@
 import Qt 4.7
+import "content"
 
 Rectangle {
     id: libraryView
@@ -9,10 +10,37 @@ Rectangle {
 
     ListView {
         model: documentListModel
-        delegate: Row {
-            Text {text: display; color: activePalette.windowText}
+        delegate: Item {
+            width: libraryView.width
+            height: 102
+
+            BookThumbnail {
+                id: thumbnail
+
+                file: fileName
+                placeholderIcon: "/icons/epubreader.svg"
+
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    left: parent.left
+                    leftMargin: 4
+                }
+            }
+
+            Text {
+                id: titleText
+
+                text: display;
+                color: activePalette.windowText
+
+                anchors {
+                    left: thumbnail.right
+                    leftMargin: 4
+                }
+            }
         }
 
         anchors.fill: parent
+        anchors.margins: 4
     }
 }

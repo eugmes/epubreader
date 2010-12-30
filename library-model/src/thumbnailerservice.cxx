@@ -34,30 +34,28 @@ static QPixmap loadThumbnailFile(const QString &url)
     QString fileName = QDir::homePath() +
             QLatin1String("/.thumbnails/cropped/") +
             QLatin1String(hash.toHex()) + QLatin1String(".jpeg");
+    qWarning() << "Thumbnail file name:" << fileName;
     return QPixmap(fileName);
 }
 
-void ThumbnailerService::getThumbnails(const QStringList &fileNames)
+void ThumbnailerService::getThumbnail(const QString &fileName)
 {
-    QStringList failedUrls;
-
     // Try to already created thumbnails and request only failed ones
-    foreach (const QString &fileName, fileNames) {
-        QString url = QUrl::fromLocalFile(fileName).toString();
-        QPixmap pix = loadThumbnailFile(url);
-        if (pix.isNull())
-            failedUrls << url;
-        else
-            emit thumbnailReady(fileName, pix);
+    QString url = QUrl::fromLocalFile(fileName).toString();
+    QPixmap pix = loadThumbnailFile(url);
+    if (!pix.isNull()) {
+        emit thumbnailReady(fileName, pix);
+        return;
     }
 
-    if (!failedUrls.isEmpty())
-        m_thumbnailer->Queue(failedUrls, QStringList(), -1);
+    m_thumbnailer->Queue(QStringList() << url, QStringList(), -1);
 }
 
 void ThumbnailerService::readyURLs(const QStringList &urls)
 {
     foreach (const QString &url, urls) {
+        qWarning() << "readyFile" << QUrl(url).toLocalFile();
+
         QPixmap pix = loadThumbnailFile(url);
         if (!pix.isNull())
             emit thumbnailReady(QUrl(url).toLocalFile(), pix);

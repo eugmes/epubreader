@@ -21,6 +21,7 @@
 #include <QDBusConnection>
 #include <QtDeclarative>
 #include <QDBusError>
+#include "thumbnailitem.h"
 
 EPUBApplicationDBusAdapter::EPUBApplicationDBusAdapter(EPUBReaderApplication *app) :
     QDBusAbstractAdaptor(app)
@@ -50,6 +51,7 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
     setApplicationName(QLatin1String("EPUBReader"));
 
     qmlRegisterType<EPUBView>("EPUBReader", 1, 0, "EPUBView");
+    qmlRegisterType<ThumbnailItem>("EPUBReader", 1, 0, "ThumbnailItem");
 
     MainWindow *win = new MainWindow;
 
