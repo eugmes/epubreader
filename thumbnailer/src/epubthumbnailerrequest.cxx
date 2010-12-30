@@ -26,6 +26,7 @@
 EPUBThumbnailerRequest::EPUBThumbnailerRequest(uint handle, const QStringList &uris, QObject *parent) :
     QThread(parent), m_handle(handle), m_uris(uris)
 {
+    connect(this, SIGNAL(finished()), SLOT(deleteLater()));
 }
 
 uint EPUBThumbnailerRequest::handle() const
@@ -41,7 +42,6 @@ void EPUBThumbnailerRequest::run()
 
     emit finished(m_handle);
     quit();
-    //deleteLater(); // FIXME causes problems
 }
 
 #define EPUB_NS_DECL "declare default element namespace \"http://www.idpf.org/2007/opf\";\n"
