@@ -5,7 +5,6 @@ include(../common.pri)
 
 CONFIG += qt warn_on staticlib dbusinterfaces
 
-QT -= gui
 QT += dbus
 
 INCLUDEPATH += ./src .
@@ -14,14 +13,17 @@ INCLUDEPATH += ./src .
 QMAKE_QDBUSXML2CPP = qdbusxml2cpp -i dbusdefs.h
 
 DBUS_INTERFACES = \
-    src/org.freedesktop.Tracker.Search.xml
+    src/org.freedesktop.Tracker.Search.xml \
+    src/org.freedesktop.thumbnailer.xml
 
 OTHER_FILES = \
     src/org.freedesktop.Tracker.Search.xml
 
 HEADERS += \
     src/dbusdefs.h \
-    src/epubdocumentlistmodel.h
+    src/epubdocumentlistmodel.h \
+    src/thumbnailerservice.h
 
 SOURCES += \
-    src/epubdocumentlistmodel.cxx
+    src/epubdocumentlistmodel.cxx \
+    src/thumbnailerservice.cxx

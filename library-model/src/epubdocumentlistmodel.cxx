@@ -16,6 +16,7 @@
 
 #include "epubdocumentlistmodel.h"
 #include "search_interface.h"
+#include "thumbnailerservice.h"
 #include <QDebug>
 
 #define EPUB_QUERY \
@@ -29,11 +30,11 @@
 EPUBDocumentListModel::EPUBDocumentListModel(QObject *parent) :
     QAbstractListModel(parent)
 {
-    search = new OrgFreedesktopTrackerSearchInterface(QLatin1String("org.freedesktop.Tracker"),
+    m_search = new OrgFreedesktopTrackerSearchInterface(QLatin1String("org.freedesktop.Tracker"),
         QLatin1String("/org/freedesktop/Tracker/Search"),
         QDBusConnection::sessionBus(), this);
 
-    QDBusPendingReply<StringListList> reply = search->Query(-1, QLatin1String("Files"),
+    QDBusPendingReply<StringListList> reply = m_search->Query(-1, QLatin1String("Files"),
                                    QStringList() << QLatin1String("DC:Title"),
                                    QLatin1String(""),
                                    QStringList(),
@@ -45,12 +46,18 @@ EPUBDocumentListModel::EPUBDocumentListModel(QObject *parent) :
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
     connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), SLOT(callFinished(QDBusPendingCallWatcher*)));
 
+    m_thumbnailer = new ThumbnailerService(this);
+
+    QHash<int, QByteArray> roleNames;
+    roleNames[Qt::DisplayRole] = "display";
+    roleNames[Qt::DecorationRole] = "decoration";
+    roleNames[FileNameRole] = "fileName";
+    setRoleNames(roleNames);
+
 #ifndef Q_WS_MAEMO_5
     // Add some dummy data
-    EPUBDesc desc;
-    desc.fileName = QLatin1String("/nonexistent.epub");
-    desc.title = QLatin1String("Simple Book");
-    m_data << desc;
+    m_data << EPUBDesc(QLatin1String("/nonexistent.epub"),
+                       QLatin1String("Simple Book"));
 #endif
 }
 
@@ -63,8 +70,6 @@ int EPUBDocumentListModel::rowCount(const QModelIndex &parent) const
 
 QVariant EPUBDocumentListModel::data(const QModelIndex &index, int role) const
 {
-    if (role != Qt::DisplayRole)
-        return QVariant();
     if (!index.isValid())
         return QVariant();
     if (index.parent().isValid())
@@ -73,7 +78,18 @@ QVariant EPUBDocumentListModel::data(const QModelIndex &index, int role) const
         return QVariant();
     if (index.row() >= m_data.size())
         return QVariant();
-    return m_data[index.row()].title;
+
+    int idx = index.row();
+    if (role == Qt::DisplayRole)
+        return m_data[idx].title;
+    else if (role == Qt::DecorationRole) {
+        QPixmap img = m_data[idx].thumbnail;
+        if (img.isNull())
+            return QVariant();
+        return img;
+    } else if (role == FileNameRole)
+        return m_data[idx].fileName;
+    return QVariant();
 }
 
 void EPUBDocumentListModel::callFinished(QDBusPendingCallWatcher *call)
@@ -86,21 +102,31 @@ void EPUBDocumentListModel::callFinished(QDBusPendingCallWatcher *call)
         beginResetModel();
         m_data.clear();
 
+        QStringList fileNames;
         StringListList list = reply.argumentAt<0>();
         foreach (const QStringList &l, list) {
-            EPUBDesc desc;
-
             if (l.length() < 3) {
                 qWarning() << "Wrong entry length";
                 continue;
             }
 
-            desc.fileName = l[0];
-            desc.title = l[2];
-            m_data << desc;
+            fileNames << l[0];
+            m_data << EPUBDesc(l[0], l[2]);
         }
         endResetModel();
+        m_thumbnailer->getThumbnails(fileNames);
     }
 
     call->deleteLater();
+}
+
+void EPUBDocumentListModel::thumbnailReady(const QString &fileName, const QPixmap &img)
+{
+    for (int i = 0; i < m_data.count(); i++) {
+        if (m_data[i].fileName == fileName) {
+            m_data[i].thumbnail = img;
+            emit dataChanged(index(i), index(i));
+            break;
+        }
+    }
 }

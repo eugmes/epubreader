@@ -19,8 +19,11 @@
 
 #include <QAbstractListModel>
 #include <QDBusPendingCallWatcher>
+#include <QPixmap>
 
 class OrgFreedesktopTrackerSearchInterface;
+class QPixmap;
+class ThumbnailerService;
 
 class EPUBDocumentListModel : public QAbstractListModel {
     Q_OBJECT
@@ -30,18 +33,32 @@ public:
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
-private:
-    struct EPUBDesc {
-        QString fileName;
-        QString title;
+    enum Roles {
+        FileNameRole = Qt::UserRole + 1
     };
 
-    OrgFreedesktopTrackerSearchInterface *search;
+private:
+    class EPUBDesc {
+    public:
+        EPUBDesc(const QString &fileName, const QString &title)
+        {
+            this->fileName = fileName;
+            this->title = title;
+        }
+
+        QString fileName;
+        QString title;
+        QPixmap thumbnail;
+    };
+
+    OrgFreedesktopTrackerSearchInterface *m_search;
+    ThumbnailerService *m_thumbnailer;
 
     QList<EPUBDesc> m_data;
 
 private slots:
     void callFinished(QDBusPendingCallWatcher *call);
+    void thumbnailReady(const QString &fileName, const QPixmap &img);
 };
 
 #endif
