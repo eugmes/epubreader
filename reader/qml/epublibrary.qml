@@ -10,34 +10,9 @@ Rectangle {
 
     ListView {
         model: documentListModel
-        delegate: Item {
-            width: libraryView.width
-            height: 102
-
-            BookThumbnail {
-                id: thumbnail
-
-                file: fileName
-                placeholderIcon: "/icons/epubreader.svg"
-
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    left: parent.left
-                    leftMargin: 4
-                }
-            }
-
-            Text {
-                id: titleText
-
-                text: display;
-                color: activePalette.windowText
-
-                anchors {
-                    left: thumbnail.right
-                    leftMargin: 4
-                }
-            }
+        delegate: BookItem {
+            file: fileName
+            bookTitle: display
         }
 
         anchors.fill: parent

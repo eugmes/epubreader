@@ -12,5 +12,6 @@
         <file>qml/epublibrary.qml</file>
         <file>icons/epubreader.svg</file>
         <file>qml/content/BookThumbnail.qml</file>
+        <file>qml/content/BookItem.qml</file>
     </qresource>
 </RCC>

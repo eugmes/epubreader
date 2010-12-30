@@ -50,7 +50,8 @@ OTHER_FILES += \
     dbus/org.opensource.epubreader.Reader.service \
     qml/content/NavigationButton.qml \
     qml/epublibrary.qml \
-    qml/content/BookThumbnail.qml
+    qml/content/BookThumbnail.qml \
+    qml/content/BookItem.qml
 
 RESOURCES += \
     epubreader.qrc
