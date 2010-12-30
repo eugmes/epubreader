@@ -7,7 +7,7 @@ Flickable {
     property alias fileName: epubView.fileName
     property alias prevPage: epubView.prevPage
     property alias nextPage: epubView.nextPage
-    property alias defaultFontSize: epubView.defaultFontSize
+    property alias textSizeMultiplier: epubView.textSizeMultiplier
 
     clip: true
     contentWidth: parent.width // Do not scroll in this direction

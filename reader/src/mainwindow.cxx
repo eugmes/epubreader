@@ -26,7 +26,7 @@
 #include "epublibrarybrowser.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), m_fontSize(20)
+    QMainWindow(parent), m_textSizeMultiplier(1.5)
 {
     setWindowTitle(tr("E-Book Reader"));
 
@@ -105,22 +105,22 @@ void MainWindow::showSettingsDialog()
 {
     SettingsDialog *dlg = new SettingsDialog(this);
 
-    dlg->setFontSize(m_fontSize);
+    dlg->setTextSizeMultiplier(m_textSizeMultiplier);
     if (dlg->exec())
-        setFontSize(dlg->fontSize());
+        setTextSizeMultiplier(dlg->textSizeMultiplier());
     delete dlg;
 }
 
-int MainWindow::fontSize() const
+qreal MainWindow::textSizeMultiplier() const
 {
-    return m_fontSize;
+    return m_textSizeMultiplier;
 }
 
-void MainWindow::setFontSize(int size)
+void MainWindow::setTextSizeMultiplier(qreal ratio)
 {
-    if (size != m_fontSize) {
-        m_fontSize = size;
-        emit fontSizeChanged();
+    if (ratio != m_textSizeMultiplier) {
+        m_textSizeMultiplier = ratio;
+        emit textSizeMultiplierChanged();
     }
 }
 

@@ -28,7 +28,7 @@ class EPUBView : public QGraphicsWebView {
     Q_PROPERTY(QAction* nextPage READ nextPageAction CONSTANT)
     Q_PROPERTY(int preferredWidth READ preferredWidth WRITE setPreferredWidth NOTIFY preferredWidthChanged)
     Q_PROPERTY(int preferredHeight READ preferredHeight WRITE setPreferredHeight NOTIFY preferredHeightChanged)
-    Q_PROPERTY(int defaultFontSize READ defaultFontSize WRITE setDefaultFontSize)
+    Q_PROPERTY(qreal textSizeMultiplier READ textSizeMultiplier WRITE setTextSizeMultiplier)
 public:
     explicit EPUBView(QGraphicsItem *parent = 0);
 
@@ -38,7 +38,9 @@ public:
 
     int preferredWidth() const;
     int preferredHeight() const;
-    int defaultFontSize() const;
+
+    qreal textSizeMultiplier() const;
+    void setTextSizeMultiplier(qreal factor);
 
 public slots:
     bool openFile(const QString &fileName);
@@ -48,7 +50,6 @@ public slots:
 
     void setPreferredWidth(int width);
     void setPreferredHeight(int height);
-    void setDefaultFontSize(int size);
 
 signals:
     void preferredHeightChanged();

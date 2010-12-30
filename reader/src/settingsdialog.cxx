@@ -29,12 +29,12 @@ SettingsDialog::~SettingsDialog()
     delete ui;
 }
 
-int SettingsDialog::fontSize() const
+qreal SettingsDialog::textSizeMultiplier() const
 {
-    return ui->fontSizeSlider->value();
+    return ui->fontSizeSlider->value() / 10.0;
 }
 
-void SettingsDialog::setFontSize(int size)
+void SettingsDialog::setTextSizeMultiplier(qreal ratio)
 {
-    ui->fontSizeSlider->setValue(size);
+    ui->fontSizeSlider->setValue(ratio * 10);
 }

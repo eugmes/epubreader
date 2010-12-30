@@ -12,7 +12,7 @@ Rectangle {
         id: epubView
 
         fileName: mainWindow.fileName
-        defaultFontSize: mainWindow.fontSize
+        textSizeMultiplier: mainWindow.textSizeMultiplier
 
         anchors {top: parent.top; left: parent.left; right: parent.right; bottom: toolBar.top}
     }

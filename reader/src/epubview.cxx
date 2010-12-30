@@ -190,12 +190,12 @@ void EPUBView::resizeContent()
     page()->setPreferredContentsSize(QSize(m_preferredWidth, m_preferredHeight));
 }
 
-int EPUBView::defaultFontSize() const
+qreal EPUBView::textSizeMultiplier() const
 {
-    return settings()->fontSize(QWebSettings::DefaultFontSize);
+    return page()->mainFrame()->textSizeMultiplier();
 }
 
-void EPUBView::setDefaultFontSize(int size)
+void EPUBView::setTextSizeMultiplier(qreal factor)
 {
-    settings()->setFontSize(QWebSettings::DefaultFontSize, size);
+    page()->mainFrame()->setTextSizeMultiplier(factor);
 }
