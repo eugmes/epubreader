@@ -20,7 +20,8 @@ SOURCES = \
     src/settingsdialog.cxx \
     src/epubreaderapplication.cxx \
     src/epublibrarybrowser.cxx \
-    src/epubreadersettings.cxx
+    src/epubreadersettings.cxx \
+    src/epubtocwindow.cxx
 
 HEADERS = \
     src/epubaccessmanager.h \
@@ -30,7 +31,8 @@ HEADERS = \
     src/settingsdialog.h \
     src/epubreaderapplication.h \
     src/epublibrarybrowser.h \
-    src/epubreadersettings.h
+    src/epubreadersettings.h \
+    src/epubtocwindow.h
 
 CONFIG += qt warn_on
 
@@ -53,7 +55,8 @@ OTHER_FILES += \
     qml/content/NavigationButton.qml \
     qml/epublibrary.qml \
     qml/content/BookThumbnail.qml \
-    qml/content/BookItem.qml
+    qml/content/BookItem.qml \
+    qml/tocbrowser.qml
 
 RESOURCES += \
     epubreader.qrc

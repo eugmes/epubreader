@@ -41,6 +41,15 @@ Rectangle {
             }
 
             Button {
+                id: tocButton
+                image: "/pics/qgn_back_fsm.png" // TODO
+
+                onClicked: {
+                    mainWindow.showToc(epubView.tocDocument)
+                }
+            }
+
+            Button {
                 id: nextButton
                 image: "/pics/qgn_forward_fsm.png"
                 action: epubView.nextPage

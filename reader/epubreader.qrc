@@ -13,5 +13,6 @@
         <file>icons/epubreader.svg</file>
         <file>qml/content/BookThumbnail.qml</file>
         <file>qml/content/BookItem.qml</file>
+        <file>qml/tocbrowser.qml</file>
     </qresource>
 </RCC>

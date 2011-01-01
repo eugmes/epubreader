@@ -14,37 +14,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef EPUBTOCWINDOW_H
+#define EPUBTOCWINDOW_H
 
 #include <QMainWindow>
 
-class MainWindow : public QMainWindow {
+class EPUBTOCWindow : public QMainWindow {
     Q_OBJECT
-    Q_PROPERTY(QString fileName READ fileName WRITE openFile NOTIFY fileNameChanged)
-    Q_PROPERTY(bool fullSize READ fullSize WRITE setFullSize NOTIFY fullSizeChanged)
+    Q_PROPERTY(QByteArray document READ document CONSTANT)
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    QString fileName() const;
-    bool fullSize() const;
+    explicit EPUBTOCWindow(const QByteArray &xml, QWidget *parent = 0);
 
-public slots:
-    void openFile(QString newFileName);
-    void chooseFile();
-    void setFullSize(bool set);
-    void showLibrary();
-    void showToc(const QByteArray &xml);
-
-signals:
-    void fileNameChanged();
-    void fullSizeChanged();
-    void newWindow();
-
-private slots:
-    void showSettingsDialog();
+    QByteArray document() const;
 
 private:
-    QString m_fileName;
+    QByteArray m_doc;
 };
 
 #endif

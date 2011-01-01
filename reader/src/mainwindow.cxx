@@ -26,6 +26,7 @@
 #include "epublibrarybrowser.h"
 #include "epubreaderapplication.h"
 #include "epubreadersettings.h"
+#include "epubtocwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -118,6 +119,19 @@ void MainWindow::showLibrary()
     EPUBLibraryBrowser *win = new EPUBLibraryBrowser(this);
     win->setWindowModality(Qt::WindowModal);
     connect(win, SIGNAL(openFileRequest(QString)), SLOT(openFile(QString)));
+
+#ifdef Q_WS_MAEMO_5
+    win->showMaximized();
+#else
+    win->setGeometry(100, 100, 800, 480);
+    win->show();
+#endif
+}
+
+void MainWindow::showToc(const QByteArray &xml)
+{
+    EPUBTOCWindow *win = new EPUBTOCWindow(xml, this);
+    win->setWindowModality(Qt::WindowModal);
 
 #ifdef Q_WS_MAEMO_5
     win->showMaximized();
