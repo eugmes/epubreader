@@ -68,8 +68,6 @@ int EPUBDocumentListModel::rowCount(const QModelIndex &parent) const
 
 QVariant EPUBDocumentListModel::data(const QModelIndex &index, int role) const
 {
-    qDebug() << "request" << index << role;
-
     if (!index.isValid())
         return QVariant();
     if (index.parent().isValid())
