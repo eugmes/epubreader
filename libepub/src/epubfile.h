@@ -55,6 +55,9 @@ public:
     };
 
     PageInfo getPathInfo(const QString &path) const;
+
+    QByteArray tocDocument();
+
 private:
     void parseContentFile(const QString &fileName);
     bool parseManifest(const QXmlQuery &parentQuery, QXmlResultItems &items);
@@ -86,6 +89,8 @@ private:
     QList<SpineItem> m_spine;
 
     QString m_contentPrefix;
+
+    QString m_tocName;
 };
 
 #endif

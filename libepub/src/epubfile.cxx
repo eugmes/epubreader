@@ -126,6 +126,8 @@ void EPUBFile::parseContentFile(const QString &fileName)
         m_status = ContentError;
         return;
     }
+    m_tocName = toc.toAtomicValue().toString();
+
     query.setQuery(QLatin1String(EPUB_NS_DECL "package/spine/itemref"));
     QXmlResultItems spineResult;
     query.evaluateTo(&spineResult);
@@ -284,4 +286,18 @@ EPUBFile::PageInfo EPUBFile::getPathInfo(const QString &path) const
         }
     }
     return PageInfo(false, false);
+}
+
+QByteArray EPUBFile::tocDocument()
+{
+    QString filePath = getFilePathByID(m_tocName);
+    if (filePath.isEmpty())
+        return QByteArray();
+
+    QString mimeType;
+    QByteArray fileContent = getFileByPath(filePath, &mimeType);
+    if (mimeType != QLatin1String("application/x-dtbncx+xml"))
+        return QByteArray();
+
+    return fileContent;
 }
