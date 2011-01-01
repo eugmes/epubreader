@@ -34,7 +34,7 @@ EPUBDocumentListModel::EPUBDocumentListModel(QObject *parent) :
         QDBusConnection::sessionBus(), this);
 
     QDBusPendingReply<StringListList> reply = m_search->Query(-1, QLatin1String("Files"),
-                                   QStringList() << QLatin1String("DC:Title"),
+                                   QStringList() << QLatin1String("DC:Title") << QLatin1String("DC:Creator"),
                                    QLatin1String(""),
                                    QStringList(),
                                    QLatin1String(EPUB_QUERY),
@@ -48,12 +48,14 @@ EPUBDocumentListModel::EPUBDocumentListModel(QObject *parent) :
     QHash<int, QByteArray> roleNames;
     roleNames[Qt::DisplayRole] = "display";
     roleNames[FileNameRole] = "fileName";
+    roleNames[AuthorRole] = "author";
     setRoleNames(roleNames);
 
 #ifndef Q_WS_MAEMO_5
     // Add some dummy data
     m_data << EPUBDesc(QLatin1String("/nonexistent.epub"),
-                       QLatin1String("Simple Book"));
+                       QLatin1String("Sample Book"),
+                       QLatin1String("An Author"));
 #endif
 }
 
@@ -82,6 +84,8 @@ QVariant EPUBDocumentListModel::data(const QModelIndex &index, int role) const
         return m_data[idx].title;
     else if (role == FileNameRole)
         return m_data[idx].fileName;
+    else if (role == AuthorRole)
+        return m_data[idx].author;
     return QVariant();
 }
 
@@ -95,16 +99,14 @@ void EPUBDocumentListModel::callFinished(QDBusPendingCallWatcher *call)
         beginResetModel();
         m_data.clear();
 
-        QStringList fileNames;
         StringListList list = reply.argumentAt<0>();
         foreach (const QStringList &l, list) {
-            if (l.length() < 3) {
+            if (l.length() < 4) {
                 qWarning() << "Wrong entry length";
                 continue;
             }
 
-            fileNames << l[0];
-            m_data << EPUBDesc(l[0], l[2]);
+            m_data << EPUBDesc(l[0], l[2], l[3]);
         }
         endResetModel();
     }

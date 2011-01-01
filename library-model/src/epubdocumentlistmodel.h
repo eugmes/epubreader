@@ -32,20 +32,23 @@ public:
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
     enum Roles {
-        FileNameRole = Qt::UserRole + 1
+        FileNameRole = Qt::UserRole + 1,
+        AuthorRole
     };
 
 private:
     class EPUBDesc {
     public:
-        EPUBDesc(const QString &fileName, const QString &title)
+        EPUBDesc(const QString &fileName, const QString &title, const QString &author)
         {
             this->fileName = fileName;
             this->title = title;
+            this->author = author;
         }
 
         QString fileName;
         QString title;
+        QString author;
     };
 
     OrgFreedesktopTrackerSearchInterface *m_search;

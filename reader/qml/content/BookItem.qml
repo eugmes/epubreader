@@ -3,6 +3,7 @@ import Qt 4.7
 Item {
     property string file: null
     property string bookTitle: null
+    property string bookAuthor: null
 
     signal clicked
 
@@ -24,15 +25,36 @@ Item {
         }
     }
 
-    Text {
-        id: titleText
+    Column {
+        Text {
+            id: titleText
 
-        text: bookTitle;
-        color: activePalette.windowText
+            text: bookTitle;
+            color: activePalette.windowText
+
+            font {
+                /* system font */
+                family: "Nokia Sans"
+                pointSize: 18
+            }
+        }
+
+        Text {
+            id: additionalText
+
+            text: bookAuthor
+            color: disabledPalette.windowText
+
+            font {
+                /* small system font */
+                family: "Nokia Sans"
+                pointSize: 13
+            }
+        }
 
         anchors {
             left: thumbnail.right
-            leftMargin: 4
+            leftMargin: 8
         }
     }
 
@@ -41,5 +63,10 @@ Item {
         anchors.fill: parent
 
         onClicked: bookItem.clicked()
+    }
+
+    anchors {
+        topMargin: 2
+        bottomMargin: 2
     }
 }
