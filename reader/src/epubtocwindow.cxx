@@ -18,8 +18,8 @@
 #include <QDeclarativeView>
 #include <QDeclarativeContext>
 
-EPUBTOCWindow::EPUBTOCWindow(const QByteArray &xml, QWidget *parent) :
-    QMainWindow(parent), m_doc(xml)
+EPUBTOCWindow::EPUBTOCWindow(const QString &url, QWidget *parent) :
+    QMainWindow(parent), m_url(url)
 {
     setWindowTitle(tr("Table of Content"));
 
@@ -37,7 +37,7 @@ EPUBTOCWindow::EPUBTOCWindow(const QByteArray &xml, QWidget *parent) :
 #endif
 }
 
-QByteArray EPUBTOCWindow::document() const
+QString EPUBTOCWindow::tocUrl() const
 {
-    return m_doc;
+    return m_url;
 }

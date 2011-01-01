@@ -31,7 +31,7 @@ class EPUBView : public QGraphicsWebView {
     Q_PROPERTY(qreal textSizeMultiplier READ textSizeMultiplier WRITE setTextSizeMultiplier)
     Q_PROPERTY(QString defaultFont READ defaultFont WRITE setDefaultFont)
     Q_PROPERTY(int backgroundIndex READ backgroundIndex WRITE setBackgroundIndex)
-    Q_PROPERTY(QByteArray tocDocument READ tocDocument)
+    Q_PROPERTY(QString tocUrl READ tocUrl)
 public:
     explicit EPUBView(QGraphicsItem *parent = 0);
 
@@ -51,7 +51,8 @@ public:
     int backgroundIndex() const;
     void setBackgroundIndex(int idx);
 
-    QByteArray tocDocument();
+    QString tocUrl();
+
 public slots:
     bool openFile(const QString &fileName);
 

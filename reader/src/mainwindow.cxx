@@ -128,9 +128,9 @@ void MainWindow::showLibrary()
 #endif
 }
 
-void MainWindow::showToc(const QByteArray &xml)
+void MainWindow::showToc(const QString &url)
 {
-    EPUBTOCWindow *win = new EPUBTOCWindow(xml, this);
+    EPUBTOCWindow *win = new EPUBTOCWindow(url, this);
     win->setWindowModality(Qt::WindowModal);
 
 #ifdef Q_WS_MAEMO_5

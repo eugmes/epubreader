@@ -247,9 +247,11 @@ void EPUBView::setDefaultFont(const QString &font)
     settings()->setFontFamily(QWebSettings::StandardFont, font);
 }
 
-QByteArray EPUBView::tocDocument()
+QString EPUBView::tocUrl()
 {
+    QByteArray doc;
+
     if (m_epub)
-        return m_epub->tocDocument();
-    return QByteArray();
+        doc = m_epub->tocDocument();
+    return QLatin1String("data:application/x-dtbncx+xml;base64,") + QLatin1String(doc.toBase64());
 }

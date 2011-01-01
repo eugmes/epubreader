@@ -21,14 +21,14 @@
 
 class EPUBTOCWindow : public QMainWindow {
     Q_OBJECT
-    Q_PROPERTY(QByteArray document READ document CONSTANT)
+    Q_PROPERTY(QString tocUrl READ tocUrl CONSTANT)
 public:
-    explicit EPUBTOCWindow(const QByteArray &xml, QWidget *parent = 0);
+    explicit EPUBTOCWindow(const QString &url, QWidget *parent = 0);
 
-    QByteArray document() const;
+    QString tocUrl() const;
 
 private:
-    QByteArray m_doc;
+    QString m_url;
 };
 
 #endif

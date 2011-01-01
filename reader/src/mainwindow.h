@@ -33,7 +33,7 @@ public slots:
     void chooseFile();
     void setFullSize(bool set);
     void showLibrary();
-    void showToc(const QByteArray &xml);
+    void showToc(const QString &url);
 
 signals:
     void fileNameChanged();

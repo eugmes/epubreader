@@ -45,7 +45,7 @@ Rectangle {
                 image: "/pics/qgn_back_fsm.png" // TODO
 
                 onClicked: {
-                    mainWindow.showToc(epubView.tocDocument)
+                    mainWindow.showToc(epubView.tocUrl)
                 }
             }
 
@@ -62,7 +62,7 @@ Rectangle {
                 mainWindow.fullSize = true
             }
 
-            anchors.right:  parent.right
+            anchors.right: parent.right
         }
     }
 
