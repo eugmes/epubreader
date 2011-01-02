@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QDeclarativeView *view = new QDeclarativeView;
     view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     view->rootContext()->setContextProperty(QLatin1String("mainWindow"), this);
-    EPUBReaderSettings *settings = qobject_cast<EPUBReaderApplication *>(QCoreApplication::instance())->settings();
+    EPUBReaderSettings *settings = EPUBReaderApplication::settings();
     view->rootContext()->setContextProperty(QLatin1String("settings"), settings);
     view->setSource(QUrl(QLatin1String("qrc:/qml/epubreader.qml")));
 

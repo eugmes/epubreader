@@ -98,9 +98,9 @@ void EPUBReaderApplication::openFile(const QString &fileName)
     showNewWindow(win);
 }
 
-EPUBReaderSettings *EPUBReaderApplication::settings() const
+EPUBReaderSettings *EPUBReaderApplication::settings()
 {
-    return m_settings;
+    return qobject_cast<EPUBReaderApplication *>(instance())->m_settings;
 }
 
 void EPUBReaderApplication::openNewWindow()

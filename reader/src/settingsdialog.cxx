@@ -33,7 +33,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     cb->addItem(tr("Gray"));
     cb->setItemData(2, QColor(Qt::gray), Qt::DecorationRole);
 
-    EPUBReaderSettings *settings = qobject_cast<EPUBReaderApplication *>(QCoreApplication::instance())->settings();
+    EPUBReaderSettings *settings = EPUBReaderApplication::settings();
     ui->fontSizeSlider->setValue(settings->textSizeMultiplier() * 10);
     ui->fontComboBox->setCurrentFont(settings->fontFamily());
     ui->backgroundComboBox->setCurrentIndex(settings->colorIndex());
@@ -46,7 +46,7 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::accept()
 {
-    EPUBReaderSettings *settings = qobject_cast<EPUBReaderApplication *>(QCoreApplication::instance())->settings();
+    EPUBReaderSettings *settings = EPUBReaderApplication::settings();
     settings->setTextSizeMultiplier(ui->fontSizeSlider->value() / 10.0);
     settings->setFontFamily(ui->fontComboBox->currentFont().family());
     settings->setColorIndex(ui->backgroundComboBox->currentIndex());

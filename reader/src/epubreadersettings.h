@@ -37,6 +37,14 @@ public:
     int colorIndex() const;
     void setColorIndex(int idx);
 
+    Q_INVOKABLE QString lastUrlForFile(const QString &path);
+
+public slots:
+    void saveLastURL(const QString &fileName, const QString &url);
+
+private:
+    QList<QPair<QString, QString> > getLastURLs();
+
 signals:
     void textSizeMultiplierChanged();
     void fontFamilyChanged();

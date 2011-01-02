@@ -21,6 +21,8 @@
 #include <QWebFrame>
 #include <QDebug>
 #include <QDir>
+#include "epubreaderapplication.h"
+#include "epubreadersettings.h"
 
 #define STYLESHEET_TEMPLATE \
     "html {" \
@@ -107,6 +109,9 @@ bool EPUBView::openFile(const QString &fileName)
 {
     if (fileName.isEmpty())
         return false;
+
+    EPUBReaderSettings *settings = EPUBReaderApplication::settings();
+    settings->saveLastURL(m_fileName, url().toString());
 
     EPUBAccessManager *manager = qobject_cast<EPUBAccessManager *>(page()->networkAccessManager());
     Q_ASSERT(manager);

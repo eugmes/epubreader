@@ -30,7 +30,7 @@ public:
     explicit EPUBReaderApplication(int &argc, char **argv);
 
     void openFile(const QString &fileName);
-    EPUBReaderSettings *settings() const;
+    static EPUBReaderSettings *settings();
 
 public slots:
     void openNewWindow();

@@ -11,6 +11,7 @@ Flickable {
     property alias defaultFont: epubView.defaultFont
     property alias backgroundIndex: epubView.backgroundIndex
     property alias tocUrl: epubView.tocUrl
+    property alias url: epubView.url
 
     function openTocDocumentRequest(path) {
         epubView.openTocDocumentRequest(path)
