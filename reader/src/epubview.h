@@ -62,6 +62,8 @@ public slots:
     void setPreferredWidth(int width);
     void setPreferredHeight(int height);
 
+    void openTocDocumentRequest(const QString &path);
+
 signals:
     void preferredHeightChanged();
     void preferredWidthChanged();

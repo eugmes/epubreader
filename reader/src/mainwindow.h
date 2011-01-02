@@ -39,6 +39,7 @@ signals:
     void fileNameChanged();
     void fullSizeChanged();
     void newWindow();
+    void openTocDocumentRequest(const QString &path);
 
 private slots:
     void showSettingsDialog();

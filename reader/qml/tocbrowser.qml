@@ -13,9 +13,7 @@ Rectangle {
 
         model: TOCModel {source: tocWindow.tocUrl}
         delegate: TOCItem {
-            onClicked: {
-                // TODO
-            }
+            onClicked: tocWindow.openTocDocument(path)
         }
 
         anchors.fill: parent

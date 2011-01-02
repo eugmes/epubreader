@@ -92,4 +92,6 @@ Rectangle {
         PropertyChanges {target: toolBar; visible: false}
         PropertyChanges {target: epubView; anchors.bottom: mainView.bottom}
     }
+
+    Component.onCompleted: mainWindow.openTocDocumentRequest.connect(epubView.openTocDocumentRequest)
 }

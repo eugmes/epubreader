@@ -20,6 +20,7 @@
 #include <QAction>
 #include <QWebFrame>
 #include <QDebug>
+#include <QDir>
 
 #define STYLESHEET_TEMPLATE \
     "html {" \
@@ -254,4 +255,15 @@ QString EPUBView::tocUrl()
     if (m_epub)
         doc = m_epub->tocDocument();
     return QLatin1String("data:application/x-dtbncx+xml;base64,") + QLatin1String(doc.toBase64());
+}
+
+void EPUBView::openTocDocumentRequest(const QString &path)
+{
+    if (!m_epub)
+        return;
+
+    if (QDir::isAbsolutePath(path))
+        showPath(trimPath(path));
+    else
+        showPath(trimPath(QDir::cleanPath(m_epub->tocPrefix() + QLatin1Char('/') + path)));
 }

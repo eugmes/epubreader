@@ -41,3 +41,9 @@ QString EPUBTOCWindow::tocUrl() const
 {
     return m_url;
 }
+
+void EPUBTOCWindow::openTocDocument(const QString &path)
+{
+    emit openTocDocumentRequest(path);
+    close();
+}

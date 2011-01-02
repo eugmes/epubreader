@@ -132,6 +132,7 @@ void MainWindow::showToc(const QString &url)
 {
     EPUBTOCWindow *win = new EPUBTOCWindow(url, this);
     win->setWindowModality(Qt::WindowModal);
+    connect(win, SIGNAL(openTocDocumentRequest(QString)), SIGNAL(openTocDocumentRequest(QString)));
 
 #ifdef Q_WS_MAEMO_5
     win->showMaximized();

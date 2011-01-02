@@ -28,6 +28,7 @@ class QXmlQuery;
 class EPUBFile : public QObject {
     Q_OBJECT
     Q_PROPERTY(QString metadata READ metadata)
+    Q_PROPERTY(QString tocPrefix READ tocPrefix)
 public:
     explicit EPUBFile(const QString &fileName, QObject *parent = 0);
 
@@ -57,6 +58,7 @@ public:
     PageInfo getPathInfo(const QString &path) const;
 
     QByteArray tocDocument();
+    QString tocPrefix();
 
 private:
     void parseContentFile(const QString &fileName);

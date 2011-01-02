@@ -27,6 +27,12 @@ public:
 
     QString tocUrl() const;
 
+public slots:
+    void openTocDocument(const QString &path);
+
+signals:
+    void openTocDocumentRequest(const QString &path);
+
 private:
     QString m_url;
 };

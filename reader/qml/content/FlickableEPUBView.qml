@@ -12,6 +12,10 @@ Flickable {
     property alias backgroundIndex: epubView.backgroundIndex
     property alias tocUrl: epubView.tocUrl
 
+    function openTocDocumentRequest(path) {
+        epubView.openTocDocumentRequest(path)
+    }
+
     clip: true
     contentWidth: parent.width // Do not scroll in this direction
     contentHeight: Math.max(parent.height, epubView.height)

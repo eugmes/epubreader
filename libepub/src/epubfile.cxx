@@ -22,6 +22,7 @@
 #include <QRegExp>
 #include <QBuffer>
 #include <QDebug>
+#include <QDir>
 
 EPUBFile::EPUBFile(const QString &fileName, QObject *parent) :
     QObject(parent), m_zip(new ZipReader(fileName))
@@ -286,6 +287,22 @@ EPUBFile::PageInfo EPUBFile::getPathInfo(const QString &path) const
         }
     }
     return PageInfo(false, false);
+}
+
+QString EPUBFile::tocPrefix()
+{
+    QString filePath = getFilePathByID(m_tocName);
+    QRegExp rx(QLatin1String("^/?(.*/)([^/]*)?$"));
+    QString prefix;
+
+    if (rx.exactMatch(filePath))
+        prefix = rx.cap(1);
+
+    if (QDir::isAbsolutePath(prefix))
+        return prefix;
+
+    return QDir::cleanPath(m_contentPrefix + QLatin1Char('/') + prefix);
+
 }
 
 QByteArray EPUBFile::tocDocument()
