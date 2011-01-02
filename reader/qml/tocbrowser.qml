@@ -16,6 +16,8 @@ Rectangle {
             onClicked: tocWindow.openTocDocument(path)
         }
 
+        spacing: 4
+
         anchors.fill: parent
     }
 }
