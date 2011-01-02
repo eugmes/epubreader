@@ -31,6 +31,7 @@ public:
 
     void openFile(const QString &fileName);
     static EPUBReaderSettings *settings();
+    static Qt::GestureType swipeGestureType();
 
 public slots:
     void openNewWindow();
@@ -39,6 +40,7 @@ private:
     void showNewWindow(MainWindow *win);
 
     EPUBReaderSettings *m_settings;
+    Qt::GestureType m_swipeGestureType;
 };
 
 class EPUBApplicationDBusAdapter : public QDBusAbstractAdaptor {

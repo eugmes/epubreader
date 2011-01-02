@@ -23,6 +23,7 @@
 #include <QDir>
 #include "epubreaderapplication.h"
 #include "epubreadersettings.h"
+#include "horizmouseswipegesture.h"
 
 #define STYLESHEET_TEMPLATE \
     "html {" \
@@ -74,6 +75,9 @@ EPUBView::EPUBView(QGraphicsItem *parent) :
     setResizesToContents(true);
 
     setBackgroundIndex(0);
+
+    m_swipeGestureType = EPUBReaderApplication::swipeGestureType();
+    grabGesture(m_swipeGestureType);
 }
 
 int EPUBView::backgroundIndex() const
@@ -278,4 +282,21 @@ void EPUBView::openTocDocumentRequest(const QString &path)
         load(QLatin1String("epub/") + trimPath(path));
     else
         load(QLatin1String("epub:/") + trimPath(QDir::cleanPath(/*m_epub->tocPrefix() + QLatin1Char('/') +*/ path))); // FIXME XXX clean this up
+}
+
+bool EPUBView::sceneEvent(QEvent *event)
+{
+    if (event->type() == QEvent::Gesture) {
+        QGestureEvent *ge = static_cast<QGestureEvent *>(event);
+        HorizMouseSwipeGesture *g = static_cast<HorizMouseSwipeGesture *>(ge->gesture(m_swipeGestureType));
+        if (g->state() == Qt::GestureFinished) {
+            if (!g->left())
+                showPrevPage();
+            else
+                showNextPage();
+        }
+        return true;
+    }
+
+    return QGraphicsWebView::sceneEvent(event);
 }

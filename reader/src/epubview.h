@@ -70,6 +70,9 @@ signals:
 
     void badFile();
 
+protected:
+    virtual bool sceneEvent(QEvent *event);
+
 private slots:
     void handleUrlChange(const QUrl &url);
 
@@ -88,6 +91,8 @@ private:
     int m_preferredHeight;
 
     int m_backgroundIndex;
+
+    Qt::GestureType m_swipeGestureType;
 };
 
 #endif

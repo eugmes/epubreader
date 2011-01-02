@@ -23,6 +23,7 @@
 #include <QDBusError>
 #include "thumbnailitem.h"
 #include "epubreadersettings.h"
+#include "horizmouseswipegesturerecognizer.h"
 
 EPUBApplicationDBusAdapter::EPUBApplicationDBusAdapter(EPUBReaderApplication *app) :
     QDBusAbstractAdaptor(app)
@@ -49,6 +50,8 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
     QApplication(argc, argv)
 {
     setApplicationName(QLatin1String("EPUBReader"));
+
+    m_swipeGestureType = QGestureRecognizer::registerRecognizer(new HorizMouseSwipeGestureRecognizer);
 
     m_settings = new EPUBReaderSettings(this);
 
@@ -101,6 +104,11 @@ void EPUBReaderApplication::openFile(const QString &fileName)
 EPUBReaderSettings *EPUBReaderApplication::settings()
 {
     return qobject_cast<EPUBReaderApplication *>(instance())->m_settings;
+}
+
+Qt::GestureType EPUBReaderApplication::swipeGestureType()
+{
+    return qobject_cast<EPUBReaderApplication *>(instance())->m_swipeGestureType;
 }
 
 void EPUBReaderApplication::openNewWindow()

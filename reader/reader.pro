@@ -21,7 +21,9 @@ SOURCES = \
     src/epubreaderapplication.cxx \
     src/epublibrarybrowser.cxx \
     src/epubreadersettings.cxx \
-    src/epubtocwindow.cxx
+    src/epubtocwindow.cxx \
+    src/horizmouseswipegesture.cxx \
+    src/horizmouseswipegesturerecognizer.cxx
 
 HEADERS = \
     src/epubaccessmanager.h \
@@ -32,7 +34,9 @@ HEADERS = \
     src/epubreaderapplication.h \
     src/epublibrarybrowser.h \
     src/epubreadersettings.h \
-    src/epubtocwindow.h
+    src/epubtocwindow.h \
+    src/horizmouseswipegesture.h \
+    src/horizmouseswipegesturerecognizer.h
 
 CONFIG += qt warn_on
 
