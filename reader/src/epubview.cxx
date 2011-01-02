@@ -265,5 +265,5 @@ void EPUBView::openTocDocumentRequest(const QString &path)
     if (QDir::isAbsolutePath(path))
         showPath(trimPath(path));
     else
-        showPath(trimPath(QDir::cleanPath(m_epub->tocPrefix() + QLatin1Char('/') + path)));
+        showPath(trimPath(QDir::cleanPath(/*m_epub->tocPrefix() + QLatin1Char('/') +*/ path))); // FIXME XXX clean this up
 }
