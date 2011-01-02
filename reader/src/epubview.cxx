@@ -129,10 +129,17 @@ bool EPUBView::openFile(const QString &fileName)
         m_epub = newEPUB;
 
         manager->setDocument(m_epub);
-        QString defaultPage = m_epub->getDefaultID();
-        QString path = m_epub->getFilePathByID(defaultPage);
         m_fileName = fileName;
-        showPath(path);
+
+        /* open last viewed page or default one if not found */
+        QString lastUrl = settings->lastUrlForFile(fileName);
+        if (lastUrl.isEmpty()) {
+            QString defaultPage = m_epub->getDefaultID();
+            QString path = m_epub->getFilePathByID(defaultPage);
+            showPath(path);
+        } else
+            load(lastUrl);
+
         return true;
     }
 
