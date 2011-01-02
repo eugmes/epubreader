@@ -75,6 +75,7 @@ protected:
 
 private slots:
     void handleUrlChange(const QUrl &url);
+    void handleExternalLink(const QUrl &url);
 
 private:
     void showPath(const QString &path);

@@ -21,6 +21,8 @@
 #include <QWebFrame>
 #include <QDebug>
 #include <QDir>
+#include <QWebSecurityOrigin>
+#include <QDesktopServices>
 #include "epubreaderapplication.h"
 #include "epubreadersettings.h"
 #include "horizmouseswipegesture.h"
@@ -53,12 +55,14 @@ EPUBView::EPUBView(QGraphicsItem *parent) :
     s->setAttribute(QWebSettings::JavascriptEnabled, false);
     s->setAttribute(QWebSettings::JavaEnabled, false);
     s->setAttribute(QWebSettings::FrameFlatteningEnabled, true);
+    s->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, false);
 
     QWebFrame *frame = page()->mainFrame();
     frame->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAlwaysOff);
     frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
 
     page()->setNetworkAccessManager(new EPUBAccessManager);
+    page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
 
     m_prevPageAction = new QAction(this);
     m_nextPageAction = new QAction(this);
@@ -70,6 +74,9 @@ EPUBView::EPUBView(QGraphicsItem *parent) :
     m_nextPageAction->setEnabled(false);
 
     connect(this, SIGNAL(urlChanged(QUrl)), SLOT(handleUrlChange(QUrl)));
+
+    QWebSecurityOrigin::addLocalScheme(QLatin1String("epub"));
+    connect(this, SIGNAL(linkClicked(QUrl)), SLOT(handleExternalLink(QUrl)));
 
     resizeContent();
     setResizesToContents(true);
@@ -299,4 +306,9 @@ bool EPUBView::sceneEvent(QEvent *event)
     }
 
     return QGraphicsWebView::sceneEvent(event);
+}
+
+void EPUBView::handleExternalLink(const QUrl &url)
+{
+    QDesktopServices::openUrl(url);
 }
