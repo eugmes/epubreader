@@ -18,18 +18,15 @@
 #define EPUBTOCMODEL_H
 
 #include <QAbstractListModel>
-#include <QXmlQuery>
 
 class QBuffer;
 
 class EPUBTocModel : public QAbstractListModel {
     Q_OBJECT
-    Q_PROPERTY(QByteArray document READ document WRITE setDocument NOTIFY documentChanged)
     Q_ENUMS(Roles)
 public:
     explicit EPUBTocModel(QObject *parent = 0);
 
-    QByteArray document() const;
     void setDocument(const QByteArray &doc);
 
     virtual int rowCount(const QModelIndex &parent) const;
@@ -43,11 +40,12 @@ signals:
     void documentChanged();
 
 private:
-    QBuffer *m_docBuffer;
-    QXmlQuery m_query;
-    int m_rowCount;
+    struct Record {
+        QString header;
+        QString url;
+    };
 
-    QVariant getData(const QString &name, int index) const;
+    QList<Record> m_data;
 };
 
 #endif

@@ -17,42 +17,57 @@
 #include "epubtocmodel.h"
 #include <QBuffer>
 #include <QXmlResultItems>
+#include <QXmlQuery>
+#include <QStringList>
+#include <QDebug>
 
 #define NCX_NS_DECL "declare default element namespace \"http://www.daisy.org/z3986/2005/ncx/\";"
 
 EPUBTocModel::EPUBTocModel(QObject *parent) :
-    QAbstractListModel(parent), m_rowCount(0)
+    QAbstractListModel(parent)
 {
-    m_docBuffer = new QBuffer(this);
-    m_docBuffer->open(QIODevice::ReadOnly);
-
     QHash<int, QByteArray> roles;
     roles[Qt::DisplayRole] = "display";
     roles[UrlRole] = "contentUrl";
     setRoleNames(roles);
 }
 
-QByteArray EPUBTocModel::document() const
-{
-    return m_docBuffer->data();
-}
-
 void EPUBTocModel::setDocument(const QByteArray &doc)
 {
-    m_docBuffer->close();
-    m_docBuffer->setData(doc);
-    m_docBuffer->open(QIODevice::ReadOnly);
+    QBuffer docBuffer;
+    docBuffer.setData(doc);
+    docBuffer.open(QIODevice::ReadOnly);
 
     beginResetModel();
-    m_query.setFocus(m_docBuffer);
-    m_query.setQuery(QLatin1String(NCX_NS_DECL "count(/ncx/navMap//navPoint)"));
+    m_data.clear();
+
+    QXmlQuery query;
+    query.setFocus(&docBuffer);
+    query.setQuery(QLatin1String(NCX_NS_DECL "ncx/navMap//navPoint"));
     QXmlResultItems result;
-    m_query.evaluateTo(&result);
+    query.evaluateTo(&result);
     QXmlItem item(result.next());
-    if (item.isAtomicValue())
-        m_rowCount = item.toAtomicValue().toInt();
-    else
-        m_rowCount = 0;
+    while (!item.isNull()) {
+        Record rec;
+        QXmlQuery q1(query);
+        q1.setFocus(item);
+        QStringList l1;
+        q1.setQuery(QLatin1String(NCX_NS_DECL "navLabel/text/string()"));
+        if (q1.evaluateTo(&l1) && (l1.length() > 0))
+            rec.header = l1.at(0);
+
+        QXmlQuery q2(query);
+        q2.setFocus(item);
+        QStringList l2;
+        q2.setQuery(QLatin1String(NCX_NS_DECL "content/@src/string()"));
+        if (q2.evaluateTo(&l2) && (l2.length() > 0))
+            rec.url = l2.at(0);
+
+        m_data << rec;
+
+        item = result.next();
+    }
+
     endResetModel();
 
     emit documentChanged();
@@ -62,7 +77,7 @@ int EPUBTocModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    return m_rowCount;
+    return m_data.count();
 }
 
 QVariant EPUBTocModel::data(const QModelIndex &index, int role) const
@@ -75,26 +90,16 @@ QVariant EPUBTocModel::data(const QModelIndex &index, int role) const
 
     int row = index.row();
 
+    if (row >= m_data.length()) // FIXME check row < 0?
+        return QVariant();
+
     switch (role) {
     case Qt::DisplayRole:
-        return getData(QLatin1String("navLabel/text/string()"), row);
+        return m_data.at(row).header;
     case UrlRole:
-        return getData(QLatin1String("content/@src/string()"), row);
+        return m_data.at(row).url;
     default:
         break;
     }
     return QVariant();
-}
-
-QVariant EPUBTocModel::getData(const QString &name, int index) const
-{
-    QString queryTpl(QLatin1String(NCX_NS_DECL "(/ncx/navMap//navPoint)[%1]/%2"));
-    QString queryStr = queryTpl.arg(index + 1).arg(name);
-
-    QXmlQuery query(m_query);
-    query.setQuery(queryStr);
-    QXmlResultItems result;
-    query.evaluateTo(&result);
-    QXmlItem item(result.next());
-    return item.toAtomicValue();
 }

@@ -15,20 +15,26 @@
  */
 
 #include "epubtocwindow.h"
-#include <QDeclarativeView>
-#include <QDeclarativeContext>
+#include <QListView>
+#include <QVBoxLayout>
+#include "epubtocmodel.h"
 
 EPUBTOCWindow::EPUBTOCWindow(const QByteArray &tocDocument, QWidget *parent) :
-    QMainWindow(parent), m_tocDocument(tocDocument)
+    QMainWindow(parent)
 {
     setWindowTitle(tr("Table of Content"));
 
-    QDeclarativeView *view = new QDeclarativeView;
-    view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-    view->rootContext()->setContextProperty(QLatin1String("tocWindow"), this);
-    view->setSource(QUrl(QLatin1String("qrc:/qml/tocbrowser.qml")));
+    QWidget *w = new QWidget;
+    QVBoxLayout *vbox = new QVBoxLayout;
+    QListView *view = new QListView;
+    EPUBTocModel *model = new EPUBTocModel(this);
+    model->setDocument(tocDocument);
+    view->setModel(model);
+    connect(view, SIGNAL(activated(QModelIndex)), SLOT(itemActivated(QModelIndex)));
 
-    setCentralWidget(view);
+    vbox->addWidget(view);
+    w->setLayout(vbox);
+    setCentralWidget(w);
 
     setAttribute(Qt::WA_DeleteOnClose);
 #ifdef Q_WS_MAEMO_5
@@ -37,13 +43,8 @@ EPUBTOCWindow::EPUBTOCWindow(const QByteArray &tocDocument, QWidget *parent) :
 #endif
 }
 
-QByteArray EPUBTOCWindow::tocDocument() const
+void EPUBTOCWindow::itemActivated(const QModelIndex &index)
 {
-    return m_tocDocument;
-}
-
-void EPUBTOCWindow::openTocDocument(const QString &path)
-{
-    emit openTocDocumentRequest(path);
+    emit openTocDocumentRequest(index.data(EPUBTocModel::UrlRole).toString());
     close();
 }

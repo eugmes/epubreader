@@ -19,22 +19,18 @@
 
 #include <QMainWindow>
 
+class QModelIndex;
+
 class EPUBTOCWindow : public QMainWindow {
     Q_OBJECT
-    Q_PROPERTY(QByteArray tocDocument READ tocDocument CONSTANT)
 public:
     explicit EPUBTOCWindow(const QByteArray &tocDocument, QWidget *parent = 0);
 
-    QByteArray tocDocument() const;
-
-public slots:
-    void openTocDocument(const QString &path);
+private slots:
+    void itemActivated(const QModelIndex &index);
 
 signals:
     void openTocDocumentRequest(const QString &path);
-
-private:
-    QByteArray m_tocDocument;
 };
 
 #endif

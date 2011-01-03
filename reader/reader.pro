@@ -61,9 +61,7 @@ OTHER_FILES += \
     qml/content/NavigationButton.qml \
     qml/epublibrary.qml \
     qml/content/BookThumbnail.qml \
-    qml/content/BookItem.qml \
-    qml/tocbrowser.qml \
-    qml/content/TOCItem.qml
+    qml/content/BookItem.qml
 
 RESOURCES += \
     epubreader.qrc
