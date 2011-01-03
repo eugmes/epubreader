@@ -14,7 +14,7 @@ Rectangle {
         id: label
 
         color: activePalette.buttonText
-        text: labelText
+        text: display
 
         font {
             /* system font */

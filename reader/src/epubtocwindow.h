@@ -21,11 +21,11 @@
 
 class EPUBTOCWindow : public QMainWindow {
     Q_OBJECT
-    Q_PROPERTY(QString tocUrl READ tocUrl CONSTANT)
+    Q_PROPERTY(QByteArray tocDocument READ tocDocument CONSTANT)
 public:
-    explicit EPUBTOCWindow(const QString &url, QWidget *parent = 0);
+    explicit EPUBTOCWindow(const QByteArray &tocDocument, QWidget *parent = 0);
 
-    QString tocUrl() const;
+    QByteArray tocDocument() const;
 
 public slots:
     void openTocDocument(const QString &path);
@@ -34,7 +34,7 @@ signals:
     void openTocDocumentRequest(const QString &path);
 
 private:
-    QString m_url;
+    QByteArray m_tocDocument;
 };
 
 #endif

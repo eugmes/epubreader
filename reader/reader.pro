@@ -23,7 +23,8 @@ SOURCES = \
     src/epubreadersettings.cxx \
     src/epubtocwindow.cxx \
     src/horizmouseswipegesture.cxx \
-    src/horizmouseswipegesturerecognizer.cxx
+    src/horizmouseswipegesturerecognizer.cxx \
+    src/epubtocmodel.cxx
 
 HEADERS = \
     src/epubaccessmanager.h \
@@ -36,7 +37,8 @@ HEADERS = \
     src/epubreadersettings.h \
     src/epubtocwindow.h \
     src/horizmouseswipegesture.h \
-    src/horizmouseswipegesturerecognizer.h
+    src/horizmouseswipegesturerecognizer.h \
+    src/epubtocmodel.h
 
 CONFIG += qt warn_on
 
@@ -61,7 +63,6 @@ OTHER_FILES += \
     qml/content/BookThumbnail.qml \
     qml/content/BookItem.qml \
     qml/tocbrowser.qml \
-    qml/content/TOCModel.qml \
     qml/content/TOCItem.qml
 
 RESOURCES += \

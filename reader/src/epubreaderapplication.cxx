@@ -24,6 +24,7 @@
 #include "thumbnailitem.h"
 #include "epubreadersettings.h"
 #include "horizmouseswipegesturerecognizer.h"
+#include "epubtocmodel.h"
 
 EPUBApplicationDBusAdapter::EPUBApplicationDBusAdapter(EPUBReaderApplication *app) :
     QDBusAbstractAdaptor(app)
@@ -59,6 +60,7 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
 
     qmlRegisterType<EPUBView>("EPUBReader", 1, 0, "EPUBView");
     qmlRegisterType<ThumbnailItem>("EPUBReader", 1, 0, "ThumbnailItem");
+    qmlRegisterType<EPUBTocModel>("EPUBReader", 1, 0, "EPUBTocModel");
 
     MainWindow *win = new MainWindow;
 

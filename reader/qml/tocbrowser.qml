@@ -1,4 +1,5 @@
 import Qt 4.7
+import EPUBReader 1.0
 import "content"
 
 Rectangle {
@@ -11,7 +12,10 @@ Rectangle {
     ListView {
         id: tocList
 
-        model: TOCModel {source: tocWindow.tocUrl}
+        model: EPUBTocModel {
+            document: tocWindow.tocDocument
+        }
+
         delegate: TOCItem {
             onClicked: tocWindow.openTocDocument(path)
         }

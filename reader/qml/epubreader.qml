@@ -45,7 +45,7 @@ Rectangle {
                 image: "/pics/qgn_back_fsm.png" // TODO
 
                 onClicked: {
-                    mainWindow.showToc(epubView.tocUrl)
+                    mainWindow.showToc(epubView.tocDocument)
                 }
             }
 

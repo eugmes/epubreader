@@ -33,7 +33,7 @@ public slots:
     void chooseFile();
     void setFullSize(bool set);
     void showLibrary();
-    void showToc(const QString &url);
+    void showToc(const QByteArray &tocDocument);
 
 signals:
     void fileNameChanged();

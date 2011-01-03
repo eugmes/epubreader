@@ -128,9 +128,9 @@ void MainWindow::showLibrary()
 #endif
 }
 
-void MainWindow::showToc(const QString &url)
+void MainWindow::showToc(const QByteArray &tocDocument)
 {
-    EPUBTOCWindow *win = new EPUBTOCWindow(url, this);
+    EPUBTOCWindow *win = new EPUBTOCWindow(tocDocument, this);
     win->setWindowModality(Qt::WindowModal);
     connect(win, SIGNAL(openTocDocumentRequest(QString)), SIGNAL(openTocDocumentRequest(QString)));
 
