@@ -249,6 +249,7 @@ void EPUBView::setPreferredHeight(int height)
 void EPUBView::resizeContent()
 {
     page()->setPreferredContentsSize(QSize(m_preferredWidth, m_preferredHeight));
+    setTextSizeMultiplier(textSizeMultiplier()); // FIXME otherwise content may not feet view
 }
 
 qreal EPUBView::textSizeMultiplier() const
