@@ -109,7 +109,6 @@ void EPUBView::setBackgroundIndex(int idx)
         break;
     }
 
-    qDebug() << "RGB" << c.name();
     QString style = QString::fromLatin1(STYLESHEET_TEMPLATE).arg(c.name());
     QByteArray userStyleSheet = style.toUtf8();
     QString url = QLatin1String("data:text/css;charset=utf-8;base64,") + QLatin1String(userStyleSheet.toBase64());

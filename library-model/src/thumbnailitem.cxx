@@ -61,7 +61,6 @@ void ThumbnailItem::setFile(const QString &fileName)
 
 void ThumbnailItem::thumbnailReady(const QString &fileName, const QPixmap &img)
 {
-    qDebug() << "ready!";
     if (fileName == m_fileName)
         setImage(img);
 }
@@ -70,11 +69,9 @@ void ThumbnailItem::setImage(const QPixmap &img)
 {
     m_img = img;
     if (m_img.isNull()) {
-        qDebug() << "null";
         setImplicitWidth(0);
         setImplicitHeight(0);
     } else {
-        qDebug() << "not null";
         setImplicitWidth(img.width());
         setImplicitHeight(img.height());
         m_loaded = true;

@@ -69,7 +69,7 @@ void EPUBThumbnailerRequestQueue::processRequest()
 
 void EPUBThumbnailerRequestQueue::timeout()
 {
-    qDebug() << "timeout";
+    // FIXME maybe this is not needed?
     if (m_busy || !m_requests.isEmpty())
         m_timeoutTimer->start(); // This should not actually happen. Maybe call stop() instead?`
     else

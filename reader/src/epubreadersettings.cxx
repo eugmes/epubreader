@@ -84,7 +84,6 @@ UrlsList EPUBReaderSettings::getLastURLs()
 
 void EPUBReaderSettings::saveLastURL(const QString &fileName, const QString &url)
 {
-    qDebug() << "Save last url:" << fileName << url;
     if (fileName.isEmpty() || url.isEmpty())
         return;
     UrlsList urls = getLastURLs();

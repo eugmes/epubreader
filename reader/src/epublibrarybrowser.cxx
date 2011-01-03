@@ -44,7 +44,6 @@ EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
 
 void EPUBLibraryBrowser::openFile(const QString &fileName)
 {
-    qDebug() << "open file:" << fileName;
     emit openFileRequest(fileName);
     close();
 }
