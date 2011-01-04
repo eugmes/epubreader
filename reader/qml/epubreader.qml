@@ -36,13 +36,13 @@ Rectangle {
 
             Button {
                 id: prevButton
-                image: "/pics/qgn_back_fsm.png"
+                image: "image://hildon-icon/qgn_back_fsm"
                 action: epubView.prevPage
             }
 
             Button {
                 id: tocButton
-                image: "/pics/qgn_back_fsm.png" // TODO
+                image: "image://hildon-icon/notes_bullets"
 
                 onClicked: {
                     mainWindow.showToc(epubView.tocDocument)
@@ -51,13 +51,13 @@ Rectangle {
 
             Button {
                 id: nextButton
-                image: "/pics/qgn_forward_fsm.png"
+                image: "image://hildon-icon/qgn_forward_fsm"
                 action: epubView.nextPage
             }
         }
         Button {
             id: fullSizeButton
-            image: "/pics/general_fullsize.png"
+            image: "image://hildon-icon/general_fullsize"
             onClicked: {
                 mainWindow.fullSize = true
             }
@@ -74,7 +74,7 @@ Rectangle {
 
         Button {
             id: normalSizeButton
-            image: "/pics/general_fullsize_b.png"
+            image: "image://hildon-icon/general_fullsize_b"
             opacity: 0.4
 
             onClicked: {
@@ -100,7 +100,6 @@ Rectangle {
     Component.onCompleted: mainWindow.openTocDocumentRequest.connect(epubView.openTocDocumentRequest)
 
     Component.onDestruction: {
-        console.log("Destruction", epubView.fileName, epubView.url)
         settings.saveLastURL(epubView.fileName, epubView.url)
     }
 }

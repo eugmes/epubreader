@@ -24,7 +24,8 @@ SOURCES = \
     src/epubtocwindow.cxx \
     src/horizmouseswipegesture.cxx \
     src/horizmouseswipegesturerecognizer.cxx \
-    src/epubtocmodel.cxx
+    src/epubtocmodel.cxx \
+    src/hildonimageprovider.cxx
 
 HEADERS = \
     src/epubaccessmanager.h \
@@ -38,7 +39,8 @@ HEADERS = \
     src/epubtocwindow.h \
     src/horizmouseswipegesture.h \
     src/horizmouseswipegesturerecognizer.h \
-    src/epubtocmodel.h
+    src/epubtocmodel.h \
+    src/hildonimageprovider.h
 
 CONFIG += qt warn_on
 
@@ -50,10 +52,6 @@ OTHER_FILES += \
     qml/content/Button.qml \
     qml/content/ScrollBar.qml \
     qml/content/FlickableEPUBView.qml \
-    pics/qgn_back_fsm.png \
-    pics/qgn_forward_fsm.png \
-    pics/general_fullsize.png \
-    pics/general_fullsize_b.png \
     desktop/epubreader.desktop \
     icons/epubreader.svg \
     icons/apubreader.png \

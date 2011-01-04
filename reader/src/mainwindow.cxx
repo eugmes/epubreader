@@ -17,6 +17,7 @@
 #include "mainwindow.h"
 #include <QDeclarativeView>
 #include <QDeclarativeContext>
+#include <QDeclarativeEngine>
 #include <QAction>
 #include <QMenuBar>
 #include <QFileDialog>
@@ -27,6 +28,7 @@
 #include "epubreaderapplication.h"
 #include "epubreadersettings.h"
 #include "epubtocwindow.h"
+#include "hildonimageprovider.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -38,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     view->rootContext()->setContextProperty(QLatin1String("mainWindow"), this);
     EPUBReaderSettings *settings = EPUBReaderApplication::settings();
     view->rootContext()->setContextProperty(QLatin1String("settings"), settings);
+    view->engine()->addImageProvider(QLatin1String("hildon-icon"), new HildonImageProvider);
     view->setSource(QUrl(QLatin1String("qrc:/qml/epubreader.qml")));
 
     setCentralWidget(view);
