@@ -30,6 +30,7 @@ EPUBTOCWindow::EPUBTOCWindow(const QByteArray &tocDocument, QWidget *parent) :
     EPUBTocModel *model = new EPUBTocModel(this);
     model->setDocument(tocDocument);
     view->setModel(model);
+    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     connect(view, SIGNAL(activated(QModelIndex)), SLOT(itemActivated(QModelIndex)));
 
     vbox->addWidget(view);
