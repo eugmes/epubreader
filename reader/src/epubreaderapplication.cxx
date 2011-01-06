@@ -24,6 +24,7 @@
 #include "thumbnailitem.h"
 #include "epubreadersettings.h"
 #include "horizmouseswipegesturerecognizer.h"
+#include "desktopnotifications.h"
 
 EPUBApplicationDBusAdapter::EPUBApplicationDBusAdapter(EPUBReaderApplication *app) :
     QDBusAbstractAdaptor(app)
@@ -50,6 +51,8 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
     QApplication(argc, argv)
 {
     setApplicationName(QLatin1String("EPUBReader"));
+
+    DesktopNotifications::init(applicationName()); // FIXME
 
     m_swipeGestureType = QGestureRecognizer::registerRecognizer(new HorizMouseSwipeGestureRecognizer);
 

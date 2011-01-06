@@ -26,6 +26,7 @@
 #include "epubreaderapplication.h"
 #include "epubreadersettings.h"
 #include "horizmouseswipegesture.h"
+#include "desktopnotifications.h"
 
 #define STYLESHEET_TEMPLATE \
     "html {" \
@@ -295,10 +296,17 @@ bool EPUBView::sceneEvent(QEvent *event)
         QGestureEvent *ge = static_cast<QGestureEvent *>(event);
         HorizMouseSwipeGesture *g = static_cast<HorizMouseSwipeGesture *>(ge->gesture(m_swipeGestureType));
         if (g->state() == Qt::GestureFinished) {
-            if (!g->left())
-                showPrevPage();
-            else
-                showNextPage();
+            if (!g->left()) {
+                if (m_prevPageAction->isEnabled())
+                    showPrevPage();
+                else
+                    DesktopNotifications::showInfoprint(tr("Already at first page"));
+            } else {
+                if (m_nextPageAction->isEnabled())
+                    showNextPage();
+                else
+                    DesktopNotifications::showInfoprint(tr("Already at last page"));
+            }
         }
         return true;
     }
