@@ -17,12 +17,15 @@ Rectangle {
         backgroundIndex: settings.colorIndex
 
         anchors {top: parent.top; left: parent.left; right: parent.right; bottom: toolBar.top}
+
+        onMovementStarted: scrollBar.state = "visible"
+        onMovementEnded: scrollBar.state = ""
     }
 
-//    ScrollBar {
-//        width: 8
-//        anchors {right: parent.right; top: parent.top; bottom: toolBar.top}
-//    }
+    ScrollBar {
+        id: scrollBar
+        area: epubView
+    }
 
     Rectangle {
         id: toolBar

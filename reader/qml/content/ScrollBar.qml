@@ -1,26 +1,34 @@
 import Qt 4.7
 
-Item {
+Rectangle {
     id: scrollBar
 
-    property real position
-    property real pageSize
+    property Flickable area: null
 
-    Rectangle {
-        id: background
-        anchors.fill: parent
-        radius: width/2 - 1
+    height: area.height * area.visibleArea.heightRatio
+    y: area.y + area.height * area.visibleArea.yPosition
+
+    width: 6
+
+    color: "gray" // FIXME
+    border {
         color: "black"
-        opacity: 0.3
+        width: 1
     }
 
-    Rectangle {
-        x: 1
-        y: scrollBar.position * (scrollBar.height - 2) + 1
-        width: parent.width - 2
-        height: scrollBar.pageSize * (scrollBar.height - 2)
-        radius: width/2 - 1
-        color: "black"
-        opacity: 0.7
+    opacity: 0
+
+    anchors {
+        right: area.right
+        rightMargin: 3
+    }
+
+    states: State {
+        name: "visible"
+        PropertyChanges {target: scrollBar; opacity: 0.4}
+    }
+
+    transitions: Transition {
+        PropertyAnimation {properties: "opacity"; easing.type: Easing.InOutQuad}
     }
 }
