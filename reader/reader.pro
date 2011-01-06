@@ -25,7 +25,8 @@ SOURCES = \
     src/horizmouseswipegesture.cxx \
     src/horizmouseswipegesturerecognizer.cxx \
     src/epubtocmodel.cxx \
-    src/hildonimageprovider.cxx
+    src/hildonimageprovider.cxx \
+    src/desktopnotifications.cxx
 
 HEADERS = \
     src/epubaccessmanager.h \
@@ -40,12 +41,14 @@ HEADERS = \
     src/horizmouseswipegesture.h \
     src/horizmouseswipegesturerecognizer.h \
     src/epubtocmodel.h \
-    src/hildonimageprovider.h
+    src/hildonimageprovider.h \
+    src/desktopnotifications.h
 
-CONFIG += qt warn_on
+CONFIG += qt warn_on link_pkgconfig
 
 QT += xmlpatterns gui declarative network webkit dbus
 
+PKGCONFIG += libnotify
 
 OTHER_FILES += \
     qml/epubreader.qml \
