@@ -38,41 +38,5 @@ Flickable {
                 flickable.contentY = 0
             }
         }
-
-        NavigationButton {
-            id: topPrevButton
-            image: "/pics/qgn_back_fsm.png"
-            action: epubView.prevPage
-
-            x: 0
-            anchors {top: epubView.top}
-        }
-
-        NavigationButton {
-            id: topNextButton
-            image: "/pics/qgn_forward_fsm.png"
-            action: epubView.nextPage
-
-            x: flickable.width - width
-            anchors {top: epubView.top}
-        }
-
-        NavigationButton {
-            id: bottomPrevButton
-            image: "/pics/qgn_back_fsm.png"
-            action: epubView.prevPage
-
-            x: 0
-            anchors {bottom: epubView.bottom}
-        }
-
-        NavigationButton {
-            id: bottomNextButton
-            image: "/pics/qgn_forward_fsm.png"
-            action: epubView.nextPage
-
-            x: flickable.width - width
-            anchors {bottom: epubView.bottom}
-        }
     }
 }

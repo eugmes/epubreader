@@ -34,8 +34,8 @@
     "}" \
     "body {" \
         "background: transparent !important;" \
-        "margin-top: 70px !important;" \
-        "margin-bottom: 70px !important;" \
+        "margin-top: 10px !important;" \
+        "margin-bottom: 10px !important;" \
         "margin-right: 10px !important;" \
         "margin-left: 10px !important" \
     "}"
