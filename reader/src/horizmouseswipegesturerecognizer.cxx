@@ -32,8 +32,9 @@ QGesture *HorizMouseSwipeGestureRecognizer::create(QObject *target)
     return new HorizMouseSwipeGesture;
 }
 
-static const int horizMin = 200;
-static const int vertMax = 50;
+static const int horizMin = 50;
+static const int xyRatio = 2;
+static const int gestureTimeout = 500;
 
 QGestureRecognizer::Result HorizMouseSwipeGestureRecognizer::recognize(QGesture *state, QObject *watched, QEvent *event)
 {
@@ -47,6 +48,7 @@ QGestureRecognizer::Result HorizMouseSwipeGestureRecognizer::recognize(QGesture 
     case QEvent::GraphicsSceneMousePress:
         if (ev->buttons() == Qt::LeftButton) {
             g->m_offset = gsme->screenPos();
+            g->m_start = QTime::currentTime();
             g->setHotSpot(g->m_offset);
             return TriggerGesture;
         }
@@ -55,6 +57,7 @@ QGestureRecognizer::Result HorizMouseSwipeGestureRecognizer::recognize(QGesture 
     case QEvent::MouseButtonPress:
         if (ev->buttons() == Qt::LeftButton) {
             g->m_offset = ev->globalPos();
+            g->m_start = QTime::currentTime();
             g->setHotSpot(g->m_offset);
             return TriggerGesture;
         }
@@ -68,20 +71,28 @@ QGestureRecognizer::Result HorizMouseSwipeGestureRecognizer::recognize(QGesture 
 
     case QEvent::GraphicsSceneMouseRelease:
         if (g->state() != Qt::NoGesture) {
+            if (g->m_start.msecsTo(QTime::currentTime()) > gestureTimeout)
+                return CancelGesture;
             QPoint newPos = gsme->screenPos();
             QPoint diff = newPos - g->m_offset;
-            g->m_left = (diff.x() < 0);
-            if ((abs(diff.x()) >= horizMin) && abs(diff.y()) <= vertMax)
+            int xDiff = diff.x();
+            int yDiff = diff.y();
+            g->m_left = (xDiff < 0);
+            if ((abs(xDiff) >= horizMin) && (xyRatio * abs(yDiff) <= abs(xDiff)))
                 return FinishGesture;
         }
         return CancelGesture;
 
     case QEvent::MouseButtonRelease:
         if (g->state() != Qt::NoGesture) {
+            if (g->m_start.msecsTo(QTime::currentTime()) > gestureTimeout)
+                return CancelGesture;
             QPoint newPos = ev->globalPos();
             QPoint diff = newPos - g->m_offset;
-            g->m_left = (diff.x() < 0);
-            if ((abs(diff.x()) >= horizMin) && abs(diff.y()) <= vertMax)
+            int xDiff = diff.x();
+            int yDiff = diff.y();
+            g->m_left = (xDiff < 0);
+            if ((abs(xDiff) >= horizMin) && (xyRatio * abs(yDiff) <= abs(xDiff)))
                 return FinishGesture;
         }
         return CancelGesture;

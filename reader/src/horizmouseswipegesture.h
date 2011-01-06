@@ -29,6 +29,7 @@ public:
     bool left() const;
 private:
     QPoint m_offset;
+    QTime m_start;
     bool m_left;
 };
 
