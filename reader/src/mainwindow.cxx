@@ -113,7 +113,13 @@ void MainWindow::showSettingsDialog()
 {
     SettingsDialog *dlg = new SettingsDialog(this);
 
+#ifdef Q_WS_MAEMO_5
+    setAttribute(Qt::WA_Maemo5LandscapeOrientation);
+#endif
     dlg->exec();
+#ifdef Q_WS_MAEMO_5
+    setAttribute(Qt::WA_Maemo5AutoOrientation);
+#endif
     delete dlg;
 }
 

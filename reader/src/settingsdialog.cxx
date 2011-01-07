@@ -37,6 +37,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->fontSizeSlider->setValue(settings->textSizeMultiplier() * 10);
     ui->fontComboBox->setCurrentFont(settings->fontFamily());
     ui->backgroundComboBox->setCurrentIndex(settings->colorIndex());
+
+#ifdef Q_WS_MAEMO_5
+    setAttribute(Qt::WA_Maemo5LandscapeOrientation);
+#endif
 }
 
 SettingsDialog::~SettingsDialog()
