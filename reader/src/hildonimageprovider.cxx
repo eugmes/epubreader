@@ -15,6 +15,7 @@
  */
 
 #include "hildonimageprovider.h"
+#include <QIcon>
 #include <QDebug>
 
 HildonImageProvider::HildonImageProvider():
@@ -24,12 +25,10 @@ HildonImageProvider::HildonImageProvider():
 
 QPixmap HildonImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    Q_UNUSED(requestedSize); // FIXME
     Q_ASSERT(size);
 
-    qWarning() << "image" << id;
-    QString path = QLatin1String("/usr/share/icons/hicolor/48x48/hildon/") + id + QLatin1String(".png");
-    QPixmap pix(path);
+    QIcon icon = QIcon::fromTheme(id);
+    QPixmap pix = icon.pixmap(requestedSize);
     *size = pix.size();
     return pix;
 }
