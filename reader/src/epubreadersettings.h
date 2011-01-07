@@ -21,13 +21,16 @@
 
 class EPUBReaderSettings : public QSettings {
     Q_OBJECT
+    Q_ENUMS(Orientation)
     Q_PROPERTY(qreal textSizeMultiplier READ textSizeMultiplier WRITE setTextSizeMultiplier NOTIFY textSizeMultiplierChanged)
     Q_PROPERTY(QString fontFamily READ fontFamily WRITE setFontFamily NOTIFY fontFamilyChanged)
     Q_PROPERTY(int colorIndex READ colorIndex WRITE setColorIndex NOTIFY colorIndexChanged)
+    Q_PROPERTY(Orientation windowOrientation READ windowOrientation WRITE setWindowOrientation NOTIFY windowOrientationChanged)
 public:
     explicit EPUBReaderSettings(QObject *parent = 0);
 
-public:
+    enum Orientation {AutoOrientation, LandscapeOrientation, PortraitOrientation};
+
     qreal textSizeMultiplier() const;
     void setTextSizeMultiplier(qreal ratio);
 
@@ -36,6 +39,9 @@ public:
 
     int colorIndex() const;
     void setColorIndex(int idx);
+
+    Orientation windowOrientation() const;
+    void setWindowOrientation(Orientation o);
 
     Q_INVOKABLE QString lastUrlForFile(const QString &path);
 
@@ -49,6 +55,7 @@ signals:
     void textSizeMultiplierChanged();
     void fontFamilyChanged();
     void colorIndexChanged();
+    void windowOrientationChanged();
 };
 
 #endif

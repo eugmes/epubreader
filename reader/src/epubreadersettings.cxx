@@ -121,3 +121,21 @@ QString EPUBReaderSettings::lastUrlForFile(const QString &path)
     }
     return QString();
 }
+
+EPUBReaderSettings::Orientation EPUBReaderSettings::windowOrientation() const
+{
+    int val = value(QLatin1String("Reader/WindowOrientation")).toInt();
+    switch (val) {
+    case 1: return LandscapeOrientation;
+    case 2: return PortraitOrientation;
+    default: return AutoOrientation;
+    }
+}
+
+void EPUBReaderSettings::setWindowOrientation(Orientation o)
+{
+    if (o != windowOrientation()) {
+        setValue(QLatin1String("Reader/WindowOrientation"), int(o));
+        emit windowOrientationChanged();
+    }
+}

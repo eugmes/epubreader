@@ -21,7 +21,7 @@
 #include <QDebug>
 
 EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
-    QMainWindow(parent)
+    MainWindowBase(parent)
 {
     setWindowTitle(tr("E-Book Library"));
 
@@ -34,12 +34,6 @@ EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
     view->setSource(QUrl(QLatin1String("qrc:/qml/epublibrary.qml")));
 
     setCentralWidget(view);
-
-    setAttribute(Qt::WA_DeleteOnClose);
-#ifdef Q_WS_MAEMO_5
-    setAttribute(Qt::WA_Maemo5AutoOrientation);
-    setAttribute(Qt::WA_Maemo5StackedWindow);
-#endif
 }
 
 void EPUBLibraryBrowser::openFile(const QString &fileName)

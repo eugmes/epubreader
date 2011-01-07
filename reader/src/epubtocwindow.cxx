@@ -20,7 +20,7 @@
 #include "epubtocmodel.h"
 
 EPUBTOCWindow::EPUBTOCWindow(const QByteArray &tocDocument, QWidget *parent) :
-    QMainWindow(parent)
+    MainWindowBase(parent)
 {
     setWindowTitle(tr("Table of Content"));
 
@@ -36,12 +36,6 @@ EPUBTOCWindow::EPUBTOCWindow(const QByteArray &tocDocument, QWidget *parent) :
     vbox->addWidget(view);
     w->setLayout(vbox);
     setCentralWidget(w);
-
-    setAttribute(Qt::WA_DeleteOnClose);
-#ifdef Q_WS_MAEMO_5
-    setAttribute(Qt::WA_Maemo5AutoOrientation);
-    setAttribute(Qt::WA_Maemo5StackedWindow);
-#endif
 }
 
 void EPUBTOCWindow::itemActivated(const QModelIndex &index)

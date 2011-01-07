@@ -17,11 +17,11 @@
 #ifndef EPUBTOCWINDOW_H
 #define EPUBTOCWINDOW_H
 
-#include <QMainWindow>
+#include "mainwindowbase.h"
 
 class QModelIndex;
 
-class EPUBTOCWindow : public QMainWindow {
+class EPUBTOCWindow : public MainWindowBase {
     Q_OBJECT
 public:
     explicit EPUBTOCWindow(const QByteArray &tocDocument, QWidget *parent = 0);

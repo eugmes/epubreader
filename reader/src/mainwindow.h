@@ -17,9 +17,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include "mainwindowbase.h"
 
-class MainWindow : public QMainWindow {
+class MainWindow : public MainWindowBase {
     Q_OBJECT
     Q_PROPERTY(QString fileName READ fileName WRITE openFile NOTIFY fileNameChanged)
     Q_PROPERTY(bool fullSize READ fullSize WRITE setFullSize NOTIFY fullSizeChanged)
@@ -44,8 +44,13 @@ signals:
 private slots:
     void showSettingsDialog();
 
+protected:
+    virtual void updateWindowOrientation();
+
 private:
     QString m_fileName;
+    bool m_orientationOverride;
+
 };
 
 #endif

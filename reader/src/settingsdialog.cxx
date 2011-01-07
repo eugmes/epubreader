@@ -37,6 +37,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->fontSizeSlider->setValue(settings->textSizeMultiplier() * 10);
     ui->fontComboBox->setCurrentFont(settings->fontFamily());
     ui->backgroundComboBox->setCurrentIndex(settings->colorIndex());
+    ui->orientationComboBox->setCurrentIndex(settings->windowOrientation());
 
 #ifdef Q_WS_MAEMO_5
     setAttribute(Qt::WA_Maemo5LandscapeOrientation);
@@ -54,5 +55,18 @@ void SettingsDialog::accept()
     settings->setTextSizeMultiplier(ui->fontSizeSlider->value() / 10.0);
     settings->setFontFamily(ui->fontComboBox->currentFont().family());
     settings->setColorIndex(ui->backgroundComboBox->currentIndex());
+
+    switch (ui->orientationComboBox->currentIndex()) {
+    default:
+        settings->setWindowOrientation(EPUBReaderSettings::AutoOrientation);
+        break;
+    case 1:
+        settings->setWindowOrientation(EPUBReaderSettings::LandscapeOrientation);
+        break;
+    case 2:
+        settings->setWindowOrientation(EPUBReaderSettings::PortraitOrientation);
+        break;
+    }
+
     QDialog::accept();
 }

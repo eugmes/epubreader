@@ -26,7 +26,8 @@ SOURCES = \
     src/horizmouseswipegesturerecognizer.cxx \
     src/epubtocmodel.cxx \
     src/hildonimageprovider.cxx \
-    src/desktopnotifications.cxx
+    src/desktopnotifications.cxx \
+    src/mainwindowbase.cxx
 
 HEADERS = \
     src/epubaccessmanager.h \
@@ -42,7 +43,8 @@ HEADERS = \
     src/horizmouseswipegesturerecognizer.h \
     src/epubtocmodel.h \
     src/hildonimageprovider.h \
-    src/desktopnotifications.h
+    src/desktopnotifications.h \
+    src/mainwindowbase.h
 
 CONFIG += qt warn_on link_pkgconfig
 

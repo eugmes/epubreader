@@ -26,12 +26,11 @@
 #include "settingsdialog.h"
 #include "epublibrarybrowser.h"
 #include "epubreaderapplication.h"
-#include "epubreadersettings.h"
 #include "epubtocwindow.h"
 #include "hildonimageprovider.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+    MainWindowBase(parent), m_orientationOverride(false)
 {
     setWindowTitle(tr("E-Book Reader"));
 
@@ -63,12 +62,12 @@ MainWindow::MainWindow(QWidget *parent) :
     menu->addAction(settingsAction);
 
     connect(settingsAction, SIGNAL(triggered()), SLOT(showSettingsDialog()));
+}
 
-    setAttribute(Qt::WA_DeleteOnClose);
-#ifdef Q_WS_MAEMO_5
-    setAttribute(Qt::WA_Maemo5AutoOrientation);
-    setAttribute(Qt::WA_Maemo5StackedWindow);
-#endif
+void MainWindow::updateWindowOrientation()
+{
+    if (!m_orientationOverride)
+        MainWindowBase::updateWindowOrientation();
 }
 
 void MainWindow::chooseFile()
@@ -113,13 +112,13 @@ void MainWindow::showSettingsDialog()
 {
     SettingsDialog *dlg = new SettingsDialog(this);
 
+    m_orientationOverride = true;
 #ifdef Q_WS_MAEMO_5
     setAttribute(Qt::WA_Maemo5LandscapeOrientation);
 #endif
     dlg->exec();
-#ifdef Q_WS_MAEMO_5
-    setAttribute(Qt::WA_Maemo5AutoOrientation);
-#endif
+    m_orientationOverride = false;
+    updateWindowOrientation();
     delete dlg;
 }
 

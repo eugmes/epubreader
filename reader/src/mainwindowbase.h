@@ -1,4 +1,4 @@
-/* Copyright © 2010 Євгеній Мещеряков <eugen@debian.org>
+/* Copyright © 2011 Євгеній Мещеряков <eugen@debian.org>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,21 +14,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef EPUBLIBRARYBROWSER_H
-#define EPUBLIBRARYBROWSER_H
+#ifndef MAINWINDOWBASE_H
+#define MAINWINDOWBASE_H
 
-#include "mainwindowbase.h"
+#include <QMainWindow>
+#include "epubreadersettings.h"
 
-class EPUBLibraryBrowser : public MainWindowBase {
+class MainWindowBase : public QMainWindow {
     Q_OBJECT
 public:
-    explicit EPUBLibraryBrowser(QWidget *parent = 0);
+    explicit MainWindowBase(QWidget *parent = 0);
 
-public slots:
-    void openFile(const QString &fileName);
+protected:
+    virtual void updateWindowOrientation();
 
-signals:
-    void openFileRequest(const QString &fileName);
+private slots:
+    void changeWindowOrientation();
+
+private:
+    EPUBReaderSettings::Orientation m_savedOrientation;
 };
 
 #endif
