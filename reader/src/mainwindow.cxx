@@ -82,7 +82,7 @@ void MainWindow::openFile(QString newFileName)
 {
     if (newFileName != m_fileName) {
         m_fileName = newFileName;
-        emit fileNameChanged();
+        Q_EMIT fileNameChanged();
     }
 }
 
@@ -104,7 +104,7 @@ void MainWindow::setFullSize(bool set)
             showFullScreen();
         else
             showNormal();
-        emit fullSizeChanged();
+        Q_EMIT fullSizeChanged();
     }
 }
 

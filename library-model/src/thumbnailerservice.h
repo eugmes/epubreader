@@ -31,10 +31,10 @@ public:
 
     void getThumbnail(const QString &fileName);
 
-signals:
+Q_SIGNALS:
     void thumbnailReady(const QString &fileName, const QPixmap &img);
 
-private slots:
+private Q_SLOTS:
     void readyURLs(const QStringList &urls);
 
 private:

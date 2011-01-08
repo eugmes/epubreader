@@ -186,7 +186,7 @@ QByteArray EPUBFile::getFileByPath(const QString &path, QString *mimeType)
 {
     Q_ASSERT(mimeType);
     // TODO maybe handle fallback
-    foreach (const ManifestItem &i, m_manifest) {
+    Q_FOREACH (const ManifestItem &i, m_manifest) {
         if (i.href == path) {
             *mimeType = i.mediaType;
             return m_zip->fileData(m_contentPrefix + path);
@@ -197,7 +197,7 @@ QByteArray EPUBFile::getFileByPath(const QString &path, QString *mimeType)
 
 QString EPUBFile::getFilePathByID(const QString &id) const
 {
-    foreach (const ManifestItem &i, m_manifest) {
+    Q_FOREACH (const ManifestItem &i, m_manifest) {
         if (i.id == id)
             return i.href;
     }
@@ -206,7 +206,7 @@ QString EPUBFile::getFilePathByID(const QString &id) const
 
 QString EPUBFile::getIDByPath(const QString &path) const
 {
-    foreach (const ManifestItem &i, m_manifest) {
+    Q_FOREACH (const ManifestItem &i, m_manifest) {
         if (i.href == path)
             return i.id;
     }

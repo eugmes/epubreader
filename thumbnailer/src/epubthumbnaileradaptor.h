@@ -28,7 +28,7 @@ public:
     explicit EPUBThumbnailerAdaptor(EPUBThumbnailerRequestQueue *queue);
     virtual ~EPUBThumbnailerAdaptor();
 
-signals:
+Q_SIGNALS:
     //void Ready(uint handle, const QString &uri);
     //void Started(uint handle);
     //void Finished(uint handle);
@@ -38,7 +38,7 @@ signals:
     void Finished(uint handle);
     void Error(const QString &uri, int errorCode, const QString &message);
 
-public slots:
+public Q_SLOTS:
     //uint Queue(const QString &uri, const QString &mime_type, const QString &flavor, bool urgent);
     //void Dequeue(uint handle);
     void Create(const QString &uri, const QString &mime_hint);

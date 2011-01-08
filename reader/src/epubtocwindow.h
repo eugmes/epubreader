@@ -26,10 +26,10 @@ class EPUBTOCWindow : public MainWindowBase {
 public:
     explicit EPUBTOCWindow(const QByteArray &tocDocument, QWidget *parent = 0);
 
-private slots:
+private Q_SLOTS:
     void itemActivated(const QModelIndex &index);
 
-signals:
+Q_SIGNALS:
     void openTocDocumentRequest(const QString &path);
 };
 

@@ -89,7 +89,7 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
 void EPUBReaderApplication::openFile(const QString &fileName)
 {
     /* First try to find an existing window without open file */
-    foreach (QWidget *w, topLevelWidgets()) {
+    Q_FOREACH (QWidget *w, topLevelWidgets()) {
         MainWindow *win = qobject_cast<MainWindow *>(w);
         if (win && win->fileName().isEmpty()) {
             win->openFile(fileName);

@@ -28,20 +28,20 @@ public:
     QString fileName() const;
     bool fullSize() const;
 
-public slots:
+public Q_SLOTS:
     void openFile(QString newFileName);
     void chooseFile();
     void setFullSize(bool set);
     void showLibrary();
     void showToc(const QByteArray &tocDocument);
 
-signals:
+Q_SIGNALS:
     void fileNameChanged();
     void fullSizeChanged();
     void newWindow();
     void openTocDocumentRequest(const QString &path);
 
-private slots:
+private Q_SLOTS:
     void showSettingsDialog();
 
 protected:

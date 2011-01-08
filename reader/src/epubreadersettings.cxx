@@ -31,7 +31,7 @@ void EPUBReaderSettings::setTextSizeMultiplier(qreal ratio)
 {
     if (ratio != textSizeMultiplier()) {
         setValue(QLatin1String("Reader/TextSizeMultiplier"), ratio);
-        emit textSizeMultiplierChanged();
+        Q_EMIT textSizeMultiplierChanged();
     }
 }
 
@@ -44,7 +44,7 @@ void EPUBReaderSettings::setFontFamily(const QString &family)
 {
     if (family != fontFamily()) {
         setValue(QLatin1String("Reader/FontFamily"), family);
-        emit fontFamilyChanged();
+        Q_EMIT fontFamilyChanged();
     }
 }
 
@@ -57,7 +57,7 @@ void EPUBReaderSettings::setColorIndex(int idx)
 {
     if (idx != colorIndex()) {
         setValue(QLatin1String("Reader/Background"), idx);
-        emit colorIndexChanged();
+        Q_EMIT colorIndexChanged();
     }
 }
 
@@ -115,7 +115,7 @@ void EPUBReaderSettings::saveLastURL(const QString &fileName, const QString &url
 QString EPUBReaderSettings::lastUrlForFile(const QString &path)
 {
     UrlsList urls = getLastURLs();
-    foreach (const UrlDesc &url, urls) {
+    Q_FOREACH (const UrlDesc &url, urls) {
         if (url.first == path)
             return url.second;
     }
@@ -136,6 +136,6 @@ void EPUBReaderSettings::setWindowOrientation(Orientation o)
 {
     if (o != windowOrientation()) {
         setValue(QLatin1String("Reader/WindowOrientation"), int(o));
-        emit windowOrientationChanged();
+        Q_EMIT windowOrientationChanged();
     }
 }

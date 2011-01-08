@@ -29,7 +29,7 @@ Q_DECLARE_METATYPE(StringListList)
 
 static inline QDBusArgument &operator<<(QDBusArgument &argument, const StringListList &list) {
     argument.beginArray(qMetaTypeId<QStringList>());
-    foreach (const QStringList &sub, list)
+    Q_FOREACH (const QStringList &sub, list)
         argument << sub;
     argument.endArray();
 

@@ -28,7 +28,7 @@ public:
 protected:
     virtual void updateWindowOrientation();
 
-private slots:
+private Q_SLOTS:
     void changeWindowOrientation();
 
 private:

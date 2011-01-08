@@ -233,7 +233,7 @@ void EPUBView::setPreferredWidth(int width)
     if (width != m_preferredWidth) {
         m_preferredWidth = width;
         resizeContent();
-        emit preferredWidthChanged();
+        Q_EMIT preferredWidthChanged();
     }
 }
 
@@ -242,7 +242,7 @@ void EPUBView::setPreferredHeight(int height)
     if (height != m_preferredHeight) {
         m_preferredHeight = height;
         resizeContent();
-        emit preferredHeightChanged();
+        Q_EMIT preferredHeightChanged();
     }
 }
 

@@ -70,7 +70,7 @@ void EPUBTocModel::setDocument(const QByteArray &doc)
 
     endResetModel();
 
-    emit documentChanged();
+    Q_EMIT documentChanged();
 }
 
 int EPUBTocModel::rowCount(const QModelIndex &parent) const

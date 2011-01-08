@@ -24,10 +24,10 @@ class EPUBLibraryBrowser : public MainWindowBase {
 public:
     explicit EPUBLibraryBrowser(QWidget *parent = 0);
 
-public slots:
+public Q_SLOTS:
     void openFile(const QString &fileName);
 
-signals:
+Q_SIGNALS:
     void openFileRequest(const QString &fileName);
 };
 

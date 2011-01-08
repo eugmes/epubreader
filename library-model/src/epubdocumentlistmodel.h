@@ -55,7 +55,7 @@ private:
 
     QList<EPUBDesc> m_data;
 
-private slots:
+private Q_SLOTS:
     void callFinished(QDBusPendingCallWatcher *call);
 };
 

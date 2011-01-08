@@ -36,11 +36,11 @@ uint EPUBThumbnailerRequest::handle() const
 
 void EPUBThumbnailerRequest::run()
 {
-    foreach (const QString &uri, m_uris) {
+    Q_FOREACH (const QString &uri, m_uris) {
         handleUri(uri);
     }
 
-    emit finished(m_handle);
+    Q_EMIT finished(m_handle);
     quit();
 }
 
@@ -80,7 +80,7 @@ void EPUBThumbnailerRequest::handleUri(const QString &uri)
 {
     QString fileName = QUrl(uri).toLocalFile();
     if (fileName.isEmpty()) {
-        emit error(uri, 0, QLatin1String("Not a local URI"));
+        Q_EMIT error(uri, 0, QLatin1String("Not a local URI"));
         qWarning() << "Not a local URI";
         return;
     }
@@ -88,28 +88,28 @@ void EPUBThumbnailerRequest::handleUri(const QString &uri)
     EPUBFile file(fileName);
 
     if (file.status() != EPUBFile::NoError) {
-        emit error(uri, file.status(), QLatin1String("File open error"));
+        Q_EMIT error(uri, file.status(), QLatin1String("File open error"));
         qWarning() << "File open error";
         return;
     }
 
     QString metadata = file.metadata();
     if (metadata.isEmpty()) {
-        emit error(uri, 0, QLatin1String("Empty metadata"));
+        Q_EMIT error(uri, 0, QLatin1String("Empty metadata"));
         qWarning() << "Empty metadata";
         return;
     }
 
     QString coverID = getCoverID(metadata);
     if (coverID.isEmpty()) {
-        emit error(uri, 0, QLatin1String("Empty or absent cover id"));
+        Q_EMIT error(uri, 0, QLatin1String("Empty or absent cover id"));
         qWarning() << "Empty or absent cover id";
         return;
     }
 
     QString path = file.getFilePathByID(coverID);
     if (path.isEmpty()) {
-        emit error(uri, 0, QLatin1String("Cover path not found"));
+        Q_EMIT error(uri, 0, QLatin1String("Cover path not found"));
         qWarning() << "Cover path not found";
         return;
     }
@@ -118,7 +118,7 @@ void EPUBThumbnailerRequest::handleUri(const QString &uri)
     QByteArray coverImage = file.getFileByPath(path, &mimeType);
 
     if (coverImage.isEmpty()) {
-        emit error(uri, 0, QLatin1String("Cover file is empty"));
+        Q_EMIT error(uri, 0, QLatin1String("Cover file is empty"));
         qWarning() << "Cover file is empty";
         return;
     }
@@ -128,10 +128,10 @@ void EPUBThumbnailerRequest::handleUri(const QString &uri)
     QImage scaled = img.scaled(QSize(124, 124), Qt::KeepAspectRatio, Qt::SmoothTransformation); // "cropped" image size
 
     if (!saveThumbnail(uri, scaled)) {
-        emit error(uri, 0, QLatin1String("Save failed"));
+        Q_EMIT error(uri, 0, QLatin1String("Save failed"));
         qWarning() << "Save failed";
         return;
     }
 
-    emit ready(uri);
+    Q_EMIT ready(uri);
 }

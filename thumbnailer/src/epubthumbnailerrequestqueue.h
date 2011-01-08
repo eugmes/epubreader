@@ -30,7 +30,7 @@ public:
 
     uint enqueue(const QStringList &uris);
 
-signals:
+Q_SIGNALS:
     void ready(const QString &uri);
     void started(uint handle);
     void finished(uint handle);
@@ -38,7 +38,7 @@ signals:
 
     void requestQueueEmpty();
 
-private slots:
+private Q_SLOTS:
     void processRequest();
     void timeout();
 

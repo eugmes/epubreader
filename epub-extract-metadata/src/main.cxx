@@ -36,7 +36,7 @@ void parseMetadata(const QString &s)
     EPUBMetadataParser parser(&query);
 
     query.evaluateTo(&parser);
-    foreach (const EPUBMetadataParser::MetadataEntry &ent, parser.metadata()) {
+    Q_FOREACH (const EPUBMetadataParser::MetadataEntry &ent, parser.metadata()) {
         std::cout << qPrintable(ent.first) << "\n";
         QString val = ent.second;
         std::cout << qPrintable(val.replace(QLatin1Char('\\'), QLatin1String("\\\\")).

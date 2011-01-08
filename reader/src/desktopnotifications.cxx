@@ -15,7 +15,6 @@
  */
 
 #include "desktopnotifications.h"
-#undef signals // FIXME
 #include <libnotify/notify.h>
 
 bool DesktopNotifications::init(const QString &appName)

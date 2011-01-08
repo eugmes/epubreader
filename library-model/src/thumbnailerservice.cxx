@@ -44,7 +44,7 @@ void ThumbnailerService::getThumbnail(const QString &fileName)
     QString url = QUrl::fromLocalFile(fileName).toString();
     QPixmap pix = loadThumbnailFile(url);
     if (!pix.isNull()) {
-        emit thumbnailReady(fileName, pix);
+        Q_EMIT thumbnailReady(fileName, pix);
         return;
     }
 
@@ -53,11 +53,11 @@ void ThumbnailerService::getThumbnail(const QString &fileName)
 
 void ThumbnailerService::readyURLs(const QStringList &urls)
 {
-    foreach (const QString &url, urls) {
+    Q_FOREACH (const QString &url, urls) {
         qWarning() << "readyFile" << QUrl(url).toLocalFile();
 
         QPixmap pix = loadThumbnailFile(url);
         if (!pix.isNull())
-            emit thumbnailReady(QUrl(url).toLocalFile(), pix);
+            Q_EMIT thumbnailReady(QUrl(url).toLocalFile(), pix);
     }
 }

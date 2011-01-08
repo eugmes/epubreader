@@ -40,6 +40,6 @@ EPUBTOCWindow::EPUBTOCWindow(const QByteArray &tocDocument, QWidget *parent) :
 
 void EPUBTOCWindow::itemActivated(const QModelIndex &index)
 {
-    emit openTocDocumentRequest(index.data(EPUBTocModel::UrlRole).toString());
+    Q_EMIT openTocDocumentRequest(index.data(EPUBTocModel::UrlRole).toString());
     close();
 }

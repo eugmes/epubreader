@@ -29,7 +29,7 @@ public:
     explicit SettingsDialog(QWidget *parent = 0);
     ~SettingsDialog();
 
-public slots:
+public Q_SLOTS:
     virtual void accept();
 
 private:

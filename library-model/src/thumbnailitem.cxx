@@ -47,11 +47,11 @@ void ThumbnailItem::setFile(const QString &fileName)
 {
     if (fileName != m_fileName) {
         m_fileName = fileName;
-        emit fileChanged();
+        Q_EMIT fileChanged();
 
         if (m_loaded) {
             m_loaded = false;
-            emit loadStatusChanged();
+            Q_EMIT loadStatusChanged();
         }
 
         setImage(QPixmap());
@@ -75,7 +75,7 @@ void ThumbnailItem::setImage(const QPixmap &img)
         setImplicitWidth(img.width());
         setImplicitHeight(img.height());
         m_loaded = true;
-        emit loadStatusChanged();
+        Q_EMIT loadStatusChanged();
     }
 
     update();

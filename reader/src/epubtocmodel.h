@@ -36,7 +36,7 @@ public:
         UrlRole = Qt::UserRole + 1
     };
 
-signals:
+Q_SIGNALS:
     void documentChanged();
 
 private:

@@ -48,7 +48,7 @@ void EPUBThumbnailerRequestQueue::processRequest()
 {
     if (m_requests.isEmpty()) {
         m_busy = false;
-        emit requestQueueEmpty();
+        Q_EMIT requestQueueEmpty();
         m_timeoutTimer->start();
         return;
     }
@@ -62,7 +62,7 @@ void EPUBThumbnailerRequestQueue::processRequest()
 
     connect(req, SIGNAL(finished(uint)), SLOT(processRequest()), Qt::QueuedConnection);
 
-    emit started(req->handle());
+    Q_EMIT started(req->handle());
     req->start();
     m_timeoutTimer->stop();
 }

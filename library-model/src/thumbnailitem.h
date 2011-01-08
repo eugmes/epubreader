@@ -35,11 +35,11 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-signals:
+Q_SIGNALS:
     void loadStatusChanged();
     void fileChanged();
 
-private slots:
+private Q_SLOTS:
     void thumbnailReady(const QString &fileName, const QPixmap &img);
 
 private:

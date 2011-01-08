@@ -98,7 +98,7 @@ void EPUBDocumentListModel::callFinished(QDBusPendingCallWatcher *call)
         m_data.clear();
 
         StringListList list = reply.argumentAt<0>();
-        foreach (const QStringList &l, list) {
+        Q_FOREACH (const QStringList &l, list) {
             if (l.length() < 4) {
                 qWarning() << "Wrong entry length";
                 continue;

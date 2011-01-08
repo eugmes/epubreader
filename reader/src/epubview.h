@@ -53,7 +53,7 @@ public:
 
     QByteArray tocDocument();
 
-public slots:
+public Q_SLOTS:
     bool openFile(const QString &fileName);
 
     bool showPrevPage();
@@ -64,7 +64,7 @@ public slots:
 
     void openTocDocumentRequest(const QString &path);
 
-signals:
+Q_SIGNALS:
     void preferredHeightChanged();
     void preferredWidthChanged();
 
@@ -73,7 +73,7 @@ signals:
 protected:
     virtual bool sceneEvent(QEvent *event);
 
-private slots:
+private Q_SLOTS:
     void handleUrlChange(const QUrl &url);
     void handleExternalLink(const QUrl &url);
 

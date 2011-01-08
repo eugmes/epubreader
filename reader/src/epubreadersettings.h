@@ -45,13 +45,13 @@ public:
 
     Q_INVOKABLE QString lastUrlForFile(const QString &path);
 
-public slots:
+public Q_SLOTS:
     void saveLastURL(const QString &fileName, const QString &url);
 
 private:
     QList<QPair<QString, QString> > getLastURLs();
 
-signals:
+Q_SIGNALS:
     void textSizeMultiplierChanged();
     void fontFamilyChanged();
     void colorIndexChanged();

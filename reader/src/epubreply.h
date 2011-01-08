@@ -30,7 +30,7 @@ public:
     virtual qint64 bytesAvailable() const;
 protected:
     virtual qint64 readData(char *data, qint64 maxlen);
-private slots:
+private Q_SLOTS:
     void processRequest();
 private:
     QPointer<EPUBFile> m_epub;

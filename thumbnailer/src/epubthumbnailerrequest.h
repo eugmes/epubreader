@@ -26,7 +26,8 @@ public:
     explicit EPUBThumbnailerRequest(uint handle, const QStringList &uris, QObject *parent = 0);
 
     uint handle() const;
-signals:
+
+Q_SIGNALS:
     void ready(const QString &uri);
     void finished(uint handle);
     void error(const QString &uri, int errorCode, const QString &message);
