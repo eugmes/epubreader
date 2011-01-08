@@ -82,11 +82,11 @@ QVariant EPUBDocumentListModel::data(const QModelIndex &index, int role) const
 
     int idx = index.row();
     if (role == Qt::DisplayRole)
-        return m_data[idx].title;
+        return m_data.at(idx).title;
     else if (role == FileNameRole)
-        return m_data[idx].fileName;
+        return m_data.at(idx).fileName;
     else if (role == AuthorRole)
-        return m_data[idx].author;
+        return m_data.at(idx).author;
     return QVariant();
 }
 
@@ -107,7 +107,7 @@ void EPUBDocumentListModel::callFinished(QDBusPendingCallWatcher *call)
                 continue;
             }
 
-            m_data << EPUBDesc(l[0], l[2], l[3]);
+            m_data << EPUBDesc(l.at(0), l.at(2), l.at(3));
         }
         endResetModel();
     }

@@ -239,7 +239,7 @@ bool EPUBFile::parseSpine(const QXmlQuery &parentQuery, QXmlResultItems &items)
 QString EPUBFile::getDefaultID() const
 {
     if (m_spine.length() > 0)
-        return m_spine[0].idref;
+        return m_spine.at(0).idref;
     else
         return QString();
 }
@@ -249,9 +249,9 @@ QString EPUBFile::getPrevPage(const QString &path) const
     QString id = getIDByPath(path);
 
     for (int i = 0; i < m_spine.size(); i++) {
-        if (m_spine[i].idref == id) {
+        if (m_spine.at(i).idref == id) {
             if (i > 0) {
-                QString nextId = m_spine[i-1].idref;
+                QString nextId = m_spine.at(i-1).idref;
                 return getFilePathByID(nextId);
             } else {
                 return path;
@@ -266,9 +266,9 @@ QString EPUBFile::getNextPage(const QString &path) const
     QString id = getIDByPath(path);
 
     for (int i = 0; i < m_spine.size(); i++) {
-        if (m_spine[i].idref == id) {
+        if (m_spine.at(i).idref == id) {
             if (i < m_spine.size() - 1) {
-                QString nextId = m_spine[i+1].idref;
+                QString nextId = m_spine.at(i+1).idref;
                 return getFilePathByID(nextId);
             } else {
                 return path;
@@ -282,7 +282,7 @@ EPUBFile::PageInfo EPUBFile::getPathInfo(const QString &path) const
 {
     QString id = getIDByPath(path);
     for (int i = 0; i < m_spine.size(); i++) {
-        if (m_spine[i].idref == id) {
+        if (m_spine.at(i).idref == id) {
             return PageInfo(i > 0, i < m_spine.size() - 1);
         }
     }

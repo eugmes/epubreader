@@ -49,11 +49,11 @@ int main(int argc, char **argv)
     QCoreApplication app(argc, argv);
 
     if (app.arguments().count() < 2) {
-        std::cerr << "Usage: " << qPrintable(app.arguments()[0]) << " <file.epub>\n";
+        std::cerr << "Usage: " << qPrintable(app.arguments().at(0)) << " <file.epub>\n";
         return 1;
     }
 
-    EPUBFile file(app.arguments()[1]);
+    EPUBFile file(app.arguments().at(1));
     if (file.status() != EPUBFile::NoError)
         return 2;
 

@@ -60,7 +60,7 @@ void EPUBMetadataParser::startElement(const QXmlName &name)
 
     if (name.namespaceUri(m_query->namePool()) == QLatin1String("http://purl.org/dc/elements/1.1/")) {
         QString nm = name.localName(m_query->namePool());
-        m_name = m_names[nm];
+        m_name = m_names.value(nm);
     }
 }
 

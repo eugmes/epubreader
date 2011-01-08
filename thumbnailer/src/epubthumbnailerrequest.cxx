@@ -55,7 +55,7 @@ static QString getCoverID(const QString &metadata)
     bool ret = query.evaluateTo(&result);
     if (!ret || !result.length())
         return QString();
-    return result[0];
+    return result.at(0);
 }
 
 static const char *imageTypeForMimeType(const QString &mimeType)

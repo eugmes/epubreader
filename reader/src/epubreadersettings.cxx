@@ -90,7 +90,7 @@ void EPUBReaderSettings::saveLastURL(const QString &fileName, const QString &url
 
     int idx = -1;
     for (int i = 0; i < urls.length(); i++) {
-        if (urls[i].first == fileName) {
+        if (urls.at(i).first == fileName) {
             idx = i;
             break;
         }
@@ -106,8 +106,8 @@ void EPUBReaderSettings::saveLastURL(const QString &fileName, const QString &url
     beginWriteArray(QLatin1String("Viewed Files"), urls.size());
     for (int i = 0; i < urls.size(); i++) {
         setArrayIndex(i);
-        setValue(QLatin1String("FileName"), urls[i].first);
-        setValue(QLatin1String("Url"), urls[i].second);
+        setValue(QLatin1String("FileName"), urls.at(i).first);
+        setValue(QLatin1String("Url"), urls.at(i).second);
     }
     endArray();
 }
