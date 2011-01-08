@@ -13,7 +13,9 @@ Item {
     Image {
         id: icon
         anchors.centerIn: parent
-        opacity:  if (action != undefined) {action.enabled ? 1.0 : 0.4} else 1
+        opacity: if (action != undefined) {action.enabled ? 1.0 : 0.4} else 1
+        width: 48
+        height: 48
     }
 
     MouseArea {
