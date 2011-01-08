@@ -33,7 +33,7 @@ void parseMetadata(const QString &s)
     query.setFocus(s);
     query.setQuery(QLatin1String(DC_QUERY));
 
-    EPUBMetadataParser parser(&query);
+    EPUBMetadataParser parser(query.namePool());
 
     query.evaluateTo(&parser);
     Q_FOREACH (const EPUBMetadataParser::MetadataEntry &ent, parser.metadata()) {

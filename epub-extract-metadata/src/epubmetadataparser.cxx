@@ -15,14 +15,16 @@
  */
 
 #include "epubmetadataparser.h"
-#include <QXmlQuery>
 #include <QDebug>
 
-EPUBMetadataParser::EPUBMetadataParser(QXmlQuery *query)
-    : EPUBAbstractXMLParser(), m_query(query),
-      m_status(EPUBMetadataParser::Initial), m_level(0)
+#define DC_NS_URI "http://purl.org/dc/elements/1.1/"
+
+EPUBMetadataParser::EPUBMetadataParser(const QXmlNamePool &namePool)
+    : EPUBAbstractXMLParser(), m_status(EPUBMetadataParser::Initial),
+      m_level(0)
 {
-#define MAP(attr, val) m_names[QLatin1String(attr)] = QLatin1String(val)
+#define MAP(attr, val) \
+    m_names[QXmlName::fromClarkName(QLatin1String("{" DC_NS_URI "}" attr), namePool)] = QLatin1String(val)
     MAP("contributro", "DC:Contributor");
     MAP("coverage", "DC:Coverage");
     MAP("creator", "DC:Creator");
@@ -58,10 +60,9 @@ void EPUBMetadataParser::startElement(const QXmlName &name)
     m_status = InElemenet;
     m_level++;
 
-    if (name.namespaceUri(m_query->namePool()) == QLatin1String("http://purl.org/dc/elements/1.1/")) {
-        QString nm = name.localName(m_query->namePool());
-        m_name = m_names.value(nm);
-    }
+    QHash<QXmlName, QString>::const_iterator i = m_names.find(name);
+    if (i != m_names.end())
+        m_name = i.value();
 }
 
 void EPUBMetadataParser::endElement()
@@ -69,7 +70,8 @@ void EPUBMetadataParser::endElement()
     if (!--m_level) {
         m_status = Initial;
 
-        m_metadata.append(MetadataEntry(m_name, m_data));
+        if (!m_name.isEmpty())
+            m_metadata.append(MetadataEntry(m_name, m_data));
 
         m_name = QString();
         m_data = QString();

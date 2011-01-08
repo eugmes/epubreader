@@ -19,12 +19,11 @@
 
 #include "epubabstractxmlparser.h"
 #include <QHash>
-
-class QXmlQuery;
+#include <QXmlName>
 
 class EPUBMetadataParser : public EPUBAbstractXMLParser {
 public:
-    EPUBMetadataParser(QXmlQuery *query);
+    EPUBMetadataParser(const QXmlNamePool &namePool);
 
     virtual void attribute(const QXmlName &name, const QStringRef &value);
     virtual void characters(const QStringRef &value);
@@ -41,14 +40,13 @@ private:
         InElemenet
     };
 
-    QXmlQuery *m_query;
     Status m_status;
     int m_level;
 
     QString m_name;
     QString m_data;
 
-    QHash<QString, QString> m_names;
+    QHash<QXmlName, QString> m_names;
 
     QList<MetadataEntry> m_metadata;
 };
