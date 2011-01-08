@@ -56,6 +56,9 @@ EPUBDocumentListModel::EPUBDocumentListModel(QObject *parent) :
     m_data << EPUBDesc(QLatin1String("/nonexistent.epub"),
                        QLatin1String("Sample Book"),
                        QLatin1String("An Author"));
+    m_data << EPUBDesc(QLatin1String("/nonexistent1.epub"),
+                       QLatin1String("Sample Book 2"),
+                       QLatin1String("Another Author"));
 #endif
 }
 
