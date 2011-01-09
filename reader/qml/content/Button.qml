@@ -10,6 +10,13 @@ Item {
     width: 120
     height: parent.height
 
+    Rectangle {
+        visible: mouseArea.pressed
+        color: activePalette.highlight
+
+        anchors.fill: parent
+    }
+
     Image {
         id: icon
         anchors.centerIn: parent
@@ -19,6 +26,8 @@ Item {
     }
 
     MouseArea {
+        id: mouseArea
+
         anchors {fill: parent}
         onClicked: {
             if (action != undefined && action.enabled)
