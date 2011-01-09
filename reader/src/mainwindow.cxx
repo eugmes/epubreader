@@ -30,7 +30,7 @@
 #include "hildonimageprovider.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    MainWindowBase(parent), m_orientationOverride(false)
+    MainWindowBase(parent), m_orientationOverride(false), m_showLibrary(false)
 {
     setWindowTitle(tr("E-Book Reader"));
 
@@ -122,6 +122,7 @@ void MainWindow::showSettingsDialog()
     delete dlg;
 }
 
+// TODO close library and toc on open file request
 void MainWindow::showLibrary()
 {
     EPUBLibraryBrowser *win = new EPUBLibraryBrowser(this);
@@ -148,4 +149,19 @@ void MainWindow::showToc(const QByteArray &tocDocument)
     win->setGeometry(100, 100, 800, 480);
     win->show();
 #endif
+}
+
+void MainWindow::setFirstWindow()
+{
+    // TODO open last file, if exists
+    m_showLibrary = true;
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event);
+    if (m_showLibrary) {
+        m_showLibrary = false;
+        showLibrary();
+    }
 }

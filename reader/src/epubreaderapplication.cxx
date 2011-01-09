@@ -47,8 +47,16 @@ int EPUBApplicationDBusAdapter::mime_open(const QString &s1)
     return 0;
 }
 
+void EPUBApplicationDBusAdapter::top_application()
+{
+    EPUBReaderApplication *app = qobject_cast<EPUBReaderApplication *>(parent());
+    Q_ASSERT(app);
+
+    app->topApplication();
+}
+
 EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
-    QApplication(argc, argv)
+    QApplication(argc, argv), m_topDone(false)
 {
     setApplicationName(QLatin1String("EPUBReader"));
 
@@ -62,8 +70,6 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
 
     qmlRegisterType<EPUBView>("EPUBReader", 1, 0, "EPUBView");
     qmlRegisterType<ThumbnailItem>("EPUBReader", 1, 0, "ThumbnailItem");
-
-    MainWindow *win = new MainWindow;
 
     // TODO better error handling
     if (!QDBusConnection::sessionBus().isConnected()) {
@@ -83,11 +89,17 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
         exit(2);
     }
 
-    showNewWindow(win);
+#ifndef Q_WS_MAEMO_5
+    topApplication();
+    // TODO show main window if application was run from command line
+#endif
 }
 
 void EPUBReaderApplication::openFile(const QString &fileName)
 {
+    // this call can be caused by mime_open message
+    m_topDone = true;
+
     /* First try to find an existing window without open file */
     Q_FOREACH (QWidget *w, topLevelWidgets()) {
         MainWindow *win = qobject_cast<MainWindow *>(w);
@@ -130,4 +142,19 @@ void EPUBReaderApplication::showNewWindow(MainWindow *win)
     win->setGeometry(100, 100, 800, 480);
     win->show();
 #endif
+}
+
+void EPUBReaderApplication::topApplication()
+{
+    // Do nothing if top_application or mime_open were called before
+    if (m_topDone)
+        return;
+
+    m_topDone = true;
+
+    // When started from application launcher show last viewed file
+    // or library window
+    MainWindow *win = new MainWindow;
+    win->setFirstWindow();
+    showNewWindow(win);
 }

@@ -28,6 +28,8 @@ public:
     QString fileName() const;
     bool fullSize() const;
 
+    void setFirstWindow();
+
 public Q_SLOTS:
     void openFile(QString newFileName);
     void chooseFile();
@@ -46,11 +48,12 @@ private Q_SLOTS:
 
 protected:
     virtual void updateWindowOrientation();
+    virtual void showEvent(QShowEvent *event);
 
 private:
     QString m_fileName;
     bool m_orientationOverride;
-
+    bool m_showLibrary;
 };
 
 #endif
