@@ -44,6 +44,7 @@ public:
     void setWindowOrientation(Orientation o);
 
     Q_INVOKABLE QString lastUrlForFile(const QString &path);
+    QString lastOpenFile();
 
 public Q_SLOTS:
     void saveLastURL(const QString &fileName, const QString &url);

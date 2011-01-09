@@ -139,3 +139,12 @@ void EPUBReaderSettings::setWindowOrientation(Orientation o)
         Q_EMIT windowOrientationChanged();
     }
 }
+
+QString EPUBReaderSettings::lastOpenFile()
+{
+    beginReadArray(QLatin1String("Viewed Files"));
+    setArrayIndex(0);
+    QString fileName = value(QLatin1String("FileName")).toString();
+    endArray();
+    return fileName;
+}

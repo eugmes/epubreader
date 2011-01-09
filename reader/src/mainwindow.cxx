@@ -122,12 +122,12 @@ void MainWindow::showSettingsDialog()
     delete dlg;
 }
 
-// TODO close library and toc on open file request
 void MainWindow::showLibrary()
 {
     EPUBLibraryBrowser *win = new EPUBLibraryBrowser(this);
     win->setWindowModality(Qt::WindowModal);
     connect(win, SIGNAL(openFileRequest(QString)), SLOT(openFile(QString)));
+    connect(this, SIGNAL(fileNameChanged()), win, SLOT(close()));
 
 #ifdef Q_WS_MAEMO_5
     win->showMaximized();
@@ -142,6 +142,8 @@ void MainWindow::showToc(const QByteArray &tocDocument)
     EPUBTOCWindow *win = new EPUBTOCWindow(tocDocument, this);
     win->setWindowModality(Qt::WindowModal);
     connect(win, SIGNAL(openTocDocumentRequest(QString)), SIGNAL(openTocDocumentRequest(QString)));
+    // FIXME should not happen after everything fixed
+    connect(this, SIGNAL(fileNameChanged()), win, SLOT(close()));
 
 #ifdef Q_WS_MAEMO_5
     win->showMaximized();
@@ -153,8 +155,13 @@ void MainWindow::showToc(const QByteArray &tocDocument)
 
 void MainWindow::setFirstWindow()
 {
-    // TODO open last file, if exists
-    m_showLibrary = true;
+    EPUBReaderSettings *settings = EPUBReaderApplication::settings();
+    QString fileName = settings->lastOpenFile();
+
+    if (!fileName.isEmpty() && QFile::exists(fileName))
+        openFile(fileName);
+    else
+        m_showLibrary = true;
 }
 
 void MainWindow::showEvent(QShowEvent *event)
