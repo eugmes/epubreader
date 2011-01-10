@@ -78,7 +78,6 @@ private Q_SLOTS:
     void handleExternalLink(const QUrl &url);
 
 private:
-    void showPath(const QString &path);
     void resizeContent();
 
     EPUBFile *m_epub;

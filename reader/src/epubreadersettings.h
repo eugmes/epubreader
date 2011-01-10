@@ -18,6 +18,7 @@
 #define EPUBREADERSETTINGS_H
 
 #include <QSettings>
+#include <QUrl>
 
 class EPUBReaderSettings : public QSettings {
     Q_OBJECT
@@ -43,14 +44,14 @@ public:
     Orientation windowOrientation() const;
     void setWindowOrientation(Orientation o);
 
-    Q_INVOKABLE QString lastUrlForFile(const QString &path);
+    QUrl lastUrlForFile(const QString &path);
     QString lastOpenFile();
 
 public Q_SLOTS:
-    void saveLastURL(const QString &fileName, const QString &url);
+    void saveLastURL(const QString &fileName, const QUrl &url);
 
 private:
-    QList<QPair<QString, QString> > getLastURLs();
+    QList<QPair<QString, QUrl> > getLastURLs();
 
 Q_SIGNALS:
     void textSizeMultiplierChanged();

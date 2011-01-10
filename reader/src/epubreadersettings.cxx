@@ -61,7 +61,7 @@ void EPUBReaderSettings::setColorIndex(int idx)
     }
 }
 
-typedef QPair<QString, QString> UrlDesc;
+typedef QPair<QString, QUrl> UrlDesc;
 typedef QList<UrlDesc> UrlsList;
 
 UrlsList EPUBReaderSettings::getLastURLs()
@@ -72,17 +72,17 @@ UrlsList EPUBReaderSettings::getLastURLs()
     for (int i = 0; i < size; i++) {
         setArrayIndex(i);
         QString fileName;
-        QString url;
+        QUrl url;
 
         fileName = value(QLatin1String("FileName")).toString();
-        url = value(QLatin1String("Url")).toString();
+        url = value(QLatin1String("Url")).toUrl();
         result.append(UrlDesc(fileName, url));
     }
     endArray();
     return result;
 }
 
-void EPUBReaderSettings::saveLastURL(const QString &fileName, const QString &url)
+void EPUBReaderSettings::saveLastURL(const QString &fileName, const QUrl &url)
 {
     if (fileName.isEmpty() || url.isEmpty())
         return;
@@ -107,19 +107,20 @@ void EPUBReaderSettings::saveLastURL(const QString &fileName, const QString &url
     for (int i = 0; i < urls.size(); i++) {
         setArrayIndex(i);
         setValue(QLatin1String("FileName"), urls.at(i).first);
-        setValue(QLatin1String("Url"), urls.at(i).second);
+        // Save Url as as string for better readability
+        setValue(QLatin1String("Url"), urls.at(i).second.toString());
     }
     endArray();
 }
 
-QString EPUBReaderSettings::lastUrlForFile(const QString &path)
+QUrl EPUBReaderSettings::lastUrlForFile(const QString &path)
 {
     UrlsList urls = getLastURLs();
     Q_FOREACH (const UrlDesc &url, urls) {
         if (url.first == path)
             return url.second;
     }
-    return QString();
+    return QUrl();
 }
 
 EPUBReaderSettings::Orientation EPUBReaderSettings::windowOrientation() const

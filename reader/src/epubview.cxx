@@ -20,7 +20,6 @@
 #include <QAction>
 #include <QWebFrame>
 #include <QDebug>
-#include <QDir>
 #include <QWebSecurityOrigin>
 #include <QDesktopServices>
 #include "epubreaderapplication.h"
@@ -40,13 +39,6 @@
         "margin-right: 10px !important;" \
         "margin-left: 10px !important" \
     "}"
-
-static inline QString trimPath(const QString &path)
-{
-    if (path.startsWith(QLatin1Char('/')))
-        return path.mid(1);
-    return path;
-}
 
 EPUBView::EPUBView(QGraphicsItem *parent) :
     QGraphicsWebView(parent), m_epub(0), m_preferredWidth(800), m_preferredHeight(600)
@@ -112,8 +104,8 @@ void EPUBView::setBackgroundIndex(int idx)
 
     QString style = QString::fromLatin1(STYLESHEET_TEMPLATE).arg(c.name());
     QByteArray userStyleSheet = style.toUtf8();
-    QString url = QLatin1String("data:text/css;charset=utf-8;base64,") + QLatin1String(userStyleSheet.toBase64());
-    settings()->setUserStyleSheetUrl(url);
+    QByteArray url = QByteArray("data:text/css;charset=utf-8;base64,") + userStyleSheet.toBase64();
+    settings()->setUserStyleSheetUrl(QUrl::fromEncoded(url));
 }
 
 bool EPUBView::openFile(const QString &fileName)
@@ -122,7 +114,7 @@ bool EPUBView::openFile(const QString &fileName)
         return false;
 
     EPUBReaderSettings *settings = EPUBReaderApplication::settings();
-    settings->saveLastURL(m_fileName, url().toString());
+    settings->saveLastURL(m_fileName, url());
 
     EPUBAccessManager *manager = qobject_cast<EPUBAccessManager *>(page()->networkAccessManager());
     Q_ASSERT(manager);
@@ -143,11 +135,10 @@ bool EPUBView::openFile(const QString &fileName)
         m_fileName = fileName;
 
         /* open last viewed page or default one if not found */
-        QString lastUrl = settings->lastUrlForFile(fileName);
-        if (lastUrl.isEmpty()) {
-            QString defaultPage = m_epub->getDefaultID();
-            QString path = m_epub->getFilePathByID(defaultPage);
-            showPath(path);
+        QUrl lastUrl = settings->lastUrlForFile(fileName);
+        if (!lastUrl.isValid() || !m_epub->hasUrl(lastUrl)) {
+            QUrl defaultUrl = m_epub->defaultUrl();
+            load(defaultUrl);
         } else
             load(lastUrl);
 
@@ -179,12 +170,11 @@ QAction *EPUBView::nextPageAction() const
 bool EPUBView::showPrevPage()
 {
     if (url().scheme() != QLatin1String("epub"))
-        return false; // TODO mayve just try to show first page
+        return false; // TODO maybe just try to show first page
     if (!m_epub)
         return false;
-    QString path = trimPath(url().path());
-    QString newPath = m_epub->getPrevPage(path);
-    showPath(newPath);
+    QUrl newUrl = m_epub->getPrevPage(url()); // TODO check if page is the same
+    load(newUrl);
     return true;
 }
 
@@ -194,15 +184,9 @@ bool EPUBView::showNextPage()
         return false; // TODO maybe try to show last page
     if (!m_epub)
         return false;
-    QString path = trimPath(url().path());
-    QString newPath = m_epub->getNextPage(path);
-    showPath(newPath);
+    QUrl newUrl = m_epub->getNextPage(url()); // TODO check if page is the same
+    load(newUrl);
     return true;
-}
-
-void EPUBView::showPath(const QString &path)
-{
-    setUrl(QUrl(QLatin1String("epub:/") + path));
 }
 
 void EPUBView::handleUrlChange(const QUrl &url)
@@ -211,10 +195,9 @@ void EPUBView::handleUrlChange(const QUrl &url)
         m_prevPageAction->setEnabled(false);
         m_nextPageAction->setEnabled(false);
     } else {
-        QString path = trimPath(url.path());
-        EPUBFile::PageInfo info = m_epub->getPathInfo(path);
-        m_prevPageAction->setEnabled(info.hasPrev);
-        m_nextPageAction->setEnabled(info.hasNext);
+        EPUBFile::PageFlags flags = m_epub->getUrlInfo(url);
+        m_prevPageAction->setEnabled(flags && EPUBFile::PageHasPrevious);
+        m_nextPageAction->setEnabled(flags && EPUBFile::PageHasNext);
     }
 }
 
@@ -284,10 +267,7 @@ void EPUBView::openTocDocumentRequest(const QString &path)
     if (!m_epub)
         return;
 
-    if (QDir::isAbsolutePath(path))
-        load(QLatin1String("epub/") + trimPath(path));
-    else
-        load(QLatin1String("epub:/") + trimPath(QDir::cleanPath(/*m_epub->tocPrefix() + QLatin1Char('/') +*/ path))); // FIXME XXX clean this up
+    load(m_epub->resolveTocUrl(QUrl(path)));
 }
 
 bool EPUBView::sceneEvent(QEvent *event)

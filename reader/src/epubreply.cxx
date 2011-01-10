@@ -54,10 +54,7 @@ void EPUBReply::processRequest()
     }
 
     QString mimeType;
-    QString path = url.path();
-    if (path.startsWith(QLatin1Char('/')))
-        path = path.mid(1);
-    m_content = m_epub->getFileByPath(path, &mimeType);
+    m_content = m_epub->getFileByUrl(url, &mimeType);
 
     if (m_content.isNull()) {
         setError(ContentNotFoundError, tr("File not found"));

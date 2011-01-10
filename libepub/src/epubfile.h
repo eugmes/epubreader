@@ -17,10 +17,10 @@
 #ifndef EPUBFILE_H
 #define EPUBFILE_H
 #include <QObject>
-#include <QString>
 #include <QList>
 #include <QScopedPointer>
 #include "zipreader.h"
+#include <QUrl>
 
 class QXmlResultItems;
 class QXmlQuery;
@@ -28,7 +28,8 @@ class QXmlQuery;
 class EPUBFile : public QObject {
     Q_OBJECT
     Q_PROPERTY(QString metadata READ metadata)
-    Q_PROPERTY(QString tocPrefix READ tocPrefix)
+    Q_ENUMS(PageFlag)
+    Q_FLAGS(PageFlags PageFlag)
 public:
     explicit EPUBFile(const QString &fileName, QObject *parent = 0);
 
@@ -42,39 +43,41 @@ public:
     Status status() const;
     QString metadata() const;
 
-    QByteArray getFileByPath(const QString &path, QString *mimeType);
-    QString getFilePathByID(const QString &id) const;
-    QString getIDByPath(const QString &id) const;
-    QString getDefaultID() const;
-    QString getPrevPage(const QString &path) const;
-    QString getNextPage(const QString &path) const;
+    QByteArray getFileByUrl(QUrl url, QString *mimeType);
+    QUrl getUrlByID(const QString &id) const;
+    QUrl defaultUrl() const;
+    QUrl getPrevPage(const QUrl &url) const;
+    QUrl getNextPage(const QUrl &url) const;
 
-    struct PageInfo {
-        PageInfo(bool prev, bool next) : hasPrev(prev), hasNext(next) {}
-        bool hasPrev;
-        bool hasNext;
+    bool hasUrl(QUrl url) const;
+
+    enum PageFlag {
+        PageHasPrevious = 0x01,
+        PageHasNext = 0x02
     };
+    Q_DECLARE_FLAGS(PageFlags, PageFlag)
 
-    PageInfo getPathInfo(const QString &path) const;
+    PageFlags getUrlInfo(const QUrl &url) const;
 
     QByteArray tocDocument();
-    QString tocPrefix();
+    QUrl resolveTocUrl(const QUrl &url);
 
 private:
     void parseContentFile(const QString &fileName);
     bool parseManifest(const QXmlQuery &parentQuery, QXmlResultItems &items);
     bool parseSpine(const QXmlQuery &parentQuery, QXmlResultItems &items);
+    QString getIDByUrl(QUrl url) const;
 
     QScopedPointer<ZipReader> m_zip;
     Status m_status;
 
     class ManifestItem {
     public:
-        ManifestItem(const QString &a_id, const QString &a_href, const QString &a_mediaType) :
+        ManifestItem(const QString &a_id, const QUrl &a_href, const QString &a_mediaType) :
             id(a_id), href(a_href), mediaType(a_mediaType) {}
 
         QString id;
-        QString href;
+        QUrl href;
         QString mediaType;
     };
 
@@ -90,7 +93,7 @@ private:
     QList<ManifestItem> m_manifest;
     QList<SpineItem> m_spine;
 
-    QString m_contentPrefix;
+    QUrl m_contentBase;
 
     QString m_tocName;
 };

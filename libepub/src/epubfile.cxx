@@ -19,10 +19,8 @@
 #include <QXmlQuery>
 #include <QXmlResultItems>
 #include <QStringList>
-#include <QRegExp>
 #include <QBuffer>
 #include <QDebug>
-#include <QDir>
 
 EPUBFile::EPUBFile(const QString &fileName, QObject *parent) :
     QObject(parent), m_zip(new ZipReader(fileName))
@@ -62,10 +60,9 @@ EPUBFile::EPUBFile(const QString &fileName, QObject *parent) :
         return;
     }
 
+    /* FIXME check spec: could contentFileName contain leading slash? */
     QString contentFileName = item.toAtomicValue().toString();
-    QRegExp rx(QLatin1String("^/?(.*/)([^/]*)?$"));
-    if (rx.exactMatch(contentFileName))
-        m_contentPrefix = rx.cap(1);
+    m_contentBase = QUrl::fromEncoded("epub:///").resolved(QUrl(contentFileName)).resolved(QUrl::fromEncoded("."));
 
     m_status = NoError;
     parseContentFile(contentFileName);
@@ -174,7 +171,7 @@ bool EPUBFile::parseManifest(const QXmlQuery &parentQuery, QXmlResultItems &item
 
         m_manifest.append(ManifestItem(
                         id.toAtomicValue().toString(),
-                        href.toAtomicValue().toString(),
+                        m_contentBase.resolved(QUrl(href.toAtomicValue().toString())),
                         mediaType.toAtomicValue().toString()));
 
         item = items.next();
@@ -182,32 +179,41 @@ bool EPUBFile::parseManifest(const QXmlQuery &parentQuery, QXmlResultItems &item
     return true;
 }
 
-QByteArray EPUBFile::getFileByPath(const QString &path, QString *mimeType)
+QByteArray EPUBFile::getFileByUrl(QUrl url, QString *mimeType)
 {
     Q_ASSERT(mimeType);
+    Q_ASSERT(url.scheme() == QLatin1String("epub"));
+    Q_ASSERT(url.host().isEmpty());
+
+    url.setFragment(QString());
+
     // TODO maybe handle fallback
     Q_FOREACH (const ManifestItem &i, m_manifest) {
-        if (i.href == path) {
+        if (i.href == url) {
             *mimeType = i.mediaType;
-            return m_zip->fileData(m_contentPrefix + path);
+            QString path = url.path();
+            Q_ASSERT(path.startsWith(QLatin1Char('/')));
+            return m_zip->fileData(path.mid(1));
         }
     }
     return QByteArray();
 }
 
-QString EPUBFile::getFilePathByID(const QString &id) const
+QUrl EPUBFile::getUrlByID(const QString &id) const
 {
     Q_FOREACH (const ManifestItem &i, m_manifest) {
         if (i.id == id)
             return i.href;
     }
-    return QString();
+    return QUrl();
 }
 
-QString EPUBFile::getIDByPath(const QString &path) const
+QString EPUBFile::getIDByUrl(QUrl url) const
 {
+    url.setFragment(QString());
+
     Q_FOREACH (const ManifestItem &i, m_manifest) {
-        if (i.href == path)
+        if (i.href == url)
             return i.id;
     }
     return QString();
@@ -236,85 +242,87 @@ bool EPUBFile::parseSpine(const QXmlQuery &parentQuery, QXmlResultItems &items)
     return true;
 }
 
-QString EPUBFile::getDefaultID() const
+QUrl EPUBFile::defaultUrl() const
 {
     if (m_spine.length() > 0)
-        return m_spine.at(0).idref;
+        return getUrlByID(m_spine.at(0).idref);
     else
-        return QString();
+        return QUrl();
 }
 
-QString EPUBFile::getPrevPage(const QString &path) const
+QUrl EPUBFile::getPrevPage(const QUrl &url) const
 {
-    QString id = getIDByPath(path);
+    QString id = getIDByUrl(url);
 
     for (int i = 0; i < m_spine.size(); i++) {
         if (m_spine.at(i).idref == id) {
             if (i > 0) {
                 QString nextId = m_spine.at(i-1).idref;
-                return getFilePathByID(nextId);
+                return getUrlByID(nextId);
             } else {
-                return path;
+                return url;
             }
         }
     }
-    return path;
+    return url;
 }
 
-QString EPUBFile::getNextPage(const QString &path) const
+QUrl EPUBFile::getNextPage(const QUrl &url) const
 {
-    QString id = getIDByPath(path);
+    QString id = getIDByUrl(url);
 
     for (int i = 0; i < m_spine.size(); i++) {
         if (m_spine.at(i).idref == id) {
             if (i < m_spine.size() - 1) {
                 QString nextId = m_spine.at(i+1).idref;
-                return getFilePathByID(nextId);
+                return getUrlByID(nextId);
             } else {
-                return path;
+                return url;
             }
         }
     }
-    return path;
+    return url;
 }
 
-EPUBFile::PageInfo EPUBFile::getPathInfo(const QString &path) const
+EPUBFile::PageFlags EPUBFile::getUrlInfo(const QUrl &url) const
 {
-    QString id = getIDByPath(path);
+    QString id = getIDByUrl(url);
     for (int i = 0; i < m_spine.size(); i++) {
         if (m_spine.at(i).idref == id) {
-            return PageInfo(i > 0, i < m_spine.size() - 1);
+            PageFlags flags = 0;
+            if (i > 0)
+                flags |= PageHasPrevious;
+            if (i < m_spine.size() - 1)
+                flags |= PageHasNext;
+            return flags;
         }
     }
-    return PageInfo(false, false);
+    return 0;
 }
 
-QString EPUBFile::tocPrefix()
+QUrl EPUBFile::resolveTocUrl(const QUrl &url)
 {
-    QString filePath = getFilePathByID(m_tocName);
-    QRegExp rx(QLatin1String("^/?(.*/)([^/]*)?$"));
-    QString prefix;
-
-    if (rx.exactMatch(filePath))
-        prefix = rx.cap(1);
-
-    if (QDir::isAbsolutePath(prefix))
-        return prefix;
-
-    return QDir::cleanPath(m_contentPrefix + QLatin1Char('/') + prefix);
-
+    return getUrlByID(m_tocName).resolved(url);
 }
 
 QByteArray EPUBFile::tocDocument()
 {
-    QString filePath = getFilePathByID(m_tocName);
-    if (filePath.isEmpty())
-        return QByteArray();
+    QUrl tocUrl = getUrlByID(m_tocName);
 
     QString mimeType;
-    QByteArray fileContent = getFileByPath(filePath, &mimeType);
+    QByteArray fileContent = getFileByUrl(tocUrl, &mimeType);
     if (mimeType != QLatin1String("application/x-dtbncx+xml"))
         return QByteArray();
 
     return fileContent;
+}
+
+bool EPUBFile::hasUrl(QUrl url) const
+{
+    url.setFragment(QString());
+    Q_FOREACH (const ManifestItem &i, m_manifest) {
+        if (i.href == url)
+            return true;
+    }
+    return false;
 }

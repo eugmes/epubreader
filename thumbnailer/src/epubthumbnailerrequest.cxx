@@ -107,15 +107,15 @@ void EPUBThumbnailerRequest::handleUri(const QString &uri)
         return;
     }
 
-    QString path = file.getFilePathByID(coverID);
-    if (path.isEmpty()) {
+    QUrl url = file.getUrlByID(coverID);
+    if (!url.isValid()) {
         Q_EMIT error(uri, 0, QLatin1String("Cover path not found"));
         qWarning() << "Cover path not found";
         return;
     }
 
     QString mimeType;
-    QByteArray coverImage = file.getFileByPath(path, &mimeType);
+    QByteArray coverImage = file.getFileByUrl(url, &mimeType);
 
     if (coverImage.isEmpty()) {
         Q_EMIT error(uri, 0, QLatin1String("Cover file is empty"));
