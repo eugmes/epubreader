@@ -63,7 +63,8 @@ OTHER_FILES += \
     dbus/org.opensource.epubreader.Reader.service \
     qml/epublibrary.qml \
     qml/content/BookThumbnail.qml \
-    qml/content/BookItem.qml
+    qml/content/BookItem.qml \
+    qml/content/Icons.js
 
 RESOURCES += \
     epubreader.qrc

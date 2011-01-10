@@ -26,9 +26,11 @@ HildonImageProvider::HildonImageProvider():
 QPixmap HildonImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
     Q_ASSERT(size);
+    Q_UNUSED(requestedSize); // FIXME invalid size is usually requested by QML
 
     QIcon icon = QIcon::fromTheme(id);
-    QPixmap pix = icon.pixmap(requestedSize);
-    *size = pix.size();
+    QPixmap pix = icon.pixmap(QSize(42, 42));
+    *size = QSize(42, 42); // FIXME pix.size is usually invalid
+
     return pix;
 }

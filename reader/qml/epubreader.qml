@@ -1,5 +1,6 @@
 import Qt 4.7
 import "content"
+import "content/Icons.js" as Icons
 
 Rectangle {
     id: mainView
@@ -39,13 +40,13 @@ Rectangle {
 
             Button {
                 id: prevButton
-                image: "image://hildon-icon/qgn_back_fsm"
+                image: "image://hildon-icon/" + Icons.previousPageIcon
                 action: epubView.prevPage
             }
 
             Button {
                 id: tocButton
-                image: "image://hildon-icon/notes_bullets"
+                image: "image://hildon-icon/" + Icons.showTocIcon
 
                 onClicked: {
                     mainWindow.showToc(epubView.tocDocument)
@@ -54,13 +55,13 @@ Rectangle {
 
             Button {
                 id: nextButton
-                image: "image://hildon-icon/qgn_forward_fsm"
+                image: "image://hildon-icon/" + Icons.nextPageIcon
                 action: epubView.nextPage
             }
         }
         Button {
             id: fullSizeButton
-            image: "image://hildon-icon/general_fullsize"
+            image: "image://hildon-icon/" + Icons.showFullSizeIcon
             onClicked: {
                 mainWindow.fullSize = true
             }
@@ -77,7 +78,7 @@ Rectangle {
 
         Button {
             id: normalSizeButton
-            image: "image://hildon-icon/general_fullsize_b"
+            image: "image://hildon-icon/" + Icons.showNormalIcon
             opacity: 0.4
 
             onClicked: {
