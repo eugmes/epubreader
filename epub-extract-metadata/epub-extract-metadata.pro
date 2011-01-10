@@ -7,7 +7,7 @@ INCLUDEPATH += ../libepub/src
 
 LIBEPUB = ../libepub/$${QMAKE_PREFIX_STATICLIB}epub.$${QMAKE_EXTENSION_STATICLIB}
 
-LIBS += $$LIBEPUB
+LIBS += $$LIBEPUB -lz
 PRE_TARGETDEPS += $$LIBEPUB
 
 CONFIG += qt warn_on
