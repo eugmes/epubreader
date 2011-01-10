@@ -96,10 +96,6 @@ Rectangle {
         PropertyChanges {target: epubView; anchors.bottom: mainView.bottom}
     }
 
-    function fileNameChange() {
-
-    }
-
     Component.onCompleted: mainWindow.openTocDocumentRequest.connect(epubView.openTocDocumentRequest)
 
     Component.onDestruction: {
