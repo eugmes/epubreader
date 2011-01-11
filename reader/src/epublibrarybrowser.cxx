@@ -21,6 +21,7 @@
 #include "hildonimageprovider.h"
 #include <QDeclarativeEngine>
 #include <QDebug>
+#include <QSortFilterProxyModel>
 
 EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
     MainWindowBase(parent)
@@ -28,10 +29,17 @@ EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
     setWindowTitle(tr("E-Book Library"));
 
     EPUBDocumentListModel *model = new EPUBDocumentListModel(this);
+    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(model);
+    proxyModel->setSourceModel(model);
+    proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+    proxyModel->setSortRole(Qt::DisplayRole);
+    proxyModel->setSortLocaleAware(true);
+    proxyModel->setDynamicSortFilter(true);
+    proxyModel->sort(0);
 
     QDeclarativeView *view = new QDeclarativeView;
     view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-    view->rootContext()->setContextProperty(QLatin1String("documentListModel"), model);
+    view->rootContext()->setContextProperty(QLatin1String("documentListModel"), proxyModel);
     view->rootContext()->setContextProperty(QLatin1String("libraryBrowser"), this);
     view->engine()->addImageProvider(QLatin1String("hildon-icon"), new HildonImageProvider);
 #ifdef Q_WS_MAEMO_5
