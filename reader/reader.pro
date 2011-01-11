@@ -58,7 +58,6 @@ OTHER_FILES += \
     qml/content/ScrollBar.qml \
     qml/content/FlickableEPUBView.qml \
     desktop/epubreader.desktop \
-    icons/epubreader.svg \
     icons/apubreader.png \
     dbus/org.opensource.epubreader.Reader.service \
     qml/epublibrary.qml \

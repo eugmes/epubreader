@@ -16,7 +16,6 @@ Item {
         id: thumbnail
 
         file: bookItem.file
-        placeholderIcon: "/icons/epubreader.svg"
 
         anchors {
             verticalCenter: parent.verticalCenter

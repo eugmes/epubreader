@@ -18,6 +18,8 @@
 #include <QDeclarativeView>
 #include <QDeclarativeContext>
 #include "epubdocumentlistmodel.h"
+#include "hildonimageprovider.h"
+#include <QDeclarativeEngine>
 #include <QDebug>
 
 EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
@@ -31,6 +33,12 @@ EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
     view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     view->rootContext()->setContextProperty(QLatin1String("documentListModel"), model);
     view->rootContext()->setContextProperty(QLatin1String("libraryBrowser"), this);
+    view->engine()->addImageProvider(QLatin1String("hildon-icon"), new HildonImageProvider);
+#ifdef Q_WS_MAEMO_5
+    view->rootContext()->setContextProperty(QLatin1String("runOnMaemo"), true);
+#else
+    view->rootContext()->setContextProperty(QLatin1String("runOnMaemo"), false);
+#endif
     view->setSource(QUrl(QLatin1String("qrc:/qml/epublibrary.qml")));
 
     setCentralWidget(view);

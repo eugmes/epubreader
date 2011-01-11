@@ -23,6 +23,12 @@ Item {
         opacity: if (action != undefined) {action.enabled ? 1.0 : 0.4} else 1
         width: 48
         height: 48
+        smooth: true
+
+        sourceSize {
+            width: 48
+            height: 48
+        }
     }
 
     MouseArea {

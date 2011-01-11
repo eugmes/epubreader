@@ -5,7 +5,6 @@
         <file>qml/content/ScrollBar.qml</file>
         <file>qml/content/FlickableEPUBView.qml</file>
         <file>qml/epublibrary.qml</file>
-        <file>icons/epubreader.svg</file>
         <file>qml/content/BookThumbnail.qml</file>
         <file>qml/content/BookItem.qml</file>
         <file>qml/content/Icons.js</file>
