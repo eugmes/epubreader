@@ -35,9 +35,9 @@ EPUBLibraryBrowser::EPUBLibraryBrowser(QWidget *parent) :
     view->rootContext()->setContextProperty(QLatin1String("libraryBrowser"), this);
     view->engine()->addImageProvider(QLatin1String("hildon-icon"), new HildonImageProvider);
 #ifdef Q_WS_MAEMO_5
-    view->rootContext()->setContextProperty(QLatin1String("runOnMaemo"), true);
+    view->rootContext()->setContextProperty(QLatin1String("runOnMaemo"), QVariant(true));
 #else
-    view->rootContext()->setContextProperty(QLatin1String("runOnMaemo"), false);
+    view->rootContext()->setContextProperty(QLatin1String("runOnMaemo"), QVariant(false));
 #endif
     view->setSource(QUrl(QLatin1String("qrc:/qml/epublibrary.qml")));
 

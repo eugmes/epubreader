@@ -40,9 +40,9 @@ MainWindow::MainWindow(QWidget *parent) :
     EPUBReaderSettings *settings = EPUBReaderApplication::settings();
     view->rootContext()->setContextProperty(QLatin1String("settings"), settings);
 #ifdef Q_WS_MAEMO_5
-    view->rootContext()->setContextProperty(QLatin1String("runOnMaemo"), true);
+    view->rootContext()->setContextProperty(QLatin1String("runOnMaemo"), QVariant(true));
 #else
-    view->rootContext()->setContextProperty(QLatin1String("runOnMaemo"), false);
+    view->rootContext()->setContextProperty(QLatin1String("runOnMaemo"), QVariant(false));
 #endif
     view->engine()->addImageProvider(QLatin1String("hildon-icon"), new HildonImageProvider);
     view->setSource(QUrl(QLatin1String("qrc:/qml/epubreader.qml")));
