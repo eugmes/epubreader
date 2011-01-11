@@ -2,7 +2,7 @@ Source: epubreader
 Section: user/education
 Priority: extra
 Maintainer: Євгеній Мещеряков <eugen@debian.org>
-Build-Depends: debhelper (>= 5), libqt4-dev (>= 4.7)
+Build-Depends: debhelper (>= 5), libqt4-dev (>= 4.7), zlib1g-dev, libnotify-dev (>= 0.4.4)
 XSBC-Maemo-Display-Name: E-Book Reader
 Standards-Version: 3.8.4
 
@@ -11,26 +11,28 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 XB-Maemo-Icon-26:
  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
- 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
+ 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
+ AAAAAElFTkSuQmCC
 Description: Reader for EPUB E-books
  E-Book reader optimized for Nokia N900. It currently supports only EPUB file
  format.
