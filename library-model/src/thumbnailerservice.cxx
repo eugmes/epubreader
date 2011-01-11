@@ -34,7 +34,6 @@ static QPixmap loadThumbnailFile(const QString &url)
     QString fileName = QDir::homePath() +
             QLatin1String("/.thumbnails/cropped/") +
             QLatin1String(hash.toHex()) + QLatin1String(".jpeg");
-    qWarning() << "Thumbnail file name:" << fileName;
     return QPixmap(fileName);
 }
 
@@ -54,8 +53,6 @@ void ThumbnailerService::getThumbnail(const QString &fileName)
 void ThumbnailerService::readyURLs(const QStringList &urls)
 {
     Q_FOREACH (const QString &url, urls) {
-        qWarning() << "readyFile" << QUrl(url).toLocalFile();
-
         QPixmap pix = loadThumbnailFile(url);
         if (!pix.isNull())
             Q_EMIT thumbnailReady(QUrl(url).toLocalFile(), pix);
