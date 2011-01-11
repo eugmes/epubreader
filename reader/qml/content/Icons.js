@@ -11,7 +11,7 @@ if (runOnMaemo) {
     showTocIcon = "notes_bullets";
     showFullSizeIcon = "general_fullsize";
     showNormalIcon = "general_fullsize_b";
-    unknowBookIcon = "filemanager_unknown_file";
+    unknownBookIcon = "filemanager_unknown_file";
 } else {
     previousPageIcon = "go-previous";
     nextPageIcon = "go-next";
