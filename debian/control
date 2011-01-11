@@ -2,7 +2,7 @@ Source: epubreader
 Section: user/education
 Priority: extra
 Maintainer: Євгеній Мещеряков <eugen@debian.org>
-Build-Depends: debhelper (>= 5), libqt4-dev (>= 4.7), zlib1g-dev, libnotify-dev (>= 0.4.4)
+Build-Depends: debhelper7 (>= 7.0.50), libqt4-dev (>= 4.7), zlib1g-dev, libnotify-dev (>= 0.4.4)
 XSBC-Maemo-Display-Name: E-Book Reader
 Standards-Version: 3.8.4
 

@@ -1,48 +1,24 @@
 #!/usr/bin/make -f
-APPNAME := epubreader
-builddir:
-	mkdir -p builddir
- 
-builddir/Makefile: builddir
-	cd builddir && qmake-qt4 PREFIX=/usr ../$(APPNAME).pro
- 
-build: build-stamp
- 
-build-stamp: builddir/Makefile
-	dh_testdir
-	cd builddir && $(MAKE)
-	touch $@
- 
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp
+
+PATH := /usr/bin/dh7:$(PATH)
+export PATH
+SBOX_REDIRECT_IGNORE = /usr/bin/perl
+export SBOX_REDIRECT_IGNORE
+
+CURDIR=$(PWD)
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	mkdir builddir
+	cd builddir && qmake QMAKE_STRIP=: PREFIX=/usr ../epubreader.pro
+
+override_dh_auto_build:
+	make -C builddir
+
+override_dh_auto_install:
+	make -C builddir install INSTALL_ROOT=$(CURDIR)/debian/epubreader
+
+override_dh_auto_clean:
 	rm -rf builddir
-	dh_clean
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_clean -k
-	dh_installdirs
-	cd builddir && $(MAKE) INSTALL_ROOT=$(CURDIR)/debian/$(APPNAME) install
-
-binary-indep: build install
-
-binary-arch: build install
-	dh_testdir
-	dh_testroot
-	dh_installdocs
-	dh_installmime
-	dh_link
-	dh_strip
-	dh_compress
-	dh_fixperms
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
- 
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install configure
