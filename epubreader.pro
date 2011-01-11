@@ -13,4 +13,5 @@ epub-extract-metadata.depends = libepub
 reader.depends = libepub library-model
 
 OTHER_FILES += \
-    common.pri
+    common.pri \
+    COMPONENTS
