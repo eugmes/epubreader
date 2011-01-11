@@ -34,5 +34,6 @@ XB-Maemo-Icon-26:
  LXibrNnv1IoygKcH/+1PfN4j4Hoacc59BeCTXgf/Ufmd5Ivaiy6BXSg7/5/6nSfwFjhYMvJKRvf0
  AAAAAElFTkSuQmCC
 Description: Reader for EPUB E-books
- E-Book reader optimized for Nokia N900. It currently supports only EPUB file
- format.
+ E-Book reader optimized for Nokia N900 with support for EPUB file format.
+ The reader has library functionality, e-books on the device are automatically
+ discovered using Maemo services.
