@@ -196,8 +196,8 @@ void EPUBView::handleUrlChange(const QUrl &url)
         m_nextPageAction->setEnabled(false);
     } else {
         EPUBFile::PageFlags flags = m_epub->getUrlInfo(url);
-        m_prevPageAction->setEnabled(flags && EPUBFile::PageHasPrevious);
-        m_nextPageAction->setEnabled(flags && EPUBFile::PageHasNext);
+        m_prevPageAction->setEnabled(flags & EPUBFile::PageHasPrevious);
+        m_nextPageAction->setEnabled(flags & EPUBFile::PageHasNext);
     }
 }
 
