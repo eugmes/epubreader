@@ -116,8 +116,8 @@ bool EPUBView::openFile(const QString &fileName)
     EPUBReaderSettings *settings = EPUBReaderApplication::settings();
     settings->saveLastURL(m_fileName, url());
 
-    EPUBAccessManager *manager = qobject_cast<EPUBAccessManager *>(page()->networkAccessManager());
-    Q_ASSERT(manager);
+    Q_ASSERT(qobject_cast<EPUBAccessManager *>(page()->networkAccessManager()));
+    EPUBAccessManager *manager = static_cast<EPUBAccessManager *>(page()->networkAccessManager());
 
     EPUBFile *newEPUB = new EPUBFile(fileName, this);
     if (newEPUB->status() == EPUBFile::NoError) {

@@ -33,8 +33,8 @@ EPUBApplicationDBusAdapter::EPUBApplicationDBusAdapter(EPUBReaderApplication *ap
 
 int EPUBApplicationDBusAdapter::mime_open(const QString &s1)
 {
-    EPUBReaderApplication *app = qobject_cast<EPUBReaderApplication *>(parent());
-    Q_ASSERT(app);
+    Q_ASSERT(qobject_cast<EPUBReaderApplication *>(parent()));
+    EPUBReaderApplication *app = static_cast<EPUBReaderApplication *>(parent());
 
     if (!s1.isEmpty()) {
         QUrl fileUrl(s1);
@@ -49,8 +49,8 @@ int EPUBApplicationDBusAdapter::mime_open(const QString &s1)
 
 void EPUBApplicationDBusAdapter::top_application()
 {
-    EPUBReaderApplication *app = qobject_cast<EPUBReaderApplication *>(parent());
-    Q_ASSERT(app);
+    Q_ASSERT(qobject_cast<EPUBReaderApplication *>(parent()));
+    EPUBReaderApplication *app = static_cast<EPUBReaderApplication *>(parent());
 
     app->topApplication();
 }
@@ -118,12 +118,12 @@ void EPUBReaderApplication::openFile(const QString &fileName)
 
 EPUBReaderSettings *EPUBReaderApplication::settings()
 {
-    return qobject_cast<EPUBReaderApplication *>(instance())->m_settings;
+    return static_cast<EPUBReaderApplication *>(instance())->m_settings;
 }
 
 Qt::GestureType EPUBReaderApplication::swipeGestureType()
 {
-    return qobject_cast<EPUBReaderApplication *>(instance())->m_swipeGestureType;
+    return static_cast<EPUBReaderApplication *>(instance())->m_swipeGestureType;
 }
 
 void EPUBReaderApplication::openNewWindow()
