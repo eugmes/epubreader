@@ -54,6 +54,8 @@ private:
     QString m_fileName;
     bool m_orientationOverride;
     bool m_showLibrary;
+
+    void showHelperWindow(QMainWindow *win);
 };
 
 #endif

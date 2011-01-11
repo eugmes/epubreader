@@ -130,24 +130,23 @@ void MainWindow::showSettingsDialog()
 void MainWindow::showLibrary()
 {
     EPUBLibraryBrowser *win = new EPUBLibraryBrowser(this);
-    win->setWindowModality(Qt::WindowModal);
     connect(win, SIGNAL(openFileRequest(QString)), SLOT(openFile(QString)));
-    connect(this, SIGNAL(fileNameChanged()), win, SLOT(close()));
 
-#ifdef Q_WS_MAEMO_5
-    win->showMaximized();
-#else
-    win->setGeometry(100, 100, 800, 480);
-    win->show();
-#endif
+    showHelperWindow(win);
 }
+
 
 void MainWindow::showToc(const QByteArray &tocDocument)
 {
     EPUBTOCWindow *win = new EPUBTOCWindow(tocDocument, this);
-    win->setWindowModality(Qt::WindowModal);
     connect(win, SIGNAL(openTocDocumentRequest(QString)), SIGNAL(openTocDocumentRequest(QString)));
-    // FIXME should not happen after everything fixed
+
+    showHelperWindow(win);
+}
+
+void MainWindow::showHelperWindow(QMainWindow *win)
+{
+    win->setWindowModality(Qt::WindowModal);
     connect(this, SIGNAL(fileNameChanged()), win, SLOT(close()));
 
 #ifdef Q_WS_MAEMO_5
