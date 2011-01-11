@@ -22,7 +22,7 @@
 EPUBTOCWindow::EPUBTOCWindow(const QByteArray &tocDocument, QWidget *parent) :
     MainWindowBase(parent)
 {
-    setWindowTitle(tr("Table of Content"));
+    setWindowTitle(tr("Table of Contents"));
 
     QWidget *w = new QWidget;
     QVBoxLayout *vbox = new QVBoxLayout;
