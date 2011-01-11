@@ -1,0 +1,20 @@
+List of the components in epubreader
+====================================
+
+1. libepub -- EPUB format support library. It does not depend on QtGui, so
+   it can be used in command-line programs.
+
+2. library-model -- helper library that implements QAbstractItemModel of
+   e-book library on Maemo 5. Also contains a class that provides thumbnails
+   for e-books.
+
+3. epub-extract-metadata -- a command line program that extracts metadata from
+   epub files and prints it on standard output. Depends on libepub.
+
+4. extract-epub -- tracker plugin that uses epub-extract-metadata to provide
+   metadata for epub files. It does not use Qt directly and is quite small.
+
+5. thumbnailer -- a DBus thumbnailer for Hildon that is able to extract thumbnails
+   from EPUB files. Depends on libepub.
+
+6. reader -- main application. Depends on libepub and library-model.
