@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=0.1
 Type=Application
-Name=E-Book Reader
+Name=E-Books
 Comment=TODO
 Exec=/usr/bin/epubreader
 
