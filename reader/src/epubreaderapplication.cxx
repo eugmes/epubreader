@@ -59,6 +59,7 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
     QApplication(argc, argv), m_topDone(false)
 {
     setApplicationName(QLatin1String("EPUBReader"));
+    setOrganizationName(QLatin1String("EPUBReader"));
 
     DesktopNotifications::init(applicationName()); // FIXME
 
