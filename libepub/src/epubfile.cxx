@@ -179,7 +179,7 @@ bool EPUBFile::parseManifest(const QXmlQuery &parentQuery, QXmlResultItems &item
     return true;
 }
 
-QByteArray EPUBFile::getFileByUrl(QUrl url, QString *mimeType)
+QByteArray EPUBFile::getFileByUrl(QUrl url, QString *mimeType) const
 {
     Q_ASSERT(mimeType);
     Q_ASSERT(url.scheme() == QLatin1String("epub"));
@@ -300,12 +300,12 @@ EPUBFile::PageFlags EPUBFile::getUrlInfo(const QUrl &url) const
     return 0;
 }
 
-QUrl EPUBFile::resolveTocUrl(const QUrl &url)
+QUrl EPUBFile::resolveTocUrl(const QUrl &url) const
 {
     return getUrlByID(m_tocName).resolved(url);
 }
 
-QByteArray EPUBFile::tocDocument()
+QByteArray EPUBFile::tocDocument() const
 {
     QUrl tocUrl = getUrlByID(m_tocName);
 

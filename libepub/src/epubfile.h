@@ -43,7 +43,7 @@ public:
     Status status() const;
     QString metadata() const;
 
-    QByteArray getFileByUrl(QUrl url, QString *mimeType);
+    QByteArray getFileByUrl(QUrl url, QString *mimeType) const;
     QUrl getUrlByID(const QString &id) const;
     QUrl defaultUrl() const;
     QUrl getPrevPage(const QUrl &url) const;
@@ -59,8 +59,8 @@ public:
 
     PageFlags getUrlInfo(const QUrl &url) const;
 
-    QByteArray tocDocument();
-    QUrl resolveTocUrl(const QUrl &url);
+    QByteArray tocDocument() const;
+    QUrl resolveTocUrl(const QUrl &url) const;
 
 private:
     void parseContentFile(const QString &fileName);
