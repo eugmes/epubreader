@@ -17,6 +17,9 @@ SOURCES += \
     tracker-extract-epub.c \
     tracker-escape.c
 
+OTHER_FILES += \
+    GPL-2
+
 unix {
     INSTALLS = target
 

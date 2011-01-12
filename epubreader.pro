@@ -14,4 +14,6 @@ reader.depends = libepub library-model
 
 OTHER_FILES += \
     common.pri \
-    COMPONENTS
+    COMPONENTS \
+    COPYING \
+    GPL-3
