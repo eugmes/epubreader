@@ -61,7 +61,7 @@
        xlink:href="#linearGradient3623"
        id="linearGradient3982"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.729144,0,0,0.73089802,1.9109002,18.553898)"
+       gradientTransform="matrix(1.0927666,0,0,0.73089802,-0.12311696,18.553898)"
        x1="10.960155"
        y1="27.937553"
        x2="5.6080828"
@@ -69,15 +69,15 @@
     <linearGradient
        id="linearGradient3623">
       <stop
-         style="stop-color:#682607;stop-opacity:1;"
+         style="stop-color:#9a3a0a;stop-opacity:1;"
          offset="0"
          id="stop3625" />
       <stop
          id="stop3604"
-         offset="0.7485854"
-         style="stop-color:#441703;stop-opacity:1;" />
+         offset="0.42902118"
+         style="stop-color:#953207;stop-opacity:1;" />
       <stop
-         style="stop-color:#120500;stop-opacity:1;"
+         style="stop-color:#521700;stop-opacity:1;"
          offset="1"
          id="stop3627" />
     </linearGradient>
@@ -117,9 +117,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.313708"
-     inkscape:cx="-11.737532"
-     inkscape:cy="22.101851"
+     inkscape:zoom="15.999999"
+     inkscape:cx="20.137098"
+     inkscape:cy="7.265398"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
@@ -128,7 +128,10 @@
      inkscape:window-height="720"
      inkscape:window-x="-4"
      inkscape:window-y="25"
-     inkscape:window-maximized="1">
+     inkscape:window-maximized="1"
+     inkscape:snap-grids="true"
+     inkscape:snap-to-guides="true"
+     inkscape:snap-nodes="false">
     <inkscape:grid
        type="xygrid"
        id="grid4135"
@@ -173,8 +176,8 @@
        y="21"
        ry="1.9259168" />
     <path
-       style="fill:url(#linearGradient3982);fill-opacity:1;stroke:none"
-       d="m 7,21 c 1,0 2,0 3,0 0,12.666667 0,26.333333 0,39 L 7,60 C 6.446,60 6,59.554 6,59 L 6,22 c 0,-0.554 0.446,-1 1,-1 z"
+       style="fill:url(#linearGradient3982);fill-opacity:1.0;stroke:none"
+       d="m 7,21 c 1.4986979,0 3.501302,0 5,0 0,12.666667 0,26.333333 0,39 L 7,60 C 6.5,60 6.0052083,59.554 6.0052083,59 l 0,-37 c 0,-0.554 0.4262319,-0.996094 0.9947917,-1 z"
        id="rect3611"
        sodipodi:nodetypes="ccccccc" />
     <rect
@@ -182,7 +185,7 @@
        id="rect3732"
        width="20"
        height="3.9999995"
-       x="14"
+       x="16"
        y="30"
        ry="0.95518482" />
     <rect
@@ -190,7 +193,7 @@
        id="rect3732-9"
        width="16"
        height="3.000001"
-       x="14"
+       x="16"
        y="38"
        ry="1"
        rx="1" />
@@ -199,7 +202,7 @@
        id="rect3732-9-1"
        width="16"
        height="3.000001"
-       x="14"
+       x="16"
        y="44"
        ry="0.95996356" />
   </g>
