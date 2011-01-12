@@ -51,7 +51,7 @@ public:
     int backgroundIndex() const;
     void setBackgroundIndex(int idx);
 
-    QByteArray tocDocument();
+    QByteArray tocDocument() const;
 
 public Q_SLOTS:
     bool openFile(const QString &fileName);
