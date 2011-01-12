@@ -43,11 +43,9 @@
 ****************************************************************************/
 #include <QtGlobal>
 #include "zipreader.h"
-#include <QDateTime>
 #include <qplatformdefs.h>
 #include <QtEndian>
 #include <QDebug>
-#include <QDir>
 
 #include <zlib.h>
 
@@ -100,51 +98,6 @@ static int inflate(Bytef *dest, ulong *destLen, const Bytef *source, ulong sourc
 
     err = inflateEnd(&stream);
     return err;
-}
-
-static QFile::Permissions modeToPermissions(quint32 mode)
-{
-    QFile::Permissions ret;
-    if (mode & S_IRUSR)
-        ret |= QFile::ReadOwner;
-    if (mode & S_IWUSR)
-        ret |= QFile::WriteOwner;
-    if (mode & S_IXUSR)
-        ret |= QFile::ExeOwner;
-    if (mode & S_IRUSR)
-        ret |= QFile::ReadUser;
-    if (mode & S_IWUSR)
-        ret |= QFile::WriteUser;
-    if (mode & S_IXUSR)
-        ret |= QFile::ExeUser;
-    if (mode & S_IRGRP)
-        ret |= QFile::ReadGroup;
-    if (mode & S_IWGRP)
-        ret |= QFile::WriteGroup;
-    if (mode & S_IXGRP)
-        ret |= QFile::ExeGroup;
-    if (mode & S_IROTH)
-        ret |= QFile::ReadOther;
-    if (mode & S_IWOTH)
-        ret |= QFile::WriteOther;
-    if (mode & S_IXOTH)
-        ret |= QFile::ExeOther;
-    return ret;
-}
-
-static QDateTime readMSDosDate(const uchar *src)
-{
-    uint dosDate = readUInt(src);
-    quint64 uDate;
-    uDate = (quint64)(dosDate >> 16);
-    uint tm_mday = (uDate & 0x1f);
-    uint tm_mon =  ((uDate & 0x1E0) >> 5);
-    uint tm_year = (((uDate & 0x0FE00) >> 9) + 1980);
-    uint tm_hour = ((dosDate & 0xF800) >> 11);
-    uint tm_min =  ((dosDate & 0x7E0) >> 5);
-    uint tm_sec =  ((dosDate & 0x1f) << 1);
-
-    return QDateTime(QDate(tm_year, tm_mon, tm_mday), QTime(tm_hour, tm_min, tm_sec));
 }
 
 struct LocalFileHeader
@@ -208,38 +161,6 @@ struct FileHeader
     QByteArray file_comment;
 };
 
-ZipReader::FileInfo::FileInfo()
-    : isDir(false), isFile(false), isSymLink(false), crc32(0), size(0)
-{
-}
-
-ZipReader::FileInfo::~FileInfo()
-{
-}
-
-ZipReader::FileInfo::FileInfo(const FileInfo &other)
-{
-    operator=(other);
-}
-
-ZipReader::FileInfo& ZipReader::FileInfo::operator=(const FileInfo &other)
-{
-    filePath = other.filePath;
-    isDir = other.isDir;
-    isFile = other.isFile;
-    isSymLink = other.isSymLink;
-    permissions = other.permissions;
-    crc32 = other.crc32;
-    size = other.size;
-    lastModified = other.lastModified;
-    return *this;
-}
-
-bool ZipReader::FileInfo::isValid() const
-{
-    return isDir || isFile || isSymLink;
-}
-
 class ZipPrivate
 {
 public:
@@ -254,8 +175,6 @@ public:
             delete device;
     }
 
-    void fillFileInfo(int index, ZipReader::FileInfo &fileInfo) const;
-
     QIODevice *device;
     bool ownDevice;
     bool dirtyFileTree;
@@ -263,20 +182,6 @@ public:
     QByteArray comment;
     uint start_of_directory;
 };
-
-void ZipPrivate::fillFileInfo(int index, ZipReader::FileInfo &fileInfo) const
-{
-    FileHeader header = fileHeaders.at(index);
-    fileInfo.filePath = QString::fromLocal8Bit(header.file_name);
-    const quint32 mode = (qFromLittleEndian<quint32>(&header.h.external_file_attributes[0]) >> 16) & 0xFFFF;
-    fileInfo.isDir = S_ISDIR(mode);
-    fileInfo.isFile = S_ISREG(mode);
-    fileInfo.isSymLink = S_ISLNK(mode);
-    fileInfo.permissions = modeToPermissions(mode);
-    fileInfo.crc32 = readUInt(header.h.crc_32);
-    fileInfo.size = readUInt(header.h.uncompressed_size);
-    fileInfo.lastModified = readMSDosDate(header.h.last_mod_file);
-}
 
 class ZipReaderPrivate : public ZipPrivate
 {
@@ -381,54 +286,6 @@ void ZipReaderPrivate::scanFiles()
 }
 
 //////////////////////////////  Reader
-
-/*!
-    \class QZipReader::FileInfo
-    \internal
-    Represents one entry in the zip table of contents.
-*/
-
-/*!
-    \variable FileInfo::filePath
-    The full filepath inside the archive.
-*/
-
-/*!
-    \variable FileInfo::isDir
-    A boolean type indicating if the entry is a directory.
-*/
-
-/*!
-    \variable FileInfo::isFile
-    A boolean type, if it is one this entry is a file.
-*/
-
-/*!
-    \variable FileInfo::isSymLink
-    A boolean type, if it is one this entry is symbolic link.
-*/
-
-/*!
-    \variable FileInfo::permissions
-    A list of flags for the permissions of this entry.
-*/
-
-/*!
-    \variable FileInfo::crc32
-    The calculated checksum as a crc32 type.
-*/
-
-/*!
-    \variable FileInfo::size
-    The total size of the unpacked content.
-*/
-
-/*!
-    \variable FileInfo::d
-    \internal
-    private pointer.
-*/
-
 /*!
     \class QZipReader
     \internal
@@ -489,49 +346,6 @@ ZipReader::~ZipReader()
 {
     close();
     delete d;
-}
-
-/*!
-    Returns device used for reading zip archive.
-*/
-QIODevice* ZipReader::device() const
-{
-    return d->device;
-}
-
-/*!
-    Returns true if the user can read the file; otherwise returns false.
-*/
-bool ZipReader::isReadable() const
-{
-    return d->device->isReadable();
-}
-
-/*!
-    Returns true if the file exists; otherwise returns false.
-*/
-bool ZipReader::exists() const
-{
-    QFile *f = qobject_cast<QFile*> (d->device);
-    if (f == 0)
-        return true;
-    return f->exists();
-}
-
-/*!
-    Returns the list of files the archive contains.
-*/
-QList<ZipReader::FileInfo> ZipReader::fileInfoList() const
-{
-    d->scanFiles();
-    QList<ZipReader::FileInfo> files;
-    for (int i = 0; i < d->fileHeaders.size(); ++i) {
-        ZipReader::FileInfo fi;
-        d->fillFileInfo(i, fi);
-        files.append(fi);
-    }
-    return files;
-
 }
 
 /*!

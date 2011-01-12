@@ -45,7 +45,6 @@
 #ifndef ZIPREADER_H
 #define ZIPREADER_H
 
-#include <QDateTime>
 #include <QFile>
 #include <QString>
 
@@ -58,29 +57,6 @@ public:
     explicit ZipReader(QIODevice *device);
     ~ZipReader();
 
-    QIODevice* device() const;
-
-    bool isReadable() const;
-    bool exists() const;
-
-    struct FileInfo {
-        FileInfo();
-        FileInfo(const FileInfo &other);
-        ~FileInfo();
-        FileInfo &operator=(const FileInfo &other);
-        bool isValid() const;
-        QString filePath;
-        uint isDir : 1;
-        uint isFile : 1;
-        uint isSymLink : 1;
-        QFile::Permissions permissions;
-        uint crc32;
-        qint64 size;
-        QDateTime lastModified;
-        void *d;
-    };
-
-    QList<FileInfo> fileInfoList() const;
     QByteArray fileData(const QString &fileName) const;
 
     enum Status {
