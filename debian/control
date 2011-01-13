@@ -5,6 +5,8 @@ Maintainer: Євгеній Мещеряков <eugen@debian.org>
 Build-Depends: debhelper7 (>= 7.0.50), libqt4-dev (>= 4.7), zlib1g-dev, libnotify-dev (>= 0.4.4)
 XSBC-Maemo-Display-Name: E-Book Reader
 Standards-Version: 3.8.4
+Vcs-Git: git://github.com/eugmes/epubreader.git
+Vcs-Browser: https://github.com/eugmes/epubreader
 
 Package: epubreader
 Architecture: any
