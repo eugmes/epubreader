@@ -7,6 +7,7 @@ XSBC-Maemo-Display-Name: E-Book Reader
 Standards-Version: 3.8.4
 Vcs-Git: git://github.com/eugmes/epubreader.git
 Vcs-Browser: https://github.com/eugmes/epubreader
+XSBC-Bugtracker: https://github.com/eugmes/epubreader/issues
 
 Package: epubreader
 Architecture: any

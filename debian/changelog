@@ -1,3 +1,9 @@
+epubreader (0.3) unstable; urgency=low
+
+  * Add a bugtracker link
+
+ -- Євгеній Мещеряков <eugen@debian.org>  Thu, 13 Jan 2011 16:43:47 +0100
+
 epubreader (0.2) unstable; urgency=low
 
   * Initial release
