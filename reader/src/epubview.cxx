@@ -71,7 +71,6 @@ EPUBView::EPUBView(QGraphicsItem *parent) :
     QWebSecurityOrigin::addLocalScheme(QLatin1String("epub"));
     connect(this, SIGNAL(linkClicked(QUrl)), SLOT(handleExternalLink(QUrl)));
 
-    resizeContent();
     setResizesToContents(true);
 
     setBackgroundIndex(0);
@@ -106,6 +105,7 @@ void EPUBView::setBackgroundIndex(int idx)
     QByteArray userStyleSheet = style.toUtf8();
     QByteArray url = QByteArray("data:text/css;charset=utf-8;base64,") + userStyleSheet.toBase64();
     settings()->setUserStyleSheetUrl(QUrl::fromEncoded(url));
+    resizeContent();
 }
 
 bool EPUBView::openFile(const QString &fileName)
