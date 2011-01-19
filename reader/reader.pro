@@ -64,7 +64,8 @@ OTHER_FILES += \
     qml/epublibrary.qml \
     qml/content/BookThumbnail.qml \
     qml/content/BookItem.qml \
-    qml/content/Icons.js
+    qml/content/Icons.js \
+    backup/epubreader.conf
 
 RESOURCES += \
     epubreader.qrc
@@ -74,7 +75,7 @@ FORMS += \
    src/settingsdialog.ui
 
 unix {
-    INSTALLS += target desktop icon48 services
+    INSTALLS += target desktop icon48 services backup
 
     target.path = $$BINDIR
 
@@ -86,4 +87,7 @@ unix {
 
     services.path = $$DBUSDIR
     services.files += dbus/org.opensource.epubreader.Reader.service
+
+    backup.path = /etc/osso-backup/applications
+    backup.files += backup/epubreader.conf
 }

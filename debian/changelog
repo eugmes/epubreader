@@ -2,8 +2,9 @@ epubreader (0.4) fremantle; urgency=low
 
   * Resize viewer content after changing settings.
   * Install executables under /opt/usr to preserve space under /usr.
+  * Add osso-backup description file.
 
- -- Євгеній Мещеряков <eugen@debian.org>  Wed, 19 Jan 2011 23:13:51 +0100
+ -- Євгеній Мещеряков <eugen@debian.org>  Thu, 20 Jan 2011 00:31:58 +0100
 
 epubreader (0.3) unstable; urgency=low
 
