@@ -23,5 +23,5 @@ OTHER_FILES += \
 unix {
     INSTALLS = target
 
-    target.path = $$LIBDIR/tracker/extract-modules
+    target.path = /usr/lib/tracker/extract-modules
 }

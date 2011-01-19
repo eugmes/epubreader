@@ -74,16 +74,14 @@ FORMS += \
    src/settingsdialog.ui
 
 unix {
-    DEFINES += DATADIR=\\\"$$DATADIR\\\" PKGDATADIR=\\\"$$PKGDATADIR\\\"
-
     INSTALLS += target desktop icon48 services
 
     target.path = $$BINDIR
 
-    desktop.path = $$DATADIR/applications/hildon
+    desktop.path = /usr/share/applications/hildon
     desktop.files += desktop/$${TARGET}.desktop
 
-    icon48.path = $$DATADIR/icons
+    icon48.path = /usr/share/icons
     icon48.files += icons/$${TARGET}.png
 
     services.path = $$DBUSDIR

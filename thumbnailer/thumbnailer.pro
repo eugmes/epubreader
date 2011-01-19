@@ -39,6 +39,6 @@ unix {
     services.path = $$DBUSDIR
     services.files = dbus/org.opensource.epubreader.Thumbnailer1.service
 
-    reg.path = $$DATADIR/thumbnailers
+    reg.path = /usr/share/thumbnailers
     reg.files = reg/org.opensource.epubreader.Thumbnailer1.service
 }

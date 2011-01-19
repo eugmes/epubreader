@@ -1,3 +1,3 @@
 [D-BUS Service]
 Name=org.opensource.epubreader.Thumbnailer1
-Exec=/usr/lib/epubreader/thumbnailer
+Exec=/opt/usr/lib/epubreader/thumbnailer

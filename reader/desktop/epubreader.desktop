@@ -3,7 +3,7 @@ Version=0.1
 Type=Application
 Name=E-Books
 Comment=TODO
-Exec=/usr/bin/epubreader
+Exec=/opt/usr/bin/epubreader
 
 Icon=epubreader
 X-Window-Icon=epubreader

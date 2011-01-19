@@ -12,7 +12,7 @@ CURDIR=$(PWD)
 
 override_dh_auto_configure:
 	mkdir builddir
-	cd builddir && qmake QMAKE_STRIP=: PREFIX=/usr ../epubreader.pro
+	cd builddir && qmake QMAKE_STRIP=: PREFIX=/opt/usr ../epubreader.pro
 
 override_dh_auto_build:
 	make -C builddir
