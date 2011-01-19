@@ -1,3 +1,9 @@
+epubreader (0.4) fremantle; urgency=low
+
+  * Resize viewer content after changing settings.
+
+ -- Євгеній Мещеряков <eugen@debian.org>  Wed, 19 Jan 2011 23:04:50 +0100
+
 epubreader (0.3) unstable; urgency=low
 
   * Add a bugtracker link
