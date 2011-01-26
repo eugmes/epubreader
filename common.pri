@@ -11,6 +11,7 @@ unix {
     BINDIR = $$PREFIX/bin
     LIBDIR = $$PREFIX/lib
     PKGLIBDIR = $$LIBDIR/epubreader
+    TRANSLATIONSDIR = $$PREFIX/share/epubreader/translations
 
     DBUSDIR = /usr/share/dbus-1/services
 }

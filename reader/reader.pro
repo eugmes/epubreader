@@ -75,6 +75,8 @@ FORMS += \
    src/settingsdialog.ui
 
 unix {
+    DEFINES += TRANSLATIONSDIR=\\\"$$TRANSLATIONSDIR\\\"
+
     INSTALLS += target desktop icon48 services backup
 
     target.path = $$BINDIR

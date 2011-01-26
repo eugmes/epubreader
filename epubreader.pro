@@ -6,7 +6,8 @@ SUBDIRS = \
     thumbnailer \
     reader \
     extract-epub \
-    library-model
+    library-model \
+    translations/translations.pro
 
 thumbnailer.depends = libepub
 epub-extract-metadata.depends = libepub
@@ -17,3 +18,7 @@ OTHER_FILES += \
     COMPONENTS \
     COPYING \
     GPL-3
+
+# Needed for lupdate
+TRANSLATIONS += \
+    translations/uk.ts

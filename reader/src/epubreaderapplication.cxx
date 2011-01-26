@@ -25,6 +25,9 @@
 #include "epubreadersettings.h"
 #include "horizmouseswipegesturerecognizer.h"
 #include "desktopnotifications.h"
+#include <clocale>
+#include <QTranslator>
+#include <QLibraryInfo>
 
 EPUBApplicationDBusAdapter::EPUBApplicationDBusAdapter(EPUBReaderApplication *app) :
     QDBusAbstractAdaptor(app)
@@ -60,6 +63,16 @@ EPUBReaderApplication::EPUBReaderApplication(int &argc, char**argv) :
 {
     setApplicationName(QLatin1String("EPUBReader"));
     setOrganizationName(QLatin1String("EPUBReader"));
+
+    // Hack around qt bug with handling locales on Maemo5 with
+    // nondefault countries
+    QLatin1String lcMessages(setlocale(LC_MESSAGES, ""));
+    QTranslator *qtTrans = new QTranslator(this);
+    qtTrans->load(QLatin1String("qt_") + lcMessages, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    installTranslator(qtTrans);
+    QTranslator *t = new QTranslator(this);
+    t->load(lcMessages, QLatin1String(TRANSLATIONSDIR));
+    installTranslator(t);
 
     DesktopNotifications::init(applicationName()); // FIXME
 
