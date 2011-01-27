@@ -1,6 +1,6 @@
 epubreader (0.4.0dev) fremantle; urgency=low
 
-  * Add lokalization support with Ukrainian translation
+  * Add localization support with Ukrainian translation
 
  -- Євгеній Мещеряков <eugen@debian.org>  Thu, 27 Jan 2011 02:00:19 +0100
 
