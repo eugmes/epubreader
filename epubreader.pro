@@ -17,7 +17,8 @@ OTHER_FILES += \
     common.pri \
     COMPONENTS \
     COPYING \
-    GPL-3
+    GPL-3 \
+    lupdate.sh
 
 # Needed for lupdate
 TRANSLATIONS += \
