@@ -31,14 +31,14 @@ EPUBReply::EPUBReply(EPUBFile *epub, QNetworkAccessManager::Operation op, const 
 void EPUBReply::processRequest()
 {
     if (!m_epub) {
-        setError(ConnectionRefusedError, tr("File is not opened"));
+        setError(ConnectionRefusedError, QLatin1String("File is not opened"));
         Q_EMIT error(ConnectionRefusedError);
         Q_EMIT finished();
         return;
     }
 
     if (operation() != QNetworkAccessManager::GetOperation) {
-        setError(ProtocolInvalidOperationError, tr("Operation is not supported"));
+        setError(ProtocolInvalidOperationError, QLatin1String("Operation is not supported"));
         Q_EMIT error(ProtocolInvalidOperationError);
         Q_EMIT finished();
         return;
@@ -47,7 +47,7 @@ void EPUBReply::processRequest()
     QUrl url = request().url();
 
     if (url.scheme() != QLatin1String("epub")) {
-        setError(ProtocolUnknownError, tr("Unsupported scheme"));
+        setError(ProtocolUnknownError, QLatin1String("Unsupported scheme"));
         Q_EMIT error(ProtocolUnknownError);
         Q_EMIT finished();
         return;
@@ -57,7 +57,7 @@ void EPUBReply::processRequest()
     m_content = m_epub->getFileByUrl(url, &mimeType);
 
     if (m_content.isNull()) {
-        setError(ContentNotFoundError, tr("File not found"));
+        setError(ContentNotFoundError, QLatin1String("File not found"));
         Q_EMIT error(ContentNotFoundError);
         Q_EMIT finished();
         return;
