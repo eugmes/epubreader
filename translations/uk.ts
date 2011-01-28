@@ -10,29 +10,6 @@
     </message>
 </context>
 <context>
-    <name>EPUBReply</name>
-    <message>
-        <location filename="../reader/src/epubreply.cxx" line="34"/>
-        <source>File is not opened</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../reader/src/epubreply.cxx" line="41"/>
-        <source>Operation is not supported</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../reader/src/epubreply.cxx" line="50"/>
-        <source>Unsupported scheme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../reader/src/epubreply.cxx" line="60"/>
-        <source>File not found</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>EPUBTOCWindow</name>
     <message>
         <location filename="../reader/src/epubtocwindow.cxx" line="25"/>
