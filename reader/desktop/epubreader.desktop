@@ -1,6 +1,7 @@
 [Desktop Entry]
 Version=0.1
 Type=Application
+X-Text-Domain=epubreader
 Name=E-Books
 Exec=/opt/usr/bin/epubreader
 

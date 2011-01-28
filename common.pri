@@ -14,4 +14,6 @@ unix {
     TRANSLATIONSDIR = $$PREFIX/share/epubreader/translations
 
     DBUSDIR = /usr/share/dbus-1/services
+
+    LOCALE_PATH=/usr/share/locale
 }
