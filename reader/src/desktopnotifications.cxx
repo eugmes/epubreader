@@ -26,7 +26,11 @@ void DesktopNotifications::showInfoprint(const QString &message)
 {
     QString info = QLatin1String("Information"); // XXX
 
-    NotifyNotification *notification = notify_notification_new(info.toUtf8(), message.toUtf8(), "dialog-information", 0);
+    NotifyNotification *notification = notify_notification_new(info.toUtf8(), message.toUtf8(), "dialog-information"
+#ifdef Q_WS_MAEMO_5
+            , 0
+#endif
+            );
     if (notification) {
         notify_notification_set_timeout(notification, -1);
         notify_notification_set_category(notification, "system.note.infoprint");
